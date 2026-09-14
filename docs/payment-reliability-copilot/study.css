@@ -1,0 +1,23 @@
+/* Copilot study controls reuse the established paper / jade palette. */
+:root { --copilot-space-sm: .5rem; --copilot-space: 1rem; --copilot-space-lg: 1.5rem; --copilot-radius: .3rem; }
+.copilot-study { border: 1px solid var(--line); padding: var(--copilot-space-lg); margin-block: var(--copilot-space-lg); background: var(--white); font-size: .875rem; line-height: 1.7; }
+.copilot-study h4 { margin-block: var(--copilot-space); font-size: 1.1rem; }
+.copilot-actions { display: flex; flex-wrap: wrap; gap: var(--copilot-space-sm); margin-bottom: var(--copilot-space); }
+.copilot-button { border: 1px solid var(--line); background: var(--paper-muted); color: var(--ink); border-radius: var(--copilot-radius); padding: var(--copilot-space-sm) var(--copilot-space); font: inherit; font-size: .8rem; }
+.copilot-button:disabled { opacity: .4; cursor: default; }
+.copilot-notes { width: 100%; resize: vertical; padding: var(--copilot-space); border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: var(--copilot-radius); font: inherit; }
+.copilot-caption { font-size: .8rem; color: var(--ink-muted); }
+.copilot-sessions { padding-left: var(--copilot-space-lg); }
+.copilot-sessions li { padding-block: var(--copilot-space-sm); }
+.copilot-sessions strong { display: block; }
+.copilot-warning { padding: var(--copilot-space); border: 1px solid var(--coral); background: var(--paper-muted); }
+.copilot-study summary { cursor: pointer; font-weight: 600; }
+.copilot-example { white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); padding: var(--copilot-space); background: var(--paper-muted); line-height: 1.7; }
+.copilot-metrics { overflow-wrap: anywhere; font-family: var(--mono); }
+button.month-item { width: 100%; border: 0; text-align: left; background: transparent; color: inherit; }
+button.month-item.active { background: var(--paper-muted); }
+.deliverable-path, .resource-title, #next-up-copy { overflow-wrap: anywhere; }
+:focus-visible { outline: 2px solid var(--ink-muted); outline-offset: 3px; }
+[data-kind], #assignment-toggle, #week-title, #checklist-panel { scroll-margin-top: 90px; }
+@media (max-width: 720px) { .copilot-study { padding: var(--copilot-space); } .save-indicator { max-width: 10rem; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }

@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --ink: #0c1414;
+  --ink-soft: #132020;
+  --ink-muted: #738080;
+  --paper: #f6f7f2;
+  --paper-muted: #e9ebe4;
+  --line: rgba(23, 43, 41, .14);
+  --line-dark: rgba(229, 242, 229, .13);
+  --jade: #9be9b0;
+  --jade-strong: #66d88a;
+  --coral: #f4a27f;
+  --white: #fffefa;
+  --mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: 'Manrope', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+

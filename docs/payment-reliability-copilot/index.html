@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d1515" />
+    <title>Payment Reliability Copilot · AI Engineering Curriculum</title>
+    <link rel="stylesheet" href="styles.css?v=20260911" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div>
+            <p class="eyebrow">AI ENGINEERING · 16 WEEKS</p>
+            <h1>Reliability<br />Copilot</h1>
+          </div>
+        </div>
+
+        <div class="course-intro">
+          <p>Build the thinking, systems, and safety habits behind a production AI operator for payments.</p>
+          <div class="intro-meta"><span class="status-dot"></span><span>Simulator-first curriculum</span></div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="section-label-row"><span class="section-label">COURSE MAP</span><span class="section-count">16 weeks</span></div>
+          <nav id="week-nav" aria-label="Course weeks"></nav>
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="copilot-actions"><button class="copilot-button" id="export-progress" type="button">Export backup</button><button class="copilot-button" id="import-progress" type="button">Restore backup</button></div>
+          <input id="backup-file" type="file" accept=".json,application/json" hidden />
+          <button class="reset-button" id="reset-progress" type="button"><span aria-hidden="true">↺</span> Reset progress</button>
+          <p>Saved in this browser, not synced. Export and restore a backup to move your progress and notes to another device.</p>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <button class="menu-button" id="menu-toggle" type="button" aria-label="Open course map">☰</button>
+          <div class="breadcrumb"><span>Payment Reliability Copilot</span><span class="slash">/</span><span id="topbar-week">Week 01</span></div>
+          <div class="topbar-actions"><span class="save-indicator" id="save-status" role="status">Saved in this browser</span><button class="focus-button" id="focus-checklist" type="button">Focus checklist <span>↘</span></button></div>
+        </header>
+
+        <div class="content-wrap">
+          <p id="storage-warning" class="copilot-warning" role="alert" hidden>Browser storage is unavailable or your saved data could not be read. Existing stored data has not been erased. Export a backup of this session before closing; restore a valid backup to recover.</p>
+          <section class="overview-strip" aria-label="Course progress overview">
+            <div class="overview-copy">
+              <p class="eyebrow accent">YOUR BUILD PATH</p>
+              <h2>From model calls<br /><em>to dependable systems.</em></h2>
+              <p class="overview-note">Build the important abstraction yourself once. Measure where it fails. Then adopt the framework.</p>
+            </div>
+            <div class="overview-progress">
+              <div class="progress-ring" id="progress-ring" aria-label="Overall progress"><span id="overall-percent">0%</span></div>
+              <div><p class="progress-label">OVERALL PROGRESS</p><p class="progress-sub"><strong id="completed-count">0</strong> of <span id="total-count">0</span> required checkpoints</p></div>
+            </div>
+            <div class="overview-stats">
+              <div><span class="stat-number" id="weeks-complete">0</span><span class="stat-label">weeks complete</span></div>
+              <div><span class="stat-number" id="hours-left">8–10</span><span class="stat-label">planned hours / week</span></div>
+            </div>
+          </section>
+
+          <details class="copilot-study">
+            <summary>Course philosophy & capstone architecture</summary>
+            <p>Problem → primitive → implement manually → break deliberately → evaluate → understand tradeoffs → adopt abstraction/framework.</p>
+            <p>Manual tool loop → agent framework · manual cosine similarity → pgvector · dense retrieval → hybrid retrieval · manual agent state → LangGraph · raw tool integration → MCP.</p>
+            <p>Use your backend, distributed-systems, payments and observability experience. Each new concept solves a failure in the same Payment Reliability Copilot; no generic chatbot detours or new infrastructure for its own sake.</p>
+            <pre class="copilot-example">Payment Copilot → Domain Interfaces
+                   ├─ SimulatorAdapter (primary controlled environment)
+                   └─ PaqetAdapter (when ready; never a course blocker)
+
+User → API / Auth Layer → Model Router → Agent Runtime
+                                          ├─ Context Assembler
+                                          └─ Least-privilege Tools → Domain Interfaces
+                  Retrieval Pipeline ←─────┘
+                   ├─ BM25 / lexical
+                   └─ Dense search
+                         ↓ merge + authorized metadata filtering
+                      Reranker → top-K evidence → Agent
+                         ↓
+          Optional Semantic Cache (state / identity / freshness policy)
+                         ↓
+                       Output
+
+Cache lookup/reuse is guarded before an agent run; valid results may
+be stored afterward. It never bypasses authorization or state checks.
+
+Every stage emits model, prompt version, tool trajectory, retrieval
+trace, token counts, context size, latency, cost, cache behavior,
+errors and final outcome (use N/A when a field does not apply).
+                         ↓
+Evaluation System → regression tests + hard security gates
+                         ↓
+                   release decision</pre>
+            <p>The simulator remains primary throughout. Production observations are simulated or sanitized until the production integration and data permissions are ready.</p>
+          </details>
+
+          <div class="workspace-grid">
+            <section class="week-workspace" id="week-workspace">
+              <div class="week-heading">
+                <div class="week-heading-meta"><span class="month-kicker" id="month-kicker">MONTH 01 · LLMs AS SOFTWARE</span><span class="week-state" id="week-state">Not started</span></div>
+                <div class="week-title-row"><div><p class="week-number" id="week-number">WEEK 01</p><h3 id="week-title">Models, prompting &amp; structured output</h3></div><div class="week-progress-mini"><div class="mini-bar"><span id="week-progress-bar"></span></div><span id="week-progress-label">0 / 0</span></div></div>
+                <p class="week-goal" id="week-goal"></p>
+                <p class="week-goal" id="week-focus" hidden></p>
+              </div>
+
+              <section class="copilot-study" aria-label="Weekly study plan">
+                <div class="copilot-actions"><button id="previous-week" class="copilot-button" type="button">← Previous week</button><button id="following-week" class="copilot-button" type="button">Next week →</button></div>
+                <h4>Your plan for this week</h4>
+                <button id="study-continue" class="copilot-button" type="button">Continue learning →</button>
+                <p><strong>Before you start</strong><br /><span id="study-prerequisite"></span></p>
+                <p><strong>Keep the build focused</strong><br /><span id="study-core"></span></p>
+                <details><summary>Suggested session rhythm · 8–10 hours</summary><ol class="copilot-sessions"><li><strong>Learn · about 2 hours</strong> Read the focus sections, not entire courses. Use recommended resources when the build exposes a gap.</li><li><strong>Build · 4–5 hours</strong> Extend the same project, reusing last week’s fixtures and interfaces.</li><li><strong>Break & evaluate · 1–2 hours</strong> Run the experiments and failure pass; save evidence.</li><li><strong>Reflect · 1 hour</strong> Check deliverables, explain exit criteria and write the engineering note.</li></ol></details>
+                <details><summary>Optional depth</summary><p id="study-stretch"></p></details>
+                <p class="copilot-caption">Keep experiments bounded and reuse earlier work. Required checkpoints determine completion; recommended and optional reading checks are saved separately and never gate a week.</p>
+              </section>
+
+              <div class="section-block resources-block">
+                <div class="block-heading"><div class="block-icon read-icon">↗</div><div><p class="block-index">01 · READ</p><h4>Learn the primitive</h4></div><span class="block-hint">Read the focus sections · optional depth is not a gate</span></div>
+                <div class="resource-list" id="resource-list"></div>
+                <div class="assignment-body"><h4>Reading outcomes</h4><ul id="reading-outcomes"></ul></div>
+              </div>
+
+              <div class="section-block assignment-block">
+                <div class="block-heading"><div class="block-icon build-icon">⌁</div><div><p class="block-index">02 · BUILD</p><h4 id="assignment-heading">Implementation assignment</h4></div><span class="block-hint">Make the smallest useful version</span></div>
+                <div class="assignment-body"><p id="assignment-copy"></p>
+                  <section id="extension-build" hidden><h4>Extend this build</h4><div id="implementation-additions"></div></section>
+                  <div class="experiment-note"><span class="note-mark">↳</span><div><span class="note-label">FAILURE PASS</span><p id="failure-copy"></p></div></div>
+                  <section id="extension-experiments" hidden><h4>Experiments & comparisons</h4><div id="experiment-additions"></div></section>
+                  <section id="extension-metrics" hidden><h4>Metrics to record</h4><p class="copilot-metrics" id="metrics-list"></p></section>
+                  <details id="extension-example" hidden><summary>Working example / reference shape</summary><pre class="copilot-example" id="example-copy"></pre></details>
+                  <button class="task-toggle" id="assignment-toggle" type="button"><span class="task-check" aria-hidden="true">✓</span><span id="assignment-toggle-label">Mark assignment complete</span></button>
+                </div>
+              </div>
+
+              <div class="split-blocks">
+                <div class="section-block compact-block">
+                  <div class="block-heading"><div class="block-icon deliver-icon">□</div><div><p class="block-index">03 · SHIP</p><h4>Deliverables</h4></div></div>
+                  <div class="checklist" id="deliverables-list"></div>
+                </div>
+                <div class="section-block compact-block checklist-block" id="checklist-panel">
+                  <div class="block-heading"><div class="block-icon exit-icon">→</div><div><p class="block-index">04 · EARN THE EXIT</p><h4>Completion checklist</h4></div></div>
+                  <div class="checklist" id="exit-list"></div>
+                </div>
+              </div>
+              <section class="copilot-study" aria-label="Learning notes">
+                <h4>Engineering notes</h4><p id="note-prompt"></p>
+                <label for="week-notes"><strong>Leave a note for your next session</strong></label>
+                <p class="copilot-caption">What worked? What failed? Paste your evidence path and write the next small action. Saved as you type; do not store credentials.</p>
+                <textarea class="copilot-notes" id="week-notes" rows="6" maxlength="20000" placeholder="Next session: …"></textarea>
+              </section>
+            </section>
+
+            <aside class="right-rail">
+              <div class="rail-panel week-context">
+                <div class="rail-heading"><span class="section-label">WEEK AT A GLANCE</span><span class="rail-arrow">↗</span></div>
+                <div class="context-row"><span class="context-key">MONTH</span><span class="context-value" id="context-month">01 / 04</span></div>
+                <div class="context-row"><span class="context-key">CADENCE</span><span class="context-value">8–10 hours</span></div>
+                <div class="context-row"><span class="context-key">CAPSTONE</span><span class="context-value">Payment Copilot</span></div>
+                <div class="context-divider"></div>
+                <div class="principle"><span class="principle-mark">✦</span><p><strong>Course principle</strong><br />Build it once. Measure its failures. Understand the tradeoffs. Then adopt the framework.</p></div>
+              </div>
+              <div class="rail-panel month-panel">
+                <div class="rail-heading"><span class="section-label">MONTHS</span><span class="section-count">4 arcs</span></div>
+                <div class="month-list" id="month-list"></div>
+              </div>
+              <div class="rail-panel next-panel">
+                <div class="rail-heading"><span class="section-label">NEXT UP</span><span class="rail-arrow">↓</span></div>
+                <p id="next-up-copy">Start with the first resource, then make your first model call.</p>
+                <button class="next-button" id="next-button" type="button">Go to next checkpoint <span>→</span></button>
+              </div>
+            </aside>
+          </div>
+          <details class="copilot-study"><summary>Graduation outcomes & optional further study</summary>
+            <p>Graduate able to build and explain model API applications, structured outputs, tool calling and typed error recovery; classical ML vs LLM tradeoffs; evaluation-driven development and prompt versioning; embeddings, lexical/dense/hybrid retrieval, reranking, retrieval evaluation and production multi-tenant RAG.</p>
+            <p>Explain context engineering and token budgets; agents from first principles and trajectory evaluation; durable agent workflows and MCP servers; model routing and CI evaluation gates; AI observability, semantic caching, prompt-injection defenses, tool least privilege and human-in-the-loop controls; cost/latency optimization, fallback architecture and curated production-data/eval flywheels.</p>
+            <p><strong>Further study only — not required:</strong> multi-agent consensus, voice agents, computer-use agents, local model inference, LoRA/fine-tuning, A2A protocols, GPU/CUDA engineering, training transformers, building a workflow engine and complex autonomous coding agents. None add course checkpoints.</p>
+          </details>
+        </div>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="progress.js?v=20260911"></script>
+    <script src="study.js?v=20260911"></script>
+    <script src="curriculum-updates.js?v=20260911"></script>
+    <script src="app.js?v=20260911"></script>
+  </body>
+</html>

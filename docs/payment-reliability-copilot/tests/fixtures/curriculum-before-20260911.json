@@ -1,0 +1,770 @@
+[
+  {
+    "id": 1,
+    "month": 1,
+    "title": "Models, prompting & structured output",
+    "goal": "Treat the LLM as an unreliable software component with measurable behavior—not as a chatbot.",
+    "resources": [
+      {
+        "title": "OpenAI Developer Quickstart",
+        "url": "https://developers.openai.com/api/docs/quickstart",
+        "focus": "Responses API + Python SDK",
+        "optional": false
+      },
+      {
+        "title": "Prompt engineering guide",
+        "url": "https://developers.openai.com/api/docs/guides/prompt-engineering",
+        "focus": "Instruction hierarchy, context, examples",
+        "optional": false
+      },
+      {
+        "title": "Structured outputs",
+        "url": "https://developers.openai.com/api/docs/guides/structured-outputs",
+        "focus": "JSON-schema constrained generation",
+        "optional": false
+      },
+      {
+        "title": "Pydantic models",
+        "url": "https://docs.pydantic.dev/latest/concepts/models/",
+        "focus": "Application-side validation",
+        "optional": true
+      }
+    ],
+    "assignment": "Build Payment Diagnosis Service v0. Accept a payment and its event history, then return a typed diagnosis: status, category, likely cause, recommended action, and confidence. Compare two model configurations.",
+    "failure": "Create 30 labelled scenarios. Deliberately include missing events, conflicting signals, and plausible-but-wrong causes. Record validity, confidence, latency, tokens, and cost.",
+    "deliverables": [
+      "app/llm/diagnose.py",
+      "app/models/diagnosis.py",
+      "evals/datasets/week1.jsonl",
+      "docs/learning-notes/week1.md"
+    ],
+    "exit": [
+      "Successful responses satisfy the schema; refusals and incomplete responses are handled explicitly",
+      "At least 30 labelled scenarios are stored",
+      "Explain temperature and sampling conceptually",
+      "Explain context-window constraints",
+      "Explain why structured output does not guarantee factual correctness",
+      "Measured cost and latency instead of guessing"
+    ],
+    "study": {
+      "prerequisite": "Python functions, JSON, a virtual environment and one passing test. Use synthetic data and keep API keys outside source control.",
+      "core": "One command that diagnoses a fixture and saves a typed result. Start with 5 cases, then reach 30; set a spending limit before model comparisons.",
+      "stretch": "Try a third model only after the two-configuration comparison works."
+    }
+  },
+  {
+    "id": 2,
+    "month": 1,
+    "title": "Function calling & tool design",
+    "goal": "Understand the core mechanism behind agents: the model requests work, your application validates and executes it.",
+    "resources": [
+      {
+        "title": "Function calling guide",
+        "url": "https://developers.openai.com/api/docs/guides/function-calling",
+        "focus": "Tool definitions, calls, and results",
+        "optional": false
+      },
+      {
+        "title": "JSON Schema",
+        "url": "https://json-schema.org/learn/getting-started-step-by-step",
+        "focus": "Validate tool arguments at the boundary",
+        "optional": true
+      },
+      {
+        "title": "OpenAI API reference",
+        "url": "https://platform.openai.com/docs/api-reference/responses",
+        "focus": "Inspect the response/tool-call shape",
+        "optional": true
+      }
+    ],
+    "assignment": "Create four deterministic fixture-backed tools: get_payment, get_payment_events, get_ledger_entries, and get_provider_status. Implement the orchestration loop yourself—no agent framework.",
+    "failure": "Make tools return unknown IDs, invalid providers, malformed arguments, timeouts, 500s, empty responses, and payment-not-found. Add an explicit maximum tool-step count.",
+    "deliverables": [
+      "app/tools/",
+      "app/llm/tool_loop.py",
+      "simulator/fixtures/",
+      "evals/datasets/tool_selection.jsonl"
+    ],
+    "exit": [
+      "≥90% correct first tool selection across 40 scenarios",
+      "Invalid tool arguments are rejected before execution",
+      "Authorization is performed by the application",
+      "A maximum tool-step count exists",
+      "Timeouts cannot create infinite retries",
+      "Draw the full tool-calling lifecycle from memory"
+    ],
+    "study": {
+      "prerequisite": "Reuse Week 1 diagnosis models and fixtures.",
+      "core": "Implement the four read-only tools with explicit organization identity. Reject unauthorized calls before execution; add timeouts and bounded retries now.",
+      "stretch": "Add async tool execution only if the serial loop is understood."
+    }
+  },
+  {
+    "id": 3,
+    "month": 1,
+    "title": "Practical machine-learning foundations",
+    "goal": "Build enough classical ML intuition to know when a deterministic or statistical model is the better tool.",
+    "resources": [
+      {
+        "title": "Google ML Crash Course",
+        "url": "https://developers.google.com/machine-learning/crash-course/",
+        "focus": "Classification, generalization, overfitting",
+        "optional": false
+      },
+      {
+        "title": "Classification metrics",
+        "url": "https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall",
+        "focus": "Precision, recall, F1",
+        "optional": false
+      },
+      {
+        "title": "scikit-learn model evaluation",
+        "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+        "focus": "Metric definitions + reporting",
+        "optional": true
+      },
+      {
+        "title": "Grouped train/test splits",
+        "url": "https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data",
+        "focus": "Keep related templates out of both training and testing",
+        "optional": true
+      }
+    ],
+    "assignment": "Generate roughly 1,000 payment-support messages across seven labels. Compare TF-IDF + logistic regression against an LLM structured classifier using train, validation, and test splits.",
+    "failure": "Inspect the confusion matrix. Find the class where a false positive is most costly, then decide whether accuracy or recall should lead your deployment recommendation.",
+    "deliverables": [
+      "experiments/classical_classifier.py",
+      "experiments/llm_classifier.py",
+      "data/payment_issues.csv",
+      "docs/learning-notes/classifier-comparison.md"
+    ],
+    "exit": [
+      "Explain training vs inference",
+      "Explain train, validation, and test data",
+      "Explain overfitting",
+      "Explain precision vs recall and when F1 helps",
+      "Name a task where a $0 deterministic classifier wins",
+      "Write a deployment recommendation"
+    ],
+    "study": {
+      "prerequisite": "Reuse payment categories; learn only classification, splits and metrics from the crash course.",
+      "core": "Generate 1,000 messages from varied templates. Split by template family before fitting TF-IDF to avoid leakage. Compare both classifiers on the same held-out subset within your budget.",
+      "stretch": "Explore cross-validation after one clean train/validation/test comparison. Synthetic scores are not production evidence."
+    }
+  },
+  {
+    "id": 4,
+    "month": 1,
+    "title": "Evaluation-driven development",
+    "goal": "Make evals part of development so a prompt change can be judged objectively.",
+    "resources": [
+      {
+        "title": "OpenAI Evals guide",
+        "url": "https://developers.openai.com/api/docs/guides/evals",
+        "focus": "Datasets, graders, and repeatable runs",
+        "optional": false
+      },
+      {
+        "title": "How evals drive AI development",
+        "url": "https://openai.com/index/evals-drive-next-chapter-of-ai/",
+        "focus": "Specify → Measure → Improve",
+        "optional": false
+      },
+      {
+        "title": "OpenAI evaluation best practices",
+        "url": "https://platform.openai.com/docs/guides/evals",
+        "focus": "Error analysis and representative examples",
+        "optional": true
+      }
+    ],
+    "assignment": "Build a reusable eval runner that reports accuracy, schema compliance, tool correctness, unsupported claims, latency, token usage, and estimated cost. Create an error taxonomy.",
+    "failure": "Run at least one prompt change you expect to help that makes an eval worse. Keep the before/after report and classify why.",
+    "deliverables": [
+      "evals/runner.py",
+      "evals/datasets/golden_set.jsonl",
+      "evals/reports/week4.md",
+      "evals/error_taxonomy.yml"
+    ],
+    "exit": [
+      "Golden set contains at least 75 cases",
+      "Eval execution is reproducible",
+      "Scores are broken down by category",
+      "Model and prompt metadata are stored",
+      "A before/after comparison exists",
+      "You can distinguish a better score from a lucky sample"
+    ],
+    "study": {
+      "prerequisite": "Combine earlier scenarios instead of starting another dataset.",
+      "core": "Curate 75 unique cases, version the inputs and prompts, and run one before/after change. Record variation across repeated model runs; reproducible inputs do not imply identical outputs.",
+      "stretch": "Add a hosted eval service after the local runner is useful."
+    }
+  },
+  {
+    "id": 5,
+    "month": 2,
+    "title": "Embeddings & semantic retrieval",
+    "goal": "Understand vector retrieval from first principles before reaching for a vector database.",
+    "resources": [
+      {
+        "title": "OpenAI embeddings guide",
+        "url": "https://developers.openai.com/api/docs/guides/embeddings",
+        "focus": "Embedding inputs, dimensions, and search",
+        "optional": false
+      },
+      {
+        "title": "pgvector documentation",
+        "url": "https://github.com/pgvector/pgvector",
+        "focus": "Exact search, HNSW, and IVFFlat",
+        "optional": false
+      },
+      {
+        "title": "NumPy dot product",
+        "url": "https://numpy.org/doc/stable/reference/generated/numpy.dot.html",
+        "focus": "Build similarity with plain arrays",
+        "optional": true
+      }
+    ],
+    "assignment": "Create a 20-document payment knowledge corpus. Implement embed_document, embed_query, cosine_similarity, and search_similar_documents first with Python arrays, then migrate behind the same interface to PostgreSQL + pgvector.",
+    "failure": "Probe queries for delayed withdrawals, broadcast-but-processing transactions, and missing callbacks. Inspect nearest neighbours manually and write down false friends.",
+    "deliverables": [
+      "app/retrieval/embeddings.py",
+      "app/retrieval/vector_store.py",
+      "knowledge/",
+      "scripts/index_documents.py"
+    ],
+    "exit": [
+      "Explain what an embedding represents",
+      "Implement cosine similarity",
+      "Explain semantic vs keyword search",
+      "Explain exact vs approximate nearest-neighbour search",
+      "Explain why embeddings are not knowledge",
+      "Name a case where similarity is not relevance"
+    ],
+    "study": {
+      "prerequisite": "Reuse the fixture domain. You need basic arrays and SQL, not a vector-database course.",
+      "core": "Write 20 short synthetic documents. Get array-based cosine search working, then use pgvector exact search through the same interface.",
+      "stretch": "Benchmark approximate indexes later; a 20-document corpus does not need HNSW tuning."
+    }
+  },
+  {
+    "id": 6,
+    "month": 2,
+    "title": "Build RAG manually",
+    "goal": "Trace every stage from a question to a cited answer before adding a framework.",
+    "resources": [
+      {
+        "title": "OpenAI retrieval guide",
+        "url": "https://developers.openai.com/api/docs/guides/retrieval",
+        "focus": "Search, ranking, and grounded answers",
+        "optional": false
+      },
+      {
+        "title": "Retrieval-augmented generation course",
+        "url": "https://www.deeplearning.ai/courses/retrieval-augmented-generation",
+        "focus": "Optional reinforcement for gaps",
+        "optional": true
+      },
+      {
+        "title": "OpenAI citations pattern",
+        "url": "https://platform.openai.com/docs/guides/retrieval",
+        "focus": "Return evidence with the answer",
+        "optional": true
+      }
+    ],
+    "assignment": "Build Payment Knowledge Assistant as a manual pipeline: query preprocessing → embedding → retrieval → context selection → prompt construction → LLM → answer + citations.",
+    "failure": "Compare chunk sizes 250 / 500 / 1,000 and top-k 3 / 5 / 10. Keep the output and record whether the failure came from query understanding, retrieval, source quality, context, or generation.",
+    "deliverables": [
+      "app/retrieval/chunker.py",
+      "app/retrieval/retriever.py",
+      "app/rag/pipeline.py",
+      "experiments/rag_chunking.md"
+    ],
+    "exit": [
+      "Trace a wrong answer to a pipeline stage",
+      "Answer, evidence, and source are separate in the UI",
+      "At least three chunk sizes are compared",
+      "At least three top-k values are compared",
+      "Every answer carries source identifiers",
+      "You can explain why more context can reduce quality"
+    ],
+    "study": {
+      "prerequisite": "Use Week 5 corpus and search interface.",
+      "core": "Build one cited-answer pipeline. Change chunk size while holding top-k fixed, then change top-k with chunk size fixed. Reuse query results to control cost.",
+      "stretch": "Reranking, hybrid search and the full RAG course are optional; do not add all three this week."
+    }
+  },
+  {
+    "id": 7,
+    "month": 2,
+    "title": "Retrieval evaluation",
+    "goal": "Evaluate the retrieval layer separately from generation so “bad answer” has a diagnosable cause.",
+    "resources": [
+      {
+        "title": "Information retrieval metrics",
+        "url": "https://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics",
+        "focus": "Precision, recall, and ranking metrics",
+        "optional": false
+      },
+      {
+        "title": "OpenAI Evals guide",
+        "url": "https://developers.openai.com/api/docs/guides/evals",
+        "focus": "Golden cases and graders",
+        "optional": false
+      },
+      {
+        "title": "Ragas documentation",
+        "url": "https://docs.ragas.io/en/stable/",
+        "focus": "Optional reference for RAG evaluation concepts",
+        "optional": true
+      }
+    ],
+    "assignment": "Create 50 retrieval-specific test cases with relevant document IDs and required facts. Calculate Precision@K, Recall@K, MRR, correctness, faithfulness, citation correctness, and completeness.",
+    "failure": "Add unanswerable questions, conflicting documents, outdated documents, and irrelevant documents that share vocabulary. Report retrieval failure separately from generation failure.",
+    "deliverables": [
+      "evals/retrieval/",
+      "evals/rag/",
+      "evals/reports/week7.md"
+    ],
+    "exit": [
+      "Dataset contains 50 retrieval cases",
+      "Recall@5 is measured",
+      "Citation precision is measured",
+      "Unanswerable questions are represented",
+      "Retrieval and generation failures are separate",
+      "Your report includes an error taxonomy and next action"
+    ],
+    "study": {
+      "prerequisite": "Freeze the Week 6 baseline and document IDs.",
+      "core": "Label 50 queries. Separate answerable retrieval cases from unanswerable refusal cases. Learning targets: Recall@5 ≥0.85, citation precision ≥0.90, unsupported answers ≤0.10. Record denominators and misses, not just a score.",
+      "stretch": "If a target is missed, write a failure analysis and rerun one targeted fix. These are learning targets, not production certification."
+    }
+  },
+  {
+    "id": 8,
+    "month": 2,
+    "title": "Production RAG & multi-tenancy",
+    "goal": "Turn “chat with documents” into a trustworthy knowledge subsystem with identity, freshness, and deletion semantics.",
+    "resources": [
+      {
+        "title": "PostgreSQL row-level security",
+        "url": "https://www.postgresql.org/docs/current/ddl-rowsecurity.html",
+        "focus": "Database-enforced tenant boundaries",
+        "optional": false
+      },
+      {
+        "title": "pgvector metadata filtering",
+        "url": "https://github.com/pgvector/pgvector",
+        "focus": "Filter vectors with application metadata",
+        "optional": false
+      },
+      {
+        "title": "OpenAI retrieval guide",
+        "url": "https://developers.openai.com/api/docs/guides/retrieval",
+        "focus": "Grounding and source attribution",
+        "optional": true
+      }
+    ],
+    "assignment": "Add organization_id, document_version, source_type, effective_date, access_level, provider, and network to every chunk. Implement tenant-aware search, re-indexing, deletion, retries, version replacement, and deduplication.",
+    "failure": "Create Org A and Org B with deliberately similar documents. Attempt cross-tenant leakage, stale-version retrieval, duplicate ingestion, and retrieval after deletion.",
+    "deliverables": [
+      "app/ingestion/",
+      "app/retrieval/filters.py",
+      "evals/security/tenant_retrieval.jsonl",
+      "docs/rag-architecture.md"
+    ],
+    "exit": [
+      "Zero cross-tenant retrieval in tests",
+      "Deleted documents disappear from search",
+      "Updated documents replace stale versions",
+      "Generated claims identify their source",
+      "Ingestion failures are observable",
+      "Paqet Copilot v0.2 can ground an operator answer"
+    ],
+    "study": {
+      "prerequisite": "Use the authorization boundary from Week 2 and the Week 7 eval runner.",
+      "core": "Finish tenant filtering, deletion and version replacement first, then retry/deduplication. A failed isolation test is a stop gate, not an acceptable averaged score.",
+      "stretch": "A background ingestion worker can follow the synchronous contract tests."
+    }
+  },
+  {
+    "id": 9,
+    "month": 3,
+    "title": "Build an agent yourself",
+    "goal": "Understand an agent without framework magic: state, decisions, validated actions, observations, and termination.",
+    "resources": [
+      {
+        "title": "OpenAI function calling guide",
+        "url": "https://developers.openai.com/api/docs/guides/function-calling",
+        "focus": "Tools as application-owned actions",
+        "optional": false
+      },
+      {
+        "title": "Reasoning best practices",
+        "url": "https://developers.openai.com/api/docs/guides/reasoning-best-practices",
+        "focus": "Reasoning settings and response design",
+        "optional": false
+      },
+      {
+        "title": "ReAct paper",
+        "url": "https://arxiv.org/abs/2210.03629",
+        "focus": "Reasoning + acting as an observable loop",
+        "optional": true
+      }
+    ],
+    "assignment": "Implement a bounded agent loop for “Why is payment pay_123 still processing?” Store observable trajectories: requested tool, arguments, result, timing, and final answer. Do not depend on private chain-of-thought.",
+    "failure": "Force an infinite loop, repeated tool call, timeout, incorrect tool data, conflicting tools, and no-answer scenario. Make each failure a typed observation.",
+    "deliverables": [
+      "app/agents/loop.py",
+      "app/agents/state.py",
+      "evals/agent/baseline.jsonl",
+      "docs/learning-notes/week9.md"
+    ],
+    "exit": [
+      "MAX_STEPS is enforced",
+      "A timeout budget exists",
+      "A retry budget exists",
+      "Tool calls are validated",
+      "Termination conditions are explicit",
+      "Agent completes ≥80% of baseline investigations"
+    ],
+    "study": {
+      "prerequisite": "Reuse the Week 2 loop; do not start another tool framework.",
+      "core": "Add explicit state, max steps, total deadline, retry budget and observable trajectories. Compare with a fixed deterministic investigation workflow.",
+      "stretch": "Planning strategies are optional until the bounded baseline passes."
+    }
+  },
+  {
+    "id": 10,
+    "month": 3,
+    "title": "Incident investigation agent",
+    "goal": "Move from a single payment diagnosis to a system-level production investigation with metrics, logs, history, and provider state.",
+    "resources": [
+      {
+        "title": "OpenTelemetry concepts",
+        "url": "https://opentelemetry.io/docs/concepts/observability-primer/",
+        "focus": "Signals, traces, and context",
+        "optional": false
+      },
+      {
+        "title": "Prometheus metric types",
+        "url": "https://prometheus.io/docs/concepts/metric_types/",
+        "focus": "Counters, gauges, histograms",
+        "optional": true
+      },
+      {
+        "title": "OpenAI function calling guide",
+        "url": "https://developers.openai.com/api/docs/guides/function-calling",
+        "focus": "Expose only useful investigation tools",
+        "optional": true
+      }
+    ],
+    "assignment": "Generate time-series simulator conditions and build an investigator with query_metrics, search_logs, find_incidents, list_failed_payments, get_provider_status, and search_runbooks. Answer why USDC withdrawal success rate dropped in the last 30 minutes.",
+    "failure": "Evaluate both final diagnosis and trajectory: relevant evidence inspected, unnecessary calls, premature stopping, root-cause confidence, and unsupported claims.",
+    "deliverables": [
+      "simulator/scenarios/",
+      "app/agents/investigator.py",
+      "evals/agent/scenarios.jsonl"
+    ],
+    "exit": [
+      "At least 30 incident scenarios exist",
+      "≥80% correct root cause",
+      "≥90% no unsupported root-cause claims",
+      "Zero infinite loops",
+      "Average tool calls are tracked",
+      "Tokens, cost, and latency per investigation are tracked"
+    ],
+    "study": {
+      "prerequisite": "Use Week 9 agent and the same simulator interfaces.",
+      "core": "Use seeded metrics/log fixtures, not a new telemetry platform. Build 30 incident variants with known causes and evaluate both the evidence trail and final diagnosis.",
+      "stretch": "Add more providers only after the existing scenarios are covered."
+    }
+  },
+  {
+    "id": 11,
+    "month": 3,
+    "title": "LangGraph & durable workflows",
+    "goal": "Learn the framework after understanding the primitive it abstracts: stateful, long-running, resumable workflows.",
+    "resources": [
+      {
+        "title": "LangGraph overview",
+        "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+        "focus": "Graph state and durable execution",
+        "optional": false
+      },
+      {
+        "title": "LangGraph persistence",
+        "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+        "focus": "Checkpoints and resumability",
+        "optional": false
+      },
+      {
+        "title": "LangGraph interrupts",
+        "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+        "focus": "Human-in-the-loop pause and resume",
+        "optional": false
+      }
+    ],
+    "assignment": "Refactor the investigator into a graph: understand_request → gather_payment_state → gather_operational_state → retrieve_knowledge → analyze → confidence_gate → answer or human_review. Add a proposed create_incident action.",
+    "failure": "Kill the process halfway through an investigation, restart it, and resume from checkpoint. Attempt to replay a side effect and prove it is not duplicated.",
+    "deliverables": [
+      "app/agents/graph.py",
+      "app/agents/checkpoints.py",
+      "evals/agent/recovery.jsonl",
+      "docs/decisions/langgraph.md"
+    ],
+    "exit": [
+      "Workflow survives a process restart",
+      "State is persisted",
+      "Duplicate side effects are prevented",
+      "Approval pauses and resumes correctly",
+      "You can explain the value over the Week 9 loop",
+      "Recovery behavior is covered by an eval"
+    ],
+    "study": {
+      "prerequisite": "Keep the Week 10 baseline unchanged for comparison.",
+      "core": "Persist one investigation graph. Demonstrate restart and approval with a simulated create_incident action; bind approval to exact arguments and prevent replay.",
+      "stretch": "Parallel graph branches are optional. Approval is not a replacement for application authorization."
+    }
+  },
+  {
+    "id": 12,
+    "month": 3,
+    "title": "MCP + Go",
+    "goal": "Turn payment-domain capabilities into reusable AI infrastructure and connect your Go learning to a real boundary.",
+    "resources": [
+      {
+        "title": "MCP architecture overview",
+        "url": "https://modelcontextprotocol.io/docs/learn/architecture",
+        "focus": "Hosts, clients, servers, and transports",
+        "optional": false
+      },
+      {
+        "title": "MCP tools specification",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+        "focus": "Discoverable, callable tools",
+        "optional": false
+      },
+      {
+        "title": "MCP resources specification",
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/resources",
+        "focus": "Read-only payment and incident resources",
+        "optional": false
+      },
+      {
+        "title": "Official MCP Go SDK",
+        "url": "https://github.com/modelcontextprotocol/go-sdk",
+        "focus": "Start from the minimal server example; pin the version",
+        "optional": true
+      }
+    ],
+    "assignment": "Build a small Paqet MCP server in Go. Expose payment://{id}, incident://{id}, and tools for get_payment, get_payment_events, search_incidents, and get_provider_status. Use simulator adapters until Paqet is ready.",
+    "failure": "Test malformed requests, unknown IDs, authorization boundaries, tool timeouts, and a destructive action that requires explicit human approval.",
+    "deliverables": [
+      "mcp/paqet-mcp/",
+      "mcp/paqet-mcp/server.go",
+      "mcp/paqet-mcp/README.md",
+      "evals/mcp/contract.jsonl"
+    ],
+    "exit": [
+      "Server exposes resources and tools",
+      "Go tests cover request validation",
+      "Client receives stable errors",
+      "Simulator and Paqet adapters share a conceptual interface",
+      "Destructive operations require approval",
+      "MCP contract tests pass from a clean run"
+    ],
+    "study": {
+      "prerequisite": "Know Go structs, interfaces, errors and tests; use the official Go SDK example as your starting point.",
+      "core": "Build a local stdio MCP server backed by fixtures, with the listed resources and read-only tools. Pin SDK/protocol versions together and test through a real client.",
+      "stretch": "Remote HTTP transport and real Paqet integration are extensions. Keep all destructive actions simulated."
+    }
+  },
+  {
+    "id": 13,
+    "month": 4,
+    "title": "Serious evals",
+    "goal": "Expand from a demo-sized golden set to an evaluation system that measures the whole agent environment.",
+    "resources": [
+      {
+        "title": "OpenAI Evals guide",
+        "url": "https://developers.openai.com/api/docs/guides/evals",
+        "focus": "Deterministic graders and datasets",
+        "optional": false
+      },
+      {
+        "title": "OpenAI evals best practices",
+        "url": "https://platform.openai.com/docs/guides/evals",
+        "focus": "Human review and LLM-as-judge",
+        "optional": true
+      },
+      {
+        "title": "OpenAI model evaluation guide",
+        "url": "https://platform.openai.com/docs/guides/evals",
+        "focus": "Pairwise comparison + regression gates",
+        "optional": true
+      }
+    ],
+    "assignment": "Expand to 300–500 cases across payment investigation, retrieval, tool selection, insufficient information, ambiguous requests, outages, permission boundaries, prompt injection, and hallucination.",
+    "failure": "Compare deterministic assertions, human scoring, LLM-as-judge, and pairwise comparison. Sample cases manually and document judge disagreement.",
+    "deliverables": [
+      "evals/datasets/v1/",
+      "evals/graders/",
+      "evals/reports/week13.md",
+      "docs/evaluation-strategy.md"
+    ],
+    "exit": [
+      "300+ cases are versioned",
+      "Coverage includes safety and permissions",
+      "At least two grading methods are compared",
+      "Manual samples are reviewed",
+      "Regression thresholds are defined",
+      "A model/prompt change can be accepted or rejected by evidence"
+    ],
+    "study": {
+      "prerequisite": "Pool and deduplicate Weeks 1–12 cases before generating more.",
+      "core": "Reach 300 versioned cases cumulatively, not 300 new manually written cases. Cover each failure category and reserve a held-out set. Calibrate a judge against a human-reviewed sample.",
+      "stretch": "500 cases and a second judge are stretch work. Never tune prompts against the final held-out set."
+    }
+  },
+  {
+    "id": 14,
+    "month": 4,
+    "title": "AI observability",
+    "goal": "Make every model call, tool call, retrieval, and escalation visible enough to operate in production.",
+    "resources": [
+      {
+        "title": "OpenTelemetry observability primer",
+        "url": "https://opentelemetry.io/docs/concepts/observability-primer/",
+        "focus": "Traces, metrics, and logs",
+        "optional": false
+      },
+      {
+        "title": "OpenTelemetry Python",
+        "url": "https://opentelemetry.io/docs/languages/python/",
+        "focus": "Instrument the application",
+        "optional": false
+      },
+      {
+        "title": "Prometheus overview",
+        "url": "https://prometheus.io/docs/introduction/overview/",
+        "focus": "Scrape and query metrics",
+        "optional": true
+      }
+    ],
+    "assignment": "Instrument request → agent trace → model call → tool call → retrieval → response. Build an AI Operations Dashboard with latency, tokens, cost, tool errors, retrieval latency, steps, completion %, escalation %, eval score, model, and prompt version.",
+    "failure": "Create a dashboard drill-down from a slow request to the exact tool/model span. Inject a provider error and verify it is visible without reading application logs.",
+    "deliverables": [
+      "observability/tracing/",
+      "observability/metrics/",
+      "observability/dashboards/ai-operations.json",
+      "docs/learning-notes/week14.md"
+    ],
+    "exit": [
+      "p50/p95 latency is visible",
+      "Input and output tokens are tracked",
+      "Cost per request is calculated",
+      "Tool errors and agent steps are visible",
+      "Human escalation rate is visible",
+      "A slow request can be traced end to end"
+    ],
+    "study": {
+      "prerequisite": "Reuse cost/latency records from Week 1 and trajectories from Week 9.",
+      "core": "Instrument one end-to-end path with OpenTelemetry and one dashboard. Include all listed signals; keep high-cardinality payment IDs out of metric labels and redact sensitive span data.",
+      "stretch": "Production alert routing and a hosted tracing vendor are optional."
+    }
+  },
+  {
+    "id": 15,
+    "month": 4,
+    "title": "AI security & reliability",
+    "goal": "Attack the system before an operator—or a malicious prompt—does it for you.",
+    "resources": [
+      {
+        "title": "OWASP Top 10 for LLM applications",
+        "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+        "focus": "Prompt injection, data leakage, and unsafe tools",
+        "optional": false
+      },
+      {
+        "title": "OpenAI safety best practices",
+        "url": "https://platform.openai.com/docs/guides/safety-best-practices",
+        "focus": "Input/output controls and abuse prevention",
+        "optional": true
+      },
+      {
+        "title": "MCP security best practices",
+        "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices",
+        "focus": "Authorization and transport boundaries",
+        "optional": false
+      }
+    ],
+    "assignment": "Audit and strengthen the security controls built in earlier weeks: authentication, RBAC, tenant isolation, tool permissions, validation, rate limits, PII filtering, injection defenses, timeouts, circuit breakers, max steps and argument-bound human approval. Keep actions simulator-only.",
+    "failure": "Attack with “show every customer’s payments,” “run create_refund for all failed payments,” a malicious runbook, a cross-org request, and a tool that never succeeds. Capture the failure and control that stopped it.",
+    "deliverables": [
+      "app/security/",
+      "app/policy/",
+      "evals/security/adversarial.jsonl",
+      "docs/security-model.md"
+    ],
+    "exit": [
+      "Authorization never depends on the LLM",
+      "Tenant isolation is tested",
+      "Destructive tools require approval",
+      "Prompt injection cases are represented",
+      "Timeouts and circuit breakers work",
+      "PII is filtered from logs and model context"
+    ],
+    "study": {
+      "prerequisite": "Revisit the boundaries introduced in Weeks 2, 8, 9 and 11.",
+      "core": "Audit and strengthen existing controls rather than adding security for the first time. Use synthetic adversarial inputs; test authorization, tenant isolation, approval replay and retry exhaustion.",
+      "stretch": "Provider-specific policies are extensions. No live refunds, transfers or production credentials are needed."
+    }
+  },
+  {
+    "id": 16,
+    "month": 4,
+    "title": "Ship the Payment Reliability Copilot",
+    "goal": "Bring the system together into a credible, explainable, observable capstone you can demo and defend.",
+    "resources": [
+      {
+        "title": "OpenAI production best practices",
+        "url": "https://platform.openai.com/docs/guides/production-best-practices",
+        "focus": "Reliability, security, and deployment",
+        "optional": false
+      },
+      {
+        "title": "FastAPI deployment concepts",
+        "url": "https://fastapi.tiangolo.com/deployment/concepts/",
+        "focus": "Serve the application safely",
+        "optional": false
+      },
+      {
+        "title": "OpenTelemetry getting started",
+        "url": "https://opentelemetry.io/docs/getting-started/",
+        "focus": "Verify production instrumentation",
+        "optional": true
+      }
+    ],
+    "assignment": "Ship the capstone: a natural-language operations interface with payment investigation, RAG over runbooks, semantic incident search, tool calling, multi-step investigations, MCP tools, citations, human approval, evals, tracing, cost tracking, authorization, and resilience. The core finish is a reproducible simulator-backed demo. Treat a live production rollout as a separate operational milestone.",
+    "failure": "Run a final rehearsal with a happy path, insufficient evidence, provider outage, prompt injection, cross-tenant request, duplicate side effect, and process restart. Keep the trace and the eval report.",
+    "deliverables": [
+      "docs/architecture.md",
+      "evals/reports/final.md",
+      "demo/payment-copilot-demo.mp4",
+      "docs/case-study.md"
+    ],
+    "exit": [
+      "All core capabilities have a working path",
+      "Final eval report includes failures and trade-offs",
+      "Architecture document explains boundaries",
+      "A 2–4 minute demo is recorded",
+      "Case study explains why AI is appropriate",
+      "You can explain what changes at 100× scale"
+    ],
+    "study": {
+      "prerequisite": "Bring forward the same simulator, eval runner and evidence from previous weeks.",
+      "core": "Freeze features. Run the seven-case rehearsal, record the demo and document failures. A reproducible local/container demo is the core learning finish; production launch needs separate security and operations validation.",
+      "stretch": "Deploy a private demo or add the Paqet adapter only when its API and authorization contract are ready."
+    }
+  }
+]
