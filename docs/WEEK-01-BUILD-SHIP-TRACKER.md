@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 2
 - Last evidence update: 2026-10-01
-- Main blocker: Decline classification ignores the new reason_code field; defensive fallback confidence is 0.5 rather than below 0.5. Dataset serialization evidence remains incomplete.
-- Next action: Align defensive fallback confidence with the existing uncertain outcomes; then test structured AUTH_DECLINED reason-code mapping and generic-decline uncertainty.
+- Main blocker: Decline confidence remains 0.1 without documented confidence semantics. Successful outcome still lacks an explanation; regression coverage for explanation/serialization remains to persist.
+- Next action: Finish Phase 2 as one batch: document baseline confidence conventions, align recognized outcomes, add a success explanation, and persist fixture/explanation/serialization regression coverage.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -38,15 +38,15 @@ Open question: None for the Phase 1 exit gate. Next phase: deterministic baselin
 - [x] Diagnose a failed/declined payment.
 - [x] Fail closed when events are missing.
 - [x] Fail closed when evidence conflicts.
-- [ ] Reuse the same `Diagnosis` schema.
+- [x] Reuse the same `Diagnosis` schema.
 
 Evidence / notes:
 
 ```text
 Status: In progress
 Files or links: app/models/diagnosis.py; tests/test_diagnosis.py
-What this proves: All 14 unittest cases pass via `../.venv/bin/python -m unittest discover -s tests -v`. Unknown payment with payment.created now returns unknown/escalation, no likely cause, and confidence 0.2. Defensive fallback now preserves unknown status. Timeout and decline explanations are present; formatting and cls construction remain sound.
-Open question: Defensive fallback confidence is 0.5 (not below 0.5), decline confidence is 0.1 without documented semantics, and reason_code is accepted but ignored by classification. Dataset-driven schema serialization evidence still needed. Phase 2 remains In progress.
+What this proves: All 16 unittest cases pass via `../.venv/bin/python -m unittest discover -s tests -v`. Authorization mapping requires AUTH_DECLINED on a provider.declined event; missing/other codes, code in prose, and code on another event fail closed. Defensive fallback returns unknown with confidence 0.2. A review script loaded all five JSONL cases, matched every expected label, and round-tripped every result through Diagnosis.model_dump_json and Diagnosis.model_validate_json.
+Open question: Decline confidence is 0.1 without documented semantics; success explanation is absent. Persist fixture round-trip and explanation assertions as regressions. Phase 2 remains In progress.
 ```
 
 ### Phase 3 — LLM adapter
@@ -164,6 +164,7 @@ Open question:
 | 2026-10-01 | Phase 2 | Review | Pending evidence guard verified | All 12 tests pass; failed-without-decline defect reproduced | Add failed-payment negative test; keep Phase 2 open |
 | 2026-10-01 | Phase 2 | Review | Failed-payment evidence guard verified; Python formatting reviewed | All 13 tests pass; explicit decline behavior preserved | Define confidence semantics; align unknown/fallback outcomes |
 | 2026-10-01 | Phase 2 | Review | Unknown-state uncertainty verified | All 14 tests pass; unknown confidence 0.2 and cause None | Align fallback confidence; test structured decline reason codes |
+| 2026-10-01 | Phase 2 | Review | Structured decline guard and fixture schema reuse verified | 16 tests pass; all five fixture labels and JSON round-trips pass | Finish confidence documentation, success explanation, and regression coverage in one batch |
 
 ## Definition of done
 
