@@ -4,11 +4,11 @@ Use this file to track evidence for the phased build. Check a box only when the 
 
 ## Current status
 
-- Overall status: Not started
+- Overall status: In progress
 - Current phase: Phase 1
-- Last evidence update: —
-- Main blocker: —
-- Next action: Define and test the diagnosis contract
+- Last evidence update: 2026-10-01
+- Main blocker: Phase 1 boundary coverage still needs explicit missing-identifier and invalid-diagnosis-enum tests.
+- Next action: Add those two boundary cases, then re-run the model-boundary tests.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -16,19 +16,19 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
 ### Phase 1 — Diagnosis contract
 
-- [ ] Define the typed payment input.
-- [ ] Define the typed diagnosis output.
-- [ ] Add validation tests for invalid input and output.
-- [ ] Create the first five synthetic cases.
-- [ ] Record the passing test command.
+- [x] Define the typed payment input.
+- [x] Define the typed diagnosis output.
+- [x] Add validation tests for invalid input and output.
+- [x] Create the first five synthetic cases.
+- [x] Record the passing test command.
 
 Evidence / notes:
 
 ```text
-Status:
-Files or links:
-What this proves:
-Open question:
+Status: In progress
+Files or links: app/models/diagnosis.py; tests/test_diagnosis.py; evals/datasets/week1.jsonl
+What this proves: The typed payment/diagnosis boundary, validation cases, five starter scenarios, and a passing `python -m unittest discover -s tests -v` run with 9 tests.
+Open question: Add explicit tests for missing identifiers and invalid diagnosis enum values before advancing to Phase 2.
 ```
 
 ### Phase 2 — Deterministic baseline
@@ -159,6 +159,7 @@ Open question:
 
 | Date | Phase | Timebox | Completed | Evidence | Next action |
 | --- | --- | --- | --- | --- | --- |
+| 2026-10-01 | Phase 1 | — | Test command passes | 9 unittest cases passed | Add missing-identifier and invalid-enum boundary tests |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
@@ -175,4 +176,3 @@ The Week 1 build/ship segment is complete when all of these are true:
 - [ ] Validity, confidence, latency, tokens, and cost are recorded.
 - [ ] The learning note explains what failed and what the measurements changed.
 - [ ] No production integration or real-money action is implied by the result.
-
