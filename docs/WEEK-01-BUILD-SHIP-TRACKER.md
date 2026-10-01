@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 2
 - Last evidence update: 2026-10-01
-- Main blocker: Confidence semantics remain inconsistent; unknown-state and defensive fallback paths return confidence 1.0. Likely-cause and serialization evidence remain incomplete.
-- Next action: Define confidence as certainty about the diagnosed cause; align unknown and defensive fallback outcomes with low-confidence escalation.
+- Main blocker: Decline classification ignores the new reason_code field; defensive fallback confidence is 0.5 rather than below 0.5. Dataset serialization evidence remains incomplete.
+- Next action: Align defensive fallback confidence with the existing uncertain outcomes; then test structured AUTH_DECLINED reason-code mapping and generic-decline uncertainty.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -45,8 +45,8 @@ Evidence / notes:
 ```text
 Status: In progress
 Files or links: app/models/diagnosis.py; tests/test_diagnosis.py
-What this proves: All 13 unittest cases pass via `../.venv/bin/python -m unittest discover -s tests -v`. Pending and failed payments with only payment.created now yield unknown/escalation with confidence below 0.5. Explicit timeout and decline paths remain passing. Four-space formatting, cls construction, return annotation, and set membership are present.
-Open question: Unknown status with an event returns confidence 1.0; the defensive fallback invents FAILED with confidence 1.0. Likely cause remains None in all paths. Dataset-driven schema serialization evidence still needed. Phase 2 remains In progress.
+What this proves: All 14 unittest cases pass via `../.venv/bin/python -m unittest discover -s tests -v`. Unknown payment with payment.created now returns unknown/escalation, no likely cause, and confidence 0.2. Defensive fallback now preserves unknown status. Timeout and decline explanations are present; formatting and cls construction remain sound.
+Open question: Defensive fallback confidence is 0.5 (not below 0.5), decline confidence is 0.1 without documented semantics, and reason_code is accepted but ignored by classification. Dataset-driven schema serialization evidence still needed. Phase 2 remains In progress.
 ```
 
 ### Phase 3 — LLM adapter
@@ -163,6 +163,7 @@ Open question:
 | 2026-10-01 | Phase 1 | Review | Exit gate verified; Phase 1 Done | 11 tests passed; five unique labelled fixtures validated | Phase 2: pending-without-timeout negative case |
 | 2026-10-01 | Phase 2 | Review | Pending evidence guard verified | All 12 tests pass; failed-without-decline defect reproduced | Add failed-payment negative test; keep Phase 2 open |
 | 2026-10-01 | Phase 2 | Review | Failed-payment evidence guard verified; Python formatting reviewed | All 13 tests pass; explicit decline behavior preserved | Define confidence semantics; align unknown/fallback outcomes |
+| 2026-10-01 | Phase 2 | Review | Unknown-state uncertainty verified | All 14 tests pass; unknown confidence 0.2 and cause None | Align fallback confidence; test structured decline reason codes |
 
 ## Definition of done
 
