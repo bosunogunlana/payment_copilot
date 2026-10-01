@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 2
 - Last evidence update: 2026-10-01
-- Main blocker: Phase 2 cause inference needs evidence-specific negative tests; pending alone does not prove a provider timeout.
-- Next action: Test a pending payment with only payment.created; require unknown/escalation rather than an invented provider timeout.
+- Main blocker: Failed status still invents an authorization-failure cause without supporting decline evidence.
+- Next action: Add a failed-payment-with-only-payment.created regression test; require unknown/escalation rather than an invented authorization failure.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -33,20 +33,20 @@ Open question: None for the Phase 1 exit gate. Next phase: deterministic baselin
 
 ### Phase 2 — Deterministic baseline
 
-- [ ] Diagnose a successful payment.
-- [ ] Diagnose a pending/provider-timeout payment.
-- [ ] Diagnose a failed/declined payment.
-- [ ] Fail closed when events are missing.
-- [ ] Fail closed when evidence conflicts.
+- [x] Diagnose a successful payment.
+- [x] Diagnose a pending/provider-timeout payment.
+- [x] Diagnose a failed/declined payment.
+- [x] Fail closed when events are missing.
+- [x] Fail closed when evidence conflicts.
 - [ ] Reuse the same `Diagnosis` schema.
 
 Evidence / notes:
 
 ```text
-Status:
-Files or links:
-What this proves:
-Open question:
+Status: In progress
+Files or links: app/models/diagnosis.py; tests/test_diagnosis.py
+What this proves: All 12 unittest cases pass. Pending payment.created alone now yields unknown/escalation with confidence below 0.5; the explicit timeout path remains passing. Named baseline happy, missing, and conflict cases pass.
+Open question: Failed payment.created alone incorrectly returns authorization_failure with confidence 1.0. Unknown status with an event also returns confidence 1.0; confidence semantics remain undefined. Dataset-driven schema serialization evidence still needed.
 ```
 
 ### Phase 3 — LLM adapter
@@ -161,7 +161,7 @@ Open question:
 | --- | --- | --- | --- | --- | --- |
 | 2026-10-01 | Phase 1 | — | Test command passes | 9 unittest cases passed | Add missing-identifier and invalid-enum boundary tests |
 | 2026-10-01 | Phase 1 | Review | Exit gate verified; Phase 1 Done | 11 tests passed; five unique labelled fixtures validated | Phase 2: pending-without-timeout negative case |
-|  |  |  |  |  |  |
+| 2026-10-01 | Phase 2 | Review | Pending evidence guard verified | All 12 tests pass; failed-without-decline defect reproduced | Add failed-payment negative test; keep Phase 2 open |
 |  |  |  |  |  |  |
 
 ## Definition of done
