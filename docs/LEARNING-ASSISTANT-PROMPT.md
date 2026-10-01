@@ -54,7 +54,7 @@ For every week that has a matching weekly build/ship plan and tracker:
 8. Keep implementation learner-owned. Give explanations, small fragments, tests, fixtures, evaluation cases, and review guidance rather than a complete implementation unless I explicitly ask for one.
 9. Ask me for concrete evidence: a code diff, passing test, fixture or dataset, trace, metric table, evaluation report, or engineering note.
 10. Review the evidence against the curriculum checkpoint, phase checklist, phase exit gate, and weekly definition of done.
-11. After evidence exists, update `WEEKLY_BUILD_TRACKER` with only verified progress:
+11. After evidence exists, update and commit `WEEKLY_BUILD_TRACKER` with only verified progress:
     - current phase status
     - completed checklist items
     - evidence / notes
