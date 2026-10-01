@@ -5,10 +5,10 @@ Use this file to track evidence for the phased build. Check a box only when the 
 ## Current status
 
 - Overall status: In progress
-- Current phase: Phase 2
+- Current phase: Phase 3
 - Last evidence update: 2026-10-01
-- Main blocker: Decline confidence remains 0.1 without documented confidence semantics. Successful outcome still lacks an explanation; regression coverage for explanation/serialization remains to persist.
-- Next action: Finish Phase 2 as one batch: document baseline confidence conventions, align recognized outcomes, add a success explanation, and persist fixture/explanation/serialization regression coverage.
+- Main blocker: No Phase 2 blocker remains; Phase 3 adapter and explicit failure outcomes are not yet implemented.
+- Next action: Begin Phase 3 with a narrow diagnosis adapter contract and stubbed-response acceptance tests; keep credentials and live calls out of the first slice.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -43,10 +43,10 @@ Open question: None for the Phase 1 exit gate. Next phase: deterministic baselin
 Evidence / notes:
 
 ```text
-Status: In progress
-Files or links: app/models/diagnosis.py; tests/test_diagnosis.py
-What this proves: All 16 unittest cases pass via `../.venv/bin/python -m unittest discover -s tests -v`. Authorization mapping requires AUTH_DECLINED on a provider.declined event; missing/other codes, code in prose, and code on another event fail closed. Defensive fallback returns unknown with confidence 0.2. A review script loaded all five JSONL cases, matched every expected label, and round-tripped every result through Diagnosis.model_dump_json and Diagnosis.model_validate_json.
-Open question: Decline confidence is 0.1 without documented semantics; success explanation is absent. Persist fixture round-trip and explanation assertions as regressions. Phase 2 remains In progress.
+Status: Done
+Files or links: app/models/diagnosis.py; tests/test_diagnosis.py; evals/datasets/week1.jsonl; docs/decisions/week1-baseline-conventions.md
+What this proves: All 17 unittest cases pass via `../.venv/bin/python -m unittest discover -s tests -v`. Recognized outcomes have explanations and confidence above 0.5; tested uncertain outcomes have confidence below 0.5 and escalate. Structured decline codes are bound to the decline event. Persistent fixture coverage matches all five expected outcomes and verifies Diagnosis JSON round-trips. Baseline confidence semantics and limitations are documented.
+Open question: None for the bounded Phase 2 exit gate. Nonblocking style: wrap the decline_reason_codes comprehension, remove its redundant event-type membership check, and remove trailing whitespace. Next phase: Phase 3 LLM adapter.
 ```
 
 ### Phase 3 — LLM adapter
@@ -165,6 +165,7 @@ Open question:
 | 2026-10-01 | Phase 2 | Review | Failed-payment evidence guard verified; Python formatting reviewed | All 13 tests pass; explicit decline behavior preserved | Define confidence semantics; align unknown/fallback outcomes |
 | 2026-10-01 | Phase 2 | Review | Unknown-state uncertainty verified | All 14 tests pass; unknown confidence 0.2 and cause None | Align fallback confidence; test structured decline reason codes |
 | 2026-10-01 | Phase 2 | Review | Structured decline guard and fixture schema reuse verified | 16 tests pass; all five fixture labels and JSON round-trips pass | Finish confidence documentation, success explanation, and regression coverage in one batch |
+| 2026-10-01 | Phase 2 | Review | Phase 2 exit gate verified; conventions documented | 17 tests pass, persistent five-fixture comparisons and JSON round-trips | Phase 3: adapter contract and stubbed responses |
 
 ## Definition of done
 
