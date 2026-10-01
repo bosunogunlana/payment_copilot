@@ -5,10 +5,10 @@ Use this file to track evidence for the phased build. Check a box only when the 
 ## Current status
 
 - Overall status: In progress
-- Current phase: Phase 1
+- Current phase: Phase 2
 - Last evidence update: 2026-10-01
-- Main blocker: Phase 1 boundary coverage still needs explicit missing-identifier and invalid-diagnosis-enum tests.
-- Next action: Add those two boundary cases, then re-run the model-boundary tests.
+- Main blocker: Phase 2 cause inference needs evidence-specific negative tests; pending alone does not prove a provider timeout.
+- Next action: Test a pending payment with only payment.created; require unknown/escalation rather than an invented provider timeout.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -25,10 +25,10 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 Evidence / notes:
 
 ```text
-Status: In progress
+Status: Done
 Files or links: app/models/diagnosis.py; tests/test_diagnosis.py; evals/datasets/week1.jsonl
-What this proves: The typed payment/diagnosis boundary, validation cases, five starter scenarios, and a passing `python -m unittest discover -s tests -v` run with 9 tests.
-Open question: Add explicit tests for missing identifiers and invalid diagnosis enum values before advancing to Phase 2.
+What this proves: Typed payment and diagnosis boundaries; explicit missing-identifier and invalid-enum rejection; all 11 tests pass via `../.venv/bin/python -m unittest discover -s tests -v`. All five unique synthetic JSONL cases parse as Payment and their expected labels match the enums.
+Open question: None for the Phase 1 exit gate. Next phase: deterministic baseline; review cause inference against event evidence.
 ```
 
 ### Phase 2 — Deterministic baseline
@@ -138,9 +138,9 @@ Open question:
 
 | Deliverable | Phase | Status | Evidence |
 | --- | --- | --- | --- |
-| `app/models/diagnosis.py` | 1–2 | Not started | — |
+| `app/models/diagnosis.py` | 1–2 | In progress | Phase 1 contract verified; Phase 2 baseline still under review |
 | `app/llm/diagnose.py` | 3 | Not started | — |
-| `evals/datasets/week1.jsonl` | 1, 2, 4 | Not started | — |
+| `evals/datasets/week1.jsonl` | 1, 2, 4 | In progress | Five unique labelled synthetic inputs parse; expected enums validated |
 | `docs/learning-notes/week1.md` | 6 | Not started | — |
 
 ## Failure coverage matrix
@@ -160,7 +160,7 @@ Open question:
 | Date | Phase | Timebox | Completed | Evidence | Next action |
 | --- | --- | --- | --- | --- | --- |
 | 2026-10-01 | Phase 1 | — | Test command passes | 9 unittest cases passed | Add missing-identifier and invalid-enum boundary tests |
-|  |  |  |  |  |  |
+| 2026-10-01 | Phase 1 | Review | Exit gate verified; Phase 1 Done | 11 tests passed; five unique labelled fixtures validated | Phase 2: pending-without-timeout negative case |
 |  |  |  |  |  |  |
 |  |  |  |  |  |  |
 
