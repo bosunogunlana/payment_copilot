@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 2
 - Last evidence update: 2026-10-01
-- Main blocker: Failed status still invents an authorization-failure cause without supporting decline evidence.
-- Next action: Add a failed-payment-with-only-payment.created regression test; require unknown/escalation rather than an invented authorization failure.
+- Main blocker: Confidence semantics remain inconsistent; unknown-state and defensive fallback paths return confidence 1.0. Likely-cause and serialization evidence remain incomplete.
+- Next action: Define confidence as certainty about the diagnosed cause; align unknown and defensive fallback outcomes with low-confidence escalation.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -45,8 +45,8 @@ Evidence / notes:
 ```text
 Status: In progress
 Files or links: app/models/diagnosis.py; tests/test_diagnosis.py
-What this proves: All 12 unittest cases pass. Pending payment.created alone now yields unknown/escalation with confidence below 0.5; the explicit timeout path remains passing. Named baseline happy, missing, and conflict cases pass.
-Open question: Failed payment.created alone incorrectly returns authorization_failure with confidence 1.0. Unknown status with an event also returns confidence 1.0; confidence semantics remain undefined. Dataset-driven schema serialization evidence still needed.
+What this proves: All 13 unittest cases pass via `../.venv/bin/python -m unittest discover -s tests -v`. Pending and failed payments with only payment.created now yield unknown/escalation with confidence below 0.5. Explicit timeout and decline paths remain passing. Four-space formatting, cls construction, return annotation, and set membership are present.
+Open question: Unknown status with an event returns confidence 1.0; the defensive fallback invents FAILED with confidence 1.0. Likely cause remains None in all paths. Dataset-driven schema serialization evidence still needed. Phase 2 remains In progress.
 ```
 
 ### Phase 3 — LLM adapter
@@ -162,7 +162,7 @@ Open question:
 | 2026-10-01 | Phase 1 | — | Test command passes | 9 unittest cases passed | Add missing-identifier and invalid-enum boundary tests |
 | 2026-10-01 | Phase 1 | Review | Exit gate verified; Phase 1 Done | 11 tests passed; five unique labelled fixtures validated | Phase 2: pending-without-timeout negative case |
 | 2026-10-01 | Phase 2 | Review | Pending evidence guard verified | All 12 tests pass; failed-without-decline defect reproduced | Add failed-payment negative test; keep Phase 2 open |
-|  |  |  |  |  |  |
+| 2026-10-01 | Phase 2 | Review | Failed-payment evidence guard verified; Python formatting reviewed | All 13 tests pass; explicit decline behavior preserved | Define confidence semantics; align unknown/fallback outcomes |
 
 ## Definition of done
 
