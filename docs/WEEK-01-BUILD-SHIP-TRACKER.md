@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 3
 - Last evidence update: 2026-10-02
-- Main blocker: No offline adapter correctness blocker remains. Provider transport, provider-enforced structured output, and credential/budget controls remain unverified.
-- Next action: Add provider transport wiring and controlled smoke-run scaffolding within Phase 3; finish constructor annotations and baseline formatting alongside that batch.
+- Main blocker: Provider error prints contaminate stdout; one regression fails. No live smoke evidence is recorded, and credential/budget verification remains open.
+- Next action: Remove transport error prints, pass all 37 tests, and document controlled smoke configuration and result before closing Phase 3.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -53,7 +53,7 @@ Open question: None for the bounded Phase 2 exit gate. Nonblocking style: wrap t
 
 - [x] Add the narrow diagnosis adapter.
 - [x] Send a bounded payment and event payload.
-- [ ] Request structured output.
+- [x] Request structured output.
 - [x] Validate successful output with the application model.
 - [x] Handle refusal and incomplete output.
 - [x] Handle malformed output and API failure.
@@ -64,9 +64,9 @@ Evidence / notes:
 
 ```text
 Status: In progress
-Files or links: app/llm/diagnose.py; tests/test_llm_diagnose.py
-What this proves: All 28 tests pass, including malformed non-dictionary envelopes, exclusive result fields, correct error serialization, invalid limit configuration, successful output validation, refusal/incomplete handling, bounded payloads, and timeout/connection outcomes in offline stubs. Prior boundary regressions are resolved.
-Open question: Schema is passed to an injected callable; provider-enforced structured output and credentials/budget controls are not yet verified. Nonblocking: constructor parameter annotations remain absent, and baseline formatting/import cleanup remains.
+Files or links: app/llm/diagnose.py; app/llm/openai_transport.py; tests/test_llm_diagnose.py; tests/test_openai_transport.py; evals/smoke_diagnosis.py
+What this proves: Original 36 tests pass. Transport sends strict schema with required nullable cause, keeps instructions separate, maps SDK errors, and discards refusal/incomplete output. Client timeout and disabled retries are verified via mocks. Smoke dry-run reports zero requests. Expanded 37 tests have one failure: provider error text is printed to stdout.
+Open question: Remove stdout prints. No live API result or credential/budget audit is recorded. Nonblocking: finish parameter/client/return annotations and formatting. Output token limits and spending acknowledgement are not a hard dollar cap.
 ```
 
 ### Phase 4 — Failure dataset
@@ -168,6 +168,7 @@ Open question:
 | 2026-10-01 | Phase 2 | Review | Phase 2 exit gate verified; conventions documented | 17 tests pass, persistent five-fixture comparisons and JSON round-trips | Phase 3: adapter contract and stubbed responses |
 | 2026-10-02 | Phase 3 | Review | Offline adapter reviewed; boundary regressions added | Original 25 tests pass; expanded 27 methods produce 3 failures and 3 errors | Fix envelope guards, result exclusivity, and error serialization in one batch |
 | 2026-10-02 | Phase 3 | Review | Offline boundary fixes verified; invalid-limit regression added | All 28 tests pass; Ruff unavailable in project venv | Finish Phase 3 provider transport and controlled smoke-run setup |
+| 2026-10-02 | Phase 3 | Review | Provider transport and smoke runner reviewed | Original 36 tests pass; new stdout regression fails; dry-run makes zero requests | Remove debug prints and record controlled smoke evidence |
 
 ## Definition of done
 
