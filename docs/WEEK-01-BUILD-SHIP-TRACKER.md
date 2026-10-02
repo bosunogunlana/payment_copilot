@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 3
 - Last evidence update: 2026-10-02
-- Main blocker: Provider error prints contaminate stdout; one regression fails. No live smoke evidence is recorded, and credential/budget verification remains open.
-- Next action: Remove transport error prints, pass all 37 tests, and document controlled smoke configuration and result before closing Phase 3.
+- Main blocker: No test blocker remains; credential placement and the smoke-run spending allowance remain unverified.
+- Next action: Record credential placement and the spending allowance before closing Phase 3; live success and all 37 passing tests are recorded.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -65,8 +65,8 @@ Evidence / notes:
 ```text
 Status: In progress
 Files or links: app/llm/diagnose.py; app/llm/openai_transport.py; tests/test_llm_diagnose.py; tests/test_openai_transport.py; evals/smoke_diagnosis.py
-What this proves: Original 36 tests pass. Transport sends strict schema with required nullable cause, keeps instructions separate, maps SDK errors, and discards refusal/incomplete output. Client timeout and disabled retries are verified via mocks. Smoke dry-run reports zero requests. Expanded 37 tests have one failure: provider error text is printed to stdout.
-Open question: Remove stdout prints. No live API result or credential/budget audit is recorded. Nonblocking: finish parameter/client/return annotations and formatting. Output token limits and spending acknowledgement are not a hard dollar cap.
+What this proves: Assistant executed `../.venv/bin/python -m unittest discover -s tests -v`: all 37 tests pass in 0.021s, including the stdout regression. Transport strict-schema construction, refusal/incomplete handling, SDK failure mapping, timeout, and disabled retries are verified offline. User-provided live command `python -m evals.smoke_diagnosis --live --max-output-tokens 512 --acknowledge-spend` returned a validated succeeded/successful_payment/no_action diagnosis with confidence 0.99 and error null. Live evidence is user-provided, not independently rerun; it covers one synthetic case only.
+Open question: Credential placement and smoke-run spending allowance remain unverified. Output token limits and spending acknowledgement are not a hard dollar cap. No additional paid request was made for this verification.
 ```
 
 ### Phase 4 — Failure dataset
@@ -169,6 +169,7 @@ Open question:
 | 2026-10-02 | Phase 3 | Review | Offline adapter reviewed; boundary regressions added | Original 25 tests pass; expanded 27 methods produce 3 failures and 3 errors | Fix envelope guards, result exclusivity, and error serialization in one batch |
 | 2026-10-02 | Phase 3 | Review | Offline boundary fixes verified; invalid-limit regression added | All 28 tests pass; Ruff unavailable in project venv | Finish Phase 3 provider transport and controlled smoke-run setup |
 | 2026-10-02 | Phase 3 | Review | Provider transport and smoke runner reviewed | Original 36 tests pass; new stdout regression fails; dry-run makes zero requests | Remove debug prints and record controlled smoke evidence |
+| 2026-10-02 | Phase 3 | Verification | Stdout regression resolved; supplied live smoke result recorded | Assistant-run suite: 37 tests pass in 0.021s; user live result: validated successful diagnosis, error null | Verify credential placement and spending allowance |
 
 ## Definition of done
 
