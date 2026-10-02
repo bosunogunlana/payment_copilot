@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 5
 - Last evidence update: 2026-10-02
-- Main blocker: No Phase 4 blocker remains; Phase 5 comparison configurations and measurement harness are not yet prepared.
-- Next action: Prepare two named configurations and a comparison harness with category/tag breakdowns, schema validity, label match, confidence, latency, tokens, cost, and spending controls.
+- Main blocker: Transport drops response usage; new acceptance test fails on completed/refusal/incomplete paths. Comparison spending allocation and actual results remain pending.
+- Next action: Preserve input/output token usage in transport envelopes, pass all 46 tests, review the comparison harness, and explicitly allocate comparison spending before live runs.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -94,8 +94,8 @@ Open question: None for the bounded Phase 4 gate. Next phase: Phase 5 comparison
 
 ### Phase 5 — Comparison and measurement
 
-- [ ] Name configuration A.
-- [ ] Name configuration B.
+- [x] Name configuration A.
+- [x] Name configuration B.
 - [ ] Run both against the same cases.
 - [ ] Record schema validity.
 - [ ] Record correctness or acceptable-label match.
@@ -109,11 +109,11 @@ Open question: None for the bounded Phase 4 gate. Next phase: Phase 5 comparison
 Evidence / notes:
 
 ```text
-Status:
-Report location:
-Decision:
-What this proves:
-Open question:
+Status: In progress
+Report location: Pending actual comparison; runner evals/compare_diagnosis.py and configurations evals/configs/week1.json prepared
+Decision: Pending actual comparison and cause-grounding review
+What this proves: A-luna and B-sol are named with the same prompt and 2048-token output limit. Six offline evaluator tests pass for scoring, uncertainty safety, token-cost estimates, reservation skips, and missing-usage stop behavior. Dry-run plans 60 requests and makes zero. Full suite runs 46 test methods; only the new usage-preservation method fails, across three response-path subtests. Standard uncached-text pricing assumptions and limits are documented in evals/README.md.
+Open question: Learner must preserve usage in every transport envelope; no core code was changed. No paid comparison was run. Comparison allowance is separate from the $5 smoke allowance. The local reservation policy is not a provider-enforced billing cap.
 ```
 
 ### Phase 6 — Local ship
