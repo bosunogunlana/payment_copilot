@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 3
 - Last evidence update: 2026-10-02
-- Main blocker: Phase 3 offline adapter needs malformed-envelope guards, result exclusivity validation, and the correct serialized error value. Provider transport and credential/budget controls remain unverified.
-- Next action: Fix the offline adapter boundary in one batch and pass all 27 tests before provider SDK wiring.
+- Main blocker: No offline adapter correctness blocker remains. Provider transport, provider-enforced structured output, and credential/budget controls remain unverified.
+- Next action: Add provider transport wiring and controlled smoke-run scaffolding within Phase 3; finish constructor annotations and baseline formatting alongside that batch.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -56,7 +56,7 @@ Open question: None for the bounded Phase 2 exit gate. Nonblocking style: wrap t
 - [ ] Request structured output.
 - [x] Validate successful output with the application model.
 - [x] Handle refusal and incomplete output.
-- [ ] Handle malformed output and API failure.
+- [x] Handle malformed output and API failure.
 - [x] Exercise the adapter with a stubbed response.
 - [ ] Confirm credentials are outside source control.
 
@@ -65,8 +65,8 @@ Evidence / notes:
 ```text
 Status: In progress
 Files or links: app/llm/diagnose.py; tests/test_llm_diagnose.py
-What this proves: Original 25 tests pass. Added boundary regressions produce 3 failures and 3 errors across 27 test methods: non-dictionary envelopes crash, both/neither result fields are accepted, and malformed output serializes as malformed_input. Successful output validation, refusal/incomplete handling, bounded payloads, and timeout/connection outcomes work in offline stubs.
-Open question: Complete the boundary fixes. Schema is passed to an injected callable; provider-enforced structured output and credentials/budget controls are not yet verified.
+What this proves: All 28 tests pass, including malformed non-dictionary envelopes, exclusive result fields, correct error serialization, invalid limit configuration, successful output validation, refusal/incomplete handling, bounded payloads, and timeout/connection outcomes in offline stubs. Prior boundary regressions are resolved.
+Open question: Schema is passed to an injected callable; provider-enforced structured output and credentials/budget controls are not yet verified. Nonblocking: constructor parameter annotations remain absent, and baseline formatting/import cleanup remains.
 ```
 
 ### Phase 4 — Failure dataset
@@ -139,7 +139,7 @@ Open question:
 | Deliverable | Phase | Status | Evidence |
 | --- | --- | --- | --- |
 | `app/models/diagnosis.py` | 1–2 | Done | Phase 1–2 bounded gates verified; 17 baseline tests pass |
-| `app/llm/diagnose.py` | 3 | In progress | Offline adapter implemented; boundary regressions need fixes |
+| `app/llm/diagnose.py` | 3 | In progress | Offline boundary verified with 28 passing tests; provider wiring remains |
 | `evals/datasets/week1.jsonl` | 1, 2, 4 | In progress | Five unique labelled synthetic inputs parse; expected enums validated |
 | `docs/learning-notes/week1.md` | 6 | Not started | — |
 
@@ -167,6 +167,7 @@ Open question:
 | 2026-10-01 | Phase 2 | Review | Structured decline guard and fixture schema reuse verified | 16 tests pass; all five fixture labels and JSON round-trips pass | Finish confidence documentation, success explanation, and regression coverage in one batch |
 | 2026-10-01 | Phase 2 | Review | Phase 2 exit gate verified; conventions documented | 17 tests pass, persistent five-fixture comparisons and JSON round-trips | Phase 3: adapter contract and stubbed responses |
 | 2026-10-02 | Phase 3 | Review | Offline adapter reviewed; boundary regressions added | Original 25 tests pass; expanded 27 methods produce 3 failures and 3 errors | Fix envelope guards, result exclusivity, and error serialization in one batch |
+| 2026-10-02 | Phase 3 | Review | Offline boundary fixes verified; invalid-limit regression added | All 28 tests pass; Ruff unavailable in project venv | Finish Phase 3 provider transport and controlled smoke-run setup |
 
 ## Definition of done
 
