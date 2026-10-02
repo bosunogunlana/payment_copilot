@@ -1,10 +1,10 @@
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
 
-class PaymentStatus(str, Enum):
+class PaymentStatus(StrEnum):
     SUCCEEDED = "succeeded"
     PENDING = "pending"
     FAILED = "failed"
@@ -30,7 +30,7 @@ class Payment(BaseModel):
     events: list[PaymentEvent]
 
 
-class DiagnosisCategory(str, Enum):
+class DiagnosisCategory(StrEnum):
     SUCCESSFUL_PAYMENT = "successful_payment"
     PROVIDER_TIMEOUT = "provider_timeout"
     INSUFFICIENT_FUNDS = "insufficient_funds"
@@ -41,7 +41,7 @@ class DiagnosisCategory(str, Enum):
     UNKNOWN = "unknown"
 
 
-class RecommendedAction(str, Enum):
+class RecommendedAction(StrEnum):
     NO_ACTION = "no_action"
     WAIT_AND_RECONCILE = "wait_and_reconcile"
     RETRY_WITH_IDEMPOTENCY = "retry_with_idempotency"
@@ -84,7 +84,7 @@ class Diagnosis(BaseModel):
                 category=DiagnosisCategory.SUCCESSFUL_PAYMENT,
                 recommended_action=RecommendedAction.NO_ACTION,
                 likely_cause=(
-                    "The payment completed and its ledger entry was posted." 
+                    "The payment completed and its ledger entry was posted."
                     if "ledger.posted" in event_types
                     else "The payment is recorded as completed"
                 ),
@@ -117,8 +117,15 @@ class Diagnosis(BaseModel):
             )
 
         if payment.status == PaymentStatus.FAILED:
-            decline_reason_codes = {event.reason_code for event in payment.events if event.event_type == "provider.declined"}
-            if "provider.declined" in event_types and "AUTH_DECLINED" in decline_reason_codes:
+            decline_reason_codes = {
+                event.reason_code
+                for event in payment.events
+                if event.event_type == "provider.declined"
+            }  # noqa: E501
+            if (
+                "provider.declined" in event_types
+                and "AUTH_DECLINED" in decline_reason_codes
+            ):
                 return cls(
                     status=PaymentStatus.FAILED,
                     category=DiagnosisCategory.AUTHORIZATION_FAILURE,
