@@ -5,10 +5,10 @@ Use this file to track evidence for the phased build. Check a box only when the 
 ## Current status
 
 - Overall status: In progress
-- Current phase: Phase 3
+- Current phase: Phase 4
 - Last evidence update: 2026-10-02
-- Main blocker: No test blocker remains; credential placement and the smoke-run spending allowance remain unverified.
-- Next action: Record credential placement and the spending allowance before closing Phase 3; live success and all 37 passing tests are recorded.
+- Main blocker: No Phase 3 blocker remains. Phase 4 dataset expansion is not yet complete.
+- Next action: Expand the synthetic dataset to at least 30 labelled cases with missing, conflicting, plausible-but-wrong, and insufficient-evidence scenarios in one Phase 4 batch.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -58,15 +58,16 @@ Open question: None for the bounded Phase 2 exit gate. Nonblocking style: wrap t
 - [x] Handle refusal and incomplete output.
 - [x] Handle malformed output and API failure.
 - [x] Exercise the adapter with a stubbed response.
-- [ ] Confirm credentials are outside source control.
+- [x] Confirm credentials are outside source control.
 
 Evidence / notes:
 
 ```text
-Status: In progress
+Status: Done
 Files or links: app/llm/diagnose.py; app/llm/openai_transport.py; tests/test_llm_diagnose.py; tests/test_openai_transport.py; evals/smoke_diagnosis.py
 What this proves: Assistant executed `../.venv/bin/python -m unittest discover -s tests -v`: all 37 tests pass in 0.021s, including the stdout regression. Transport strict-schema construction, refusal/incomplete handling, SDK failure mapping, timeout, and disabled retries are verified offline. User-provided live command `python -m evals.smoke_diagnosis --live --max-output-tokens 512 --acknowledge-spend` returned a validated succeeded/successful_payment/no_action diagnosis with confidence 0.99 and error null. Live evidence is user-provided, not independently rerun; it covers one synthetic case only.
-Open question: Credential placement and smoke-run spending allowance remain unverified. Output token limits and spending acknowledgement are not a hard dollar cap. No additional paid request was made for this verification.
+Credential/budget evidence: User confirms OPENAI_API_KEY is in the shell environment and declares a $5 total smoke-test allowance. This records user-attested credential placement, not a historical secret scan. Output token limits and spending acknowledgement do not enforce a hard dollar cap; actual cumulative spend is not measured here.
+Open question: None for the bounded Phase 3 exit gate. Next phase: Phase 4 failure dataset. No additional paid request was made for this verification.
 ```
 
 ### Phase 4 — Failure dataset
@@ -139,7 +140,7 @@ Open question:
 | Deliverable | Phase | Status | Evidence |
 | --- | --- | --- | --- |
 | `app/models/diagnosis.py` | 1–2 | Done | Phase 1–2 bounded gates verified; 17 baseline tests pass |
-| `app/llm/diagnose.py` | 3 | In progress | Offline boundary verified with 28 passing tests; provider wiring remains |
+| `app/llm/diagnose.py` | 3 | Done | 37 tests pass; live synthetic success and user-attested credential/budget setup recorded |
 | `evals/datasets/week1.jsonl` | 1, 2, 4 | In progress | Five unique labelled synthetic inputs parse; expected enums validated |
 | `docs/learning-notes/week1.md` | 6 | Not started | — |
 
@@ -170,6 +171,7 @@ Open question:
 | 2026-10-02 | Phase 3 | Review | Offline boundary fixes verified; invalid-limit regression added | All 28 tests pass; Ruff unavailable in project venv | Finish Phase 3 provider transport and controlled smoke-run setup |
 | 2026-10-02 | Phase 3 | Review | Provider transport and smoke runner reviewed | Original 36 tests pass; new stdout regression fails; dry-run makes zero requests | Remove debug prints and record controlled smoke evidence |
 | 2026-10-02 | Phase 3 | Verification | Stdout regression resolved; supplied live smoke result recorded | Assistant-run suite: 37 tests pass in 0.021s; user live result: validated successful diagnosis, error null | Verify credential placement and spending allowance |
+| 2026-10-02 | Phase 3 | Closeout | Phase 3 exit gate supported; Phase 3 Done | User confirms shell-environment key and $5 total smoke-test allowance; passing tests and live result already recorded | Phase 4: expand labelled synthetic dataset to at least 30 cases |
 
 ## Definition of done
 
