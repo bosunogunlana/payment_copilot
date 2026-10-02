@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 4
 - Last evidence update: 2026-10-02
-- Main blocker: No Phase 3 blocker remains. Phase 4 dataset expansion is not yet complete.
-- Next action: Expand the synthetic dataset to at least 30 labelled cases with missing, conflicting, plausible-but-wrong, and insufficient-evidence scenarios in one Phase 4 batch.
+- Main blocker: No test blocker remains; Phase 4 case labels and coverage await consolidated review.
+- Next action: Review the 30-case dataset, rationales, and validation evidence before closing Phase 4 and starting model comparison.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -72,22 +72,22 @@ Open question: None for the bounded Phase 3 exit gate. Next phase: Phase 4 failu
 
 ### Phase 4 — Failure dataset
 
-- [ ] Expand `evals/datasets/week1.jsonl` to at least 30 cases.
-- [ ] Include missing-event cases.
-- [ ] Include conflicting-signal cases.
-- [ ] Include plausible-but-wrong-cause cases.
-- [ ] Include insufficient-evidence and escalation cases.
-- [ ] Give every case a stable ID and machine-checkable expected outcome.
-- [ ] Confirm that all data is synthetic.
+- [x] Expand `evals/datasets/week1.jsonl` to at least 30 cases.
+- [x] Include missing-event cases.
+- [x] Include conflicting-signal cases.
+- [x] Include plausible-but-wrong-cause cases.
+- [x] Include insufficient-evidence and escalation cases.
+- [x] Give every case a stable ID and machine-checkable expected outcome.
+- [x] Confirm that all data is synthetic.
 
 Evidence / notes:
 
 ```text
-Status:
-Dataset count:
-Case IDs reviewed:
-What this proves:
-Open question:
+Status: In progress; dataset prepared, consolidated review pending
+Dataset count: 30
+Case IDs reviewed: case-001 through case-030 generated/validated; learner label review pending
+What this proves: All 39 tests pass. Dataset tests validate unique IDs and payloads, typed inputs and enum labels, synthetic markers, rationales, and required failure coverage. Existing fixture checks validate baseline label agreement and Diagnosis JSON round-trips across all 30 cases. Original five inputs/labels are preserved. Provenance and bounded label semantics are documented in evals/datasets/README.md. No model calls were made.
+Open question: Review label policy and coverage before Phase 5. Synthetic consistency is not measured LLM accuracy; clean-checkout reproducibility has not been verified in this build.
 ```
 
 ### Phase 5 — Comparison and measurement
