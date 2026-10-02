@@ -5,10 +5,10 @@ Use this file to track evidence for the phased build. Check a box only when the 
 ## Current status
 
 - Overall status: In progress
-- Current phase: Phase 4
+- Current phase: Phase 5
 - Last evidence update: 2026-10-02
-- Main blocker: No test blocker remains; Phase 4 case labels and coverage await consolidated review.
-- Next action: Review the 30-case dataset, rationales, and validation evidence before closing Phase 4 and starting model comparison.
+- Main blocker: No Phase 4 blocker remains; Phase 5 comparison configurations and measurement harness are not yet prepared.
+- Next action: Prepare two named configurations and a comparison harness with category/tag breakdowns, schema validity, label match, confidence, latency, tokens, cost, and spending controls.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -83,11 +83,13 @@ Open question: None for the bounded Phase 3 exit gate. Next phase: Phase 4 failu
 Evidence / notes:
 
 ```text
-Status: In progress; dataset prepared, consolidated review pending
+Status: Done
 Dataset count: 30
-Case IDs reviewed: case-001 through case-030 generated/validated; learner label review pending
+Case IDs reviewed: case-001 through case-030 reviewed against bounded Week 1 evidence policy
 What this proves: All 39 tests pass. Dataset tests validate unique IDs and payloads, typed inputs and enum labels, synthetic markers, rationales, and required failure coverage. Existing fixture checks validate baseline label agreement and Diagnosis JSON round-trips across all 30 cases. Original five inputs/labels are preserved. Provenance and bounded label semantics are documented in evals/datasets/README.md. No model calls were made.
-Open question: Review label policy and coverage before Phase 5. Synthetic consistency is not measured LLM accuracy; clean-checkout reproducibility has not been verified in this build.
+Reproducibility evidence: All 39 tests pass in the workspace (0.013s) and an isolated git HEAD archive plus the three candidate Phase 4 files (0.014s), with PYTHONPATH removed. This verifies candidate source portability using the existing dependency environment; it is not a fresh dependency installation. Dataset/test/README changes remain outside HEAD until committed.
+Review: No blocking label or Python defect found. Labels comprise 4 success, 4 timeout, 3 authorization failure, and 19 unknown cases. Required tags cover 5 missing, 5 conflicting, 8 misleading-cause, 13 insufficient-evidence, and 5 repeated-event cases; counts overlap. Phase 5 must report category/tag breakdowns rather than aggregate accuracy alone. Matching labels does not prove likely_cause is grounded; unknown cause/confidence checks and cause-grounding review remain necessary.
+Open question: None for the bounded Phase 4 gate. Next phase: Phase 5 comparison. No paid model calls were made.
 ```
 
 ### Phase 5 — Comparison and measurement
@@ -141,20 +143,20 @@ Open question:
 | --- | --- | --- | --- |
 | `app/models/diagnosis.py` | 1–2 | Done | Phase 1–2 bounded gates verified; 17 baseline tests pass |
 | `app/llm/diagnose.py` | 3 | Done | 37 tests pass; live synthetic success and user-attested credential/budget setup recorded |
-| `evals/datasets/week1.jsonl` | 1, 2, 4 | In progress | Five unique labelled synthetic inputs parse; expected enums validated |
+| `evals/datasets/week1.jsonl` | 1, 2, 4 | Done | 30 synthetic cases reviewed; 39 tests pass in workspace and isolated candidate snapshot |
 | `docs/learning-notes/week1.md` | 6 | Not started | — |
 
 ## Failure coverage matrix
 
 | Failure case | Represented in dataset | Test/eval run | Result or note |
 | --- | --- | --- | --- |
-| Missing events | [ ] | [ ] | — |
-| Conflicting signals | [ ] | [ ] | — |
-| Plausible but wrong cause | [ ] | [ ] | — |
+| Missing events | [x] | [x] | 5 dataset cases; baseline checks pass |
+| Conflicting signals | [x] | [x] | 5 dataset cases; baseline checks pass |
+| Plausible but wrong cause | [x] | [x] | 8 dataset cases; baseline checks pass; LLM performance unmeasured |
 | Refusal | [ ] | [ ] | — |
 | Incomplete response | [ ] | [ ] | — |
 | Malformed structured output | [ ] | [ ] | — |
-| Insufficient evidence | [ ] | [ ] | — |
+| Insufficient evidence | [x] | [x] | 13 explicitly tagged cases; baseline escalation checks pass |
 
 ## Session log
 
@@ -175,11 +177,13 @@ Open question:
 
 ## Definition of done
 
+Phase 4 review (2026-10-02): 30 synthetic cases reviewed; all 39 tests pass in the workspace and isolated candidate snapshot. Phase 4 Done; next phase is Phase 5. No model comparison or paid call was performed.
+
 The Week 1 build/ship segment is complete when all of these are true:
 
 - [ ] The four curriculum deliverables exist.
 - [ ] The test command passes from a clean run.
-- [ ] At least 30 labelled synthetic scenarios are stored.
+- [x] At least 30 labelled synthetic scenarios are stored.
 - [ ] The diagnosis path handles success, uncertainty, and failure explicitly.
 - [ ] Two model configurations have been compared on the same cases.
 - [ ] Validity, confidence, latency, tokens, and cost are recorded.
