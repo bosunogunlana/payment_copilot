@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 5
 - Last evidence update: 2026-10-05
-- Main blocker: Missing provider usage is represented as a dict of nulls instead of usage=None; one regression fails. Comparison spending allocation and actual results remain pending.
-- Next action: Normalize usage once and return None when unavailable; pass all 49 tests, then allocate comparison spending before live runs.
+- Main blocker: Comparison exposes prompt/dataset policy misalignment for missing events and unsupported decline codes; baseline method docstring describes the wrong path.
+- Next action: Correct baseline/adapter documentation and make prompt rule precedence and supported-code scope explicit; preserve report 01 and review changes before another allocated run.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -96,24 +96,24 @@ Open question: None for the bounded Phase 4 gate. Next phase: Phase 5 comparison
 
 - [x] Name configuration A.
 - [x] Name configuration B.
-- [ ] Run both against the same cases.
-- [ ] Record schema validity.
-- [ ] Record correctness or acceptable-label match.
-- [ ] Record confidence.
-- [ ] Record latency.
-- [ ] Record tokens when available.
-- [ ] Record estimated cost.
-- [ ] Group failures by category.
-- [ ] Record the spending limit and skipped cases.
+- [x] Run both against the same cases.
+- [x] Record schema validity.
+- [x] Record correctness or acceptable-label match.
+- [x] Record confidence.
+- [x] Record latency.
+- [x] Record tokens when available.
+- [x] Record estimated cost.
+- [x] Group failures by category.
+- [x] Record the spending limit and skipped cases.
 
 Evidence / notes:
 
 ```text
 Status: In progress
-Report location: Pending actual comparison; runner evals/compare_diagnosis.py and configurations evals/configs/week1.json prepared
-Decision: Pending actual comparison and cause-grounding review
-What this proves: Original 46 tests pass after learner usage changes. Added regressions bring the suite to 49 methods: only missing-usage normalization fails. Eight evaluator tests pass, including preflight validation and retaining a checkpoint before a later call crashes. Runner validates cases/configs before live calls and checkpoints completed rows. Dry-run plans 60 requests and makes zero. Usage counts survive completed/refusal/incomplete responses. Pricing and reservation limits are documented in evals/README.md.
-Open question: Normalize missing usage to None and reuse one usage object across all returns; finish client annotation/formatting. No learner core code was changed by the assistant. No paid comparison was run. Comparison allowance is separate from the $5 smoke allowance. Local reservations do not enforce a provider billing cap, and model accuracy/causes remain unmeasured.
+Report location: evals/reports/week1-comparison-01.json; evals/reports/week1-comparison-01-review.md
+Decision: Provisional Luna for cost/latency; neither satisfies all current acceptance rules. Align prompt/dataset policy before drawing a capability conclusion.
+What this proves: All 49 tests pass in 0.020s. Existing live report reviewed: both models attempt 30 cases, no skips/errors, 100% schema validity; Luna matches 27 labels, Sol 28. Both have two unsafe expected-unknown outcomes. Estimated costs $0.003422/$0.058462; mean latency 1.798s/4.829s. Report records $3 allocation and $0.05 reservations; dataset hash matches. Cause-grounding review is saved separately so original results remain intact. No new paid requests were made during review.
+Open question: Fix prompt ambiguity (missing events override success; only AUTH_DECLINED supported for failed diagnoses) and misplaced baseline docstring. Phase 5 remains open pending policy alignment review. Historical measurements are preserved; further paid runs require an allocated budget.
 ```
 
 ### Phase 6 — Local ship
