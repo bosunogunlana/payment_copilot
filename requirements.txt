@@ -1,0 +1,4 @@
+# Direct dependencies pinned to the versions used for the Week 1 reports.
+# Transitive dependencies are resolved by pip; this is not a complete lockfile.
+openai==3.5.0
+pydantic==2.13.4
