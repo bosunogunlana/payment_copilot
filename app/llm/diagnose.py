@@ -30,6 +30,13 @@ class DiagnosisResult(BaseModel):
 
 
 class DiagnosisAdapter:
+    """Diagnose payments through an injected LLM transport.
+
+    Builds a bounded request and validates model output against Diagnosis.
+    Shares the baseline's output schema, but does not execute its rules.
+    Schema validity does not establish factual correctness.
+    """
+
     SYSTEM_INSTRUCTION = dedent("""
         You are the diagnosis component of a simulator-first Payment Reliability Copilot.
 
@@ -58,6 +65,8 @@ class DiagnosisAdapter:
         - Write a brief likely_cause grounded in the supplied evidence.
         - Treat confidence as a heuristic assessment of evidential support, not a calibrated probability.
         - Recommend only an action justified by the evidence. A recommendation does not authorize or execute that action.
+        - If the event history is empty, return unknown status/category, null likely_cause, human escalation, and confidence below 0.5, regardless of the recorded payment status.
+        - The supported patterns below are exhaustive for this prototype. For failed payments, only AUTH_DECLINED on a provider.declined event supports authorization_failure. Other or missing reason codes, including INSUFFICIENT_FUNDS, produce the unknown outcome.
 
         Known supported patterns:
         - A recorded succeeded payment without conflicting evidence supports successful_payment and no_action.
@@ -85,6 +94,15 @@ class DiagnosisAdapter:
         self.max_payload_bytes = max_payload_bytes
 
     def diagnose(self, payment: Payment) -> DiagnosisResult:
+        """Return a validated model diagnosis or an explicit adapter error.
+
+        Rejects oversized input before calling the transport. Handles
+        refusal, incomplete output, malformed output, and transport failure.
+
+        A valid unknown diagnosis is a successful response, distinct from
+        an adapter error. Recommendations do not execute payment actions.
+        """
+
         if len(payment.events) > self.max_events:
             return DiagnosisResult(diagnosis=None, error=DiagnosisError.INPUT_TOO_LARGE)
 
