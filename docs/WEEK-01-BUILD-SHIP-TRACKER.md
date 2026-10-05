@@ -5,10 +5,10 @@ Use this file to track evidence for the phased build. Check a box only when the 
 ## Current status
 
 - Overall status: In progress
-- Current phase: Phase 5
+- Current phase: Phase 6
 - Last evidence update: 2026-10-05
-- Main blocker: No policy/documentation correctness blocker remains. Revised prompt behavior has not been measured in a new comparison.
-- Next action: Preserve report 01 and run the revised prompt into a new report under an explicit comparison allocation; review paired results and grounded causes before closing Phase 5.
+- Main blocker: No Phase 5 blocker remains. Phase 6 packaging, dependency reproducibility, and learning note remain unfinished.
+- Next action: Package local diagnosis/evaluation commands, verify source/dependency reproducibility, and write the Week 1 learning note using both comparison reports.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -109,12 +109,13 @@ Open question: None for the bounded Phase 4 gate. Next phase: Phase 5 comparison
 Evidence / notes:
 
 ```text
-Status: In progress
-Report location: evals/reports/week1-comparison-01.json; evals/reports/week1-comparison-01-review.md
-Decision: Provisional Luna for cost/latency; neither satisfies all current acceptance rules. Align prompt/dataset policy before drawing a capability conclusion.
+Status: Done
+Report location: evals/reports/week1-comparison-01.json; evals/reports/week1-comparison-01-review.md; evals/reports/week1-comparison-02.json; evals/reports/week1-comparison-02-review.md
+Decision: Keep Luna for the bounded Week 1 slice: report 02 shows equal observed quality with lower estimated cost and mean latency. No production claim.
 What this proves: All 49 tests pass in 0.020s. Existing live report reviewed: both models attempt 30 cases, no skips/errors, 100% schema validity; Luna matches 27 labels, Sol 28. Both have two unsafe expected-unknown outcomes. Estimated costs $0.003422/$0.058462; mean latency 1.798s/4.829s. Report records $3 allocation and $0.05 reservations; dataset hash matches. Cause-grounding review is saved separately so original results remain intact. No new paid requests were made during review.
 Policy revision review: Correct baseline and adapter docstrings are present. Prompt explicitly makes empty event history unknown regardless of recorded status and declares supported patterns exhaustive, including only same-event AUTH_DECLINED for failed-payment diagnoses. All 49 offline tests pass in 0.019s. This verifies code contracts and instruction alignment, not new model adherence. Nonblocking constructor annotations and whitespace/usage simplification remain.
-Open question: Phase 5 remains open pending a new comparison of the revised prompt and cause review. Historical report 01 remains preserved; further paid runs require an allocated budget. No paid request was made during this review.
+Final comparison review: Report 02 matches the current prompt/dataset hashes; both configurations attempt all 30 cases, match all labels, validate all schemas, and have zero unsafe unknown outcomes/errors/skips. Token records are complete. Manual recognized-cause review found only supported event/status claims. Luna estimated cost $0.0036061 and mean latency 1.846s; Sol $0.063132 and 2.271s. Report records $3 allocation/$0.05 reservations. All 49 tests pass in 0.019s. Original reports remain unchanged; review decisions are separate artifacts.
+Open question: None for the bounded Phase 5 gate. Phase 6 is next. No paid request was made during this review. Broader accuracy, calibration, and repeat-run variance remain outside this evidence.
 ```
 
 ### Phase 6 — Local ship
