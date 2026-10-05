@@ -17,7 +17,7 @@ def create_openai_client(*, api_key: str) -> OpenAI:
 
 class OpenAITransport:
     def __init__(
-        self, *, client, model: str = Models.DEFAULT, max_output_tokens: int
+        self, *, client: OpenAI, model: str = Models.DEFAULT, max_output_tokens: int
     ) -> None:
         if max_output_tokens <= 0:
             raise ValueError("max_output_token must be positive.")
@@ -55,8 +55,25 @@ class OpenAITransport:
         except APIError as exc:
             raise ConnectionError("Diagnosis request failed") from exc
 
+        usage = getattr(response, "usage", None)
+        usage_json = { 
+            "input_tokens": None,
+            "output_tokens": None
+        }
+        if usage is not None:
+            usage_json["input_tokens"] = usage.input_tokens
+            usage_json["output_tokens"] = usage.output_tokens
+        else:
+            usage_json = None
+
+
         if response.status == "incomplete":
-            return {"status": "incomplete", "refusal": None, "output_json": None}
+            return {
+                "status": "incomplete",
+                "refusal": None,
+                "output_json": None,
+                "usage": usage_json
+            }
 
         if response.status != "completed":
             raise ConnectionError("Diagnosis response did not complete")
@@ -73,13 +90,14 @@ class OpenAITransport:
                         "status": "completed",
                         "refusal": content.refusal,
                         "output_json": None,
+                        "usage": usage_json
                     }
 
                 if content.type == "output_text":
                     text_parts.append(content.text)
-
         return {
             "status": "completed",
             "refusal": None,
             "output_json": "".join(text_parts) or None,
+            "usage": usage_json
         }

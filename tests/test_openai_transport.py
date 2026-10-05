@@ -9,12 +9,12 @@ from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from openai import APIError, APITimeoutError
+from test_diagnosis import event, payment
+from test_llm_diagnose import VALID_OUTPUT
 
 from app.llm.diagnose import DiagnosisAdapter, DiagnosisError
 from app.llm.openai_transport import OpenAITransport, create_openai_client
 from app.models.diagnosis import Diagnosis, PaymentStatus
-from test_diagnosis import event, payment
-from test_llm_diagnose import VALID_OUTPUT
 
 
 def response(*, status="completed", content=None):
@@ -66,10 +66,12 @@ class OpenAITransportTest(unittest.TestCase):
         self.assertEqual(json.loads(result["output_json"]), VALID_OUTPUT)
 
     def test_refusal_is_extracted_even_when_text_is_present(self):
-        self.client.responses.create.return_value = response(content=[
-            SimpleNamespace(type="output_text", text=json.dumps(VALID_OUTPUT)),
-            SimpleNamespace(type="refusal", refusal="Cannot diagnose."),
-        ])
+        self.client.responses.create.return_value = response(
+            content=[
+                SimpleNamespace(type="output_text", text=json.dumps(VALID_OUTPUT)),
+                SimpleNamespace(type="refusal", refusal="Cannot diagnose."),
+            ]
+        )
         result = self.transport(self.request)
         self.assertEqual(result["refusal"], "Cannot diagnose.")
         self.assertIsNone(result["output_json"])
@@ -116,7 +118,9 @@ class OpenAITransportTest(unittest.TestCase):
     def test_invalid_output_limit_is_rejected(self):
         for limit in (0, -1):
             with self.subTest(limit=limit), self.assertRaises(ValueError):
-                OpenAITransport(client=self.client, model="test-model", max_output_tokens=limit)
+                OpenAITransport(
+                    client=self.client, model="test-model", max_output_tokens=limit
+                )
 
     def test_api_failure_does_not_write_provider_details_to_stdout(self):
         self.client.responses.create.side_effect = APIError(
@@ -129,3 +133,23 @@ class OpenAITransportTest(unittest.TestCase):
             )
         self.assertEqual(result.error, DiagnosisError.API_FAILURE)
         self.assertEqual(stdout.getvalue(), "")
+
+    def test_usage_is_preserved_on_completed_refusal_and_incomplete_responses(self):
+        for value in (
+            response(),
+            response(status="incomplete"),
+            response(
+                content=[SimpleNamespace(type="refusal", refusal="Cannot diagnose.")]
+            ),
+        ):
+            with self.subTest(status=value.status, content=value.output[0].content):
+                value.usage = SimpleNamespace(input_tokens=100, output_tokens=20)
+                self.client.responses.create.return_value = value
+                result = self.transport(self.request)
+                self.assertEqual(
+                    result.get("usage"), {"input_tokens": 100, "output_tokens": 20}
+                )
+
+    def test_missing_provider_usage_is_explicitly_none(self):
+        self.client.responses.create.return_value = response()
+        self.assertIsNone(self.transport(self.request)["usage"])
