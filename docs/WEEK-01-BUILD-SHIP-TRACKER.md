@@ -6,9 +6,9 @@ Use this file to track evidence for the phased build. Check a box only when the 
 
 - Overall status: In progress
 - Current phase: Phase 5
-- Last evidence update: 2026-10-02
-- Main blocker: Transport drops response usage; new acceptance test fails on completed/refusal/incomplete paths. Comparison spending allocation and actual results remain pending.
-- Next action: Preserve input/output token usage in transport envelopes, pass all 46 tests, review the comparison harness, and explicitly allocate comparison spending before live runs.
+- Last evidence update: 2026-10-05
+- Main blocker: Missing provider usage is represented as a dict of nulls instead of usage=None; one regression fails. Comparison spending allocation and actual results remain pending.
+- Next action: Normalize usage once and return None when unavailable; pass all 49 tests, then allocate comparison spending before live runs.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -112,8 +112,8 @@ Evidence / notes:
 Status: In progress
 Report location: Pending actual comparison; runner evals/compare_diagnosis.py and configurations evals/configs/week1.json prepared
 Decision: Pending actual comparison and cause-grounding review
-What this proves: A-luna and B-sol are named with the same prompt and 2048-token output limit. Six offline evaluator tests pass for scoring, uncertainty safety, token-cost estimates, reservation skips, and missing-usage stop behavior. Dry-run plans 60 requests and makes zero. Full suite runs 46 test methods; only the new usage-preservation method fails, across three response-path subtests. Standard uncached-text pricing assumptions and limits are documented in evals/README.md.
-Open question: Learner must preserve usage in every transport envelope; no core code was changed. No paid comparison was run. Comparison allowance is separate from the $5 smoke allowance. The local reservation policy is not a provider-enforced billing cap.
+What this proves: Original 46 tests pass after learner usage changes. Added regressions bring the suite to 49 methods: only missing-usage normalization fails. Eight evaluator tests pass, including preflight validation and retaining a checkpoint before a later call crashes. Runner validates cases/configs before live calls and checkpoints completed rows. Dry-run plans 60 requests and makes zero. Usage counts survive completed/refusal/incomplete responses. Pricing and reservation limits are documented in evals/README.md.
+Open question: Normalize missing usage to None and reuse one usage object across all returns; finish client annotation/formatting. No learner core code was changed by the assistant. No paid comparison was run. Comparison allowance is separate from the $5 smoke allowance. Local reservations do not enforce a provider billing cap, and model accuracy/causes remain unmeasured.
 ```
 
 ### Phase 6 — Local ship
@@ -176,6 +176,8 @@ Open question:
 | 2026-10-02 | Phase 3 | Closeout | Phase 3 exit gate supported; Phase 3 Done | User confirms shell-environment key and $5 total smoke-test allowance; passing tests and live result already recorded | Phase 4: expand labelled synthetic dataset to at least 30 cases |
 
 ## Definition of done
+
+Phase 5 review (2026-10-05): original 46 tests pass; expanded 49-method suite has one missing-usage contract failure. Assistant-owned harness preflight/checkpoint gaps fixed and tested. Phase 5 remains open pending usage normalization, comparison allocation, actual report, and cause-grounding review.
 
 Phase 4 review (2026-10-02): 30 synthetic cases reviewed; all 39 tests pass in the workspace and isolated candidate snapshot. Phase 4 Done; next phase is Phase 5. No model comparison or paid call was performed.
 
