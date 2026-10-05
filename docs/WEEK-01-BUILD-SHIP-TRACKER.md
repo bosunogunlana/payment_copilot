@@ -4,11 +4,11 @@ Use this file to track evidence for the phased build. Check a box only when the 
 
 ## Current status
 
-- Overall status: In progress
-- Current phase: Phase 6
+- Overall status: Done (Week 1 implementation; browser curriculum completion remains separate)
+- Current phase: Phase 6 — Done
 - Last evidence update: 2026-10-05
-- Main blocker: Phase 6 packaging is untracked; learning note needs a corrected temperature explanation and limitations/next action. Fresh dependency setup was verified on a candidate snapshot, not committed packaging.
-- Next action: Correct and finish the learning note, commit the Phase 6 packaging artifacts, then verify their documented commands from committed source.
+- Main blocker: None for the Week 1 local ship gate.
+- Next action: Confirm Required readings and supported checkpoints in the browser tracker, then orient to Week 2 using its curriculum and build documents.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -127,16 +127,17 @@ Open question: None for the bounded Phase 5 gate. Phase 6 is next. No paid reque
 - [x] Explain the primitive and its boundary.
 - [x] Explain one deliberate failure.
 - [x] Include measurements and a trade-off.
-- [ ] Record limitations and the next smallest action.
+- [x] Record limitations and the next smallest action.
 
 Evidence / notes:
 
 ```text
-Status: In progress
-Commands: `../.venv/bin/python -m unittest discover -s tests -q`; isolated git HEAD archive run with freshly installed dependency environment
-Files or links: README.md; docs/WEEK-01-LOCAL-GUIDE.md; requirements.txt; evals/diagnose_fixture.py; tests/test_diagnose_fixture.py; docs/learning-notes/week1.md
-What this proves: 53 workspace tests pass (0.498s). Isolated committed HEAD passes 49 tests (0.021s), including loading and validating the 30-case dataset. Earlier isolated candidate snapshot passed 53 tests after a fresh dependency installation. Committed HEAD does not yet contain README, requirements, fixture CLI or learning note. Table values recomputed from report 02 agree with the learning note. No paid calls made.
-Open question: Correct the claim that lower temperature means greater accuracy; restore limitations and next smallest action; commit packaging before final source reproducibility verification. Course browser state was not inspected or changed.
+Status: Done
+Commands: `../.venv/bin/python -m unittest discover -s tests -q`; isolated committed-source tests; `python -m evals.diagnose_fixture --output diagnosis.json`; smoke and comparison dry runs
+Files or links: committed source 5774406; README.md; docs/WEEK-01-LOCAL-GUIDE.md; requirements.txt; evals/diagnose_fixture.py; tests/test_diagnose_fixture.py; docs/learning-notes/week1.md
+What this proves: 53 workspace tests pass (0.482s). An isolated git archive of 5774406 passes all 53 tests (0.394s), including typed loading of the 30-case dataset. The fixture command saves a validated success diagnosis. Both API runners report zero requests in dry-run. All local links in the root README, weekly guide, and note resolve. The isolated run uses the fresh dependency environment installed during Phase 6 build; a second dependency installation was not performed. Direct dependencies are pinned, not transitively locked.
+Learning review: Temperature explanation corrected; Python-qualified names and bounded Luna decision present; limitations and Week 2 next action recorded. Nonblocking wording remains: replace “unbounded system prompt” with “underspecified evidence policy.” Constructor annotations/formatting and usage simplification remain optional cleanup.
+Open question: None for the bounded local ship gate. Browser Required readings/completion were not inspected or changed. No paid requests or real payment actions were performed. Next implementation scope is Week 2 after curriculum orientation.
 ```
 
 ## Deliverable inventory
@@ -146,7 +147,7 @@ Open question: Correct the claim that lower temperature means greater accuracy; 
 | `app/models/diagnosis.py` | 1–2 | Done | Phase 1–2 bounded gates verified; 17 baseline tests pass |
 | `app/llm/diagnose.py` | 3 | Done | 37 tests pass; live synthetic success and user-attested credential/budget setup recorded |
 | `evals/datasets/week1.jsonl` | 1, 2, 4 | Done | 30 synthetic cases reviewed; 39 tests pass in workspace and isolated candidate snapshot |
-| `docs/learning-notes/week1.md` | 6 | In progress | Learner note reviewed; measurements match report; conceptual correction and limitations/next action remain |
+| `docs/learning-notes/week1.md` | 6 | Done | Corrected concepts, measured trade-off, limitations and next action verified in 5774406 |
 
 ## Failure coverage matrix
 
@@ -179,6 +180,8 @@ Open question: Correct the claim that lower temperature means greater accuracy; 
 
 | 2026-10-05 | Phase 6 | Review | Packaging and learner note reviewed; Phase 6 stays open | 53 workspace tests; 49 committed-source tests; table recomputed | Correct temperature explanation, restore limitations/next action, commit packaging and verify |
 
+| 2026-10-05 | Phase 6 | Closeout review | Week 1 local ship gate verified; Phase 6 Done | 53 tests in workspace and committed-source archive; offline commands and links pass | Confirm browser readings/checkpoints, then Week 2 orientation |
+
 ## Definition of done
 
 Phase 5 review (2026-10-05): original 46 tests pass; expanded 49-method suite has one missing-usage contract failure. Assistant-owned harness preflight/checkpoint gaps fixed and tested. Phase 5 remains open pending usage normalization, comparison allocation, actual report, and cause-grounding review.
@@ -187,11 +190,11 @@ Phase 4 review (2026-10-02): 30 synthetic cases reviewed; all 39 tests pass in t
 
 The Week 1 build/ship segment is complete when all of these are true:
 
-- [ ] The four curriculum deliverables exist.
-- [ ] The test command passes from a clean run.
+- [x] The four curriculum deliverables exist.
+- [x] The test command passes from a clean run.
 - [x] At least 30 labelled synthetic scenarios are stored.
-- [ ] The diagnosis path handles success, uncertainty, and failure explicitly.
-- [ ] Two model configurations have been compared on the same cases.
-- [ ] Validity, confidence, latency, tokens, and cost are recorded.
-- [ ] The learning note explains what failed and what the measurements changed.
-- [ ] No production integration or real-money action is implied by the result.
+- [x] The diagnosis path handles success, uncertainty, and failure explicitly.
+- [x] Two model configurations have been compared on the same cases.
+- [x] Validity, confidence, latency, tokens, and cost are recorded.
+- [x] The learning note explains what failed and what the measurements changed.
+- [x] No production integration or real-money action is implied by the result.
