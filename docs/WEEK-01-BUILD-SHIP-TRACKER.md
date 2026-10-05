@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 5
 - Last evidence update: 2026-10-05
-- Main blocker: Comparison exposes prompt/dataset policy misalignment for missing events and unsupported decline codes; baseline method docstring describes the wrong path.
-- Next action: Correct baseline/adapter documentation and make prompt rule precedence and supported-code scope explicit; preserve report 01 and review changes before another allocated run.
+- Main blocker: No policy/documentation correctness blocker remains. Revised prompt behavior has not been measured in a new comparison.
+- Next action: Preserve report 01 and run the revised prompt into a new report under an explicit comparison allocation; review paired results and grounded causes before closing Phase 5.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -113,7 +113,8 @@ Status: In progress
 Report location: evals/reports/week1-comparison-01.json; evals/reports/week1-comparison-01-review.md
 Decision: Provisional Luna for cost/latency; neither satisfies all current acceptance rules. Align prompt/dataset policy before drawing a capability conclusion.
 What this proves: All 49 tests pass in 0.020s. Existing live report reviewed: both models attempt 30 cases, no skips/errors, 100% schema validity; Luna matches 27 labels, Sol 28. Both have two unsafe expected-unknown outcomes. Estimated costs $0.003422/$0.058462; mean latency 1.798s/4.829s. Report records $3 allocation and $0.05 reservations; dataset hash matches. Cause-grounding review is saved separately so original results remain intact. No new paid requests were made during review.
-Open question: Fix prompt ambiguity (missing events override success; only AUTH_DECLINED supported for failed diagnoses) and misplaced baseline docstring. Phase 5 remains open pending policy alignment review. Historical measurements are preserved; further paid runs require an allocated budget.
+Policy revision review: Correct baseline and adapter docstrings are present. Prompt explicitly makes empty event history unknown regardless of recorded status and declares supported patterns exhaustive, including only same-event AUTH_DECLINED for failed-payment diagnoses. All 49 offline tests pass in 0.019s. This verifies code contracts and instruction alignment, not new model adherence. Nonblocking constructor annotations and whitespace/usage simplification remain.
+Open question: Phase 5 remains open pending a new comparison of the revised prompt and cause review. Historical report 01 remains preserved; further paid runs require an allocated budget. No paid request was made during this review.
 ```
 
 ### Phase 6 — Local ship
