@@ -7,8 +7,8 @@ Use this file to track evidence for the phased build. Check a box only when the 
 - Overall status: In progress
 - Current phase: Phase 6
 - Last evidence update: 2026-10-05
-- Main blocker: No Phase 5 blocker remains. Phase 6 packaging, dependency reproducibility, and learning note remain unfinished.
-- Next action: Package local diagnosis/evaluation commands, verify source/dependency reproducibility, and write the Week 1 learning note using both comparison reports.
+- Main blocker: Phase 6 packaging is untracked; learning note needs a corrected temperature explanation and limitations/next action. Fresh dependency setup was verified on a candidate snapshot, not committed packaging.
+- Next action: Correct and finish the learning note, commit the Phase 6 packaging artifacts, then verify their documented commands from committed source.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -120,23 +120,23 @@ Open question: None for the bounded Phase 5 gate. Phase 6 is next. No paid reque
 
 ### Phase 6 — Local ship
 
-- [ ] Document the one-command diagnosis path.
-- [ ] Run the tests from a clean checkout.
-- [ ] Load the dataset from a clean checkout.
-- [ ] Write `docs/learning-notes/week1.md`.
-- [ ] Explain the primitive and its boundary.
-- [ ] Explain one deliberate failure.
-- [ ] Include measurements and a trade-off.
+- [x] Document the one-command diagnosis path.
+- [x] Run the tests from a clean checkout.
+- [x] Load the dataset from a clean checkout.
+- [x] Write `docs/learning-notes/week1.md`.
+- [x] Explain the primitive and its boundary.
+- [x] Explain one deliberate failure.
+- [x] Include measurements and a trade-off.
 - [ ] Record limitations and the next smallest action.
 
 Evidence / notes:
 
 ```text
-Status:
-Commands:
-Files or links:
-What this proves:
-Open question:
+Status: In progress
+Commands: `../.venv/bin/python -m unittest discover -s tests -q`; isolated git HEAD archive run with freshly installed dependency environment
+Files or links: README.md; docs/WEEK-01-LOCAL-GUIDE.md; requirements.txt; evals/diagnose_fixture.py; tests/test_diagnose_fixture.py; docs/learning-notes/week1.md
+What this proves: 53 workspace tests pass (0.498s). Isolated committed HEAD passes 49 tests (0.021s), including loading and validating the 30-case dataset. Earlier isolated candidate snapshot passed 53 tests after a fresh dependency installation. Committed HEAD does not yet contain README, requirements, fixture CLI or learning note. Table values recomputed from report 02 agree with the learning note. No paid calls made.
+Open question: Correct the claim that lower temperature means greater accuracy; restore limitations and next smallest action; commit packaging before final source reproducibility verification. Course browser state was not inspected or changed.
 ```
 
 ## Deliverable inventory
@@ -146,7 +146,7 @@ Open question:
 | `app/models/diagnosis.py` | 1–2 | Done | Phase 1–2 bounded gates verified; 17 baseline tests pass |
 | `app/llm/diagnose.py` | 3 | Done | 37 tests pass; live synthetic success and user-attested credential/budget setup recorded |
 | `evals/datasets/week1.jsonl` | 1, 2, 4 | Done | 30 synthetic cases reviewed; 39 tests pass in workspace and isolated candidate snapshot |
-| `docs/learning-notes/week1.md` | 6 | Not started | — |
+| `docs/learning-notes/week1.md` | 6 | In progress | Learner note reviewed; measurements match report; conceptual correction and limitations/next action remain |
 
 ## Failure coverage matrix
 
@@ -176,6 +176,8 @@ Open question:
 | 2026-10-02 | Phase 3 | Review | Provider transport and smoke runner reviewed | Original 36 tests pass; new stdout regression fails; dry-run makes zero requests | Remove debug prints and record controlled smoke evidence |
 | 2026-10-02 | Phase 3 | Verification | Stdout regression resolved; supplied live smoke result recorded | Assistant-run suite: 37 tests pass in 0.021s; user live result: validated successful diagnosis, error null | Verify credential placement and spending allowance |
 | 2026-10-02 | Phase 3 | Closeout | Phase 3 exit gate supported; Phase 3 Done | User confirms shell-environment key and $5 total smoke-test allowance; passing tests and live result already recorded | Phase 4: expand labelled synthetic dataset to at least 30 cases |
+
+| 2026-10-05 | Phase 6 | Review | Packaging and learner note reviewed; Phase 6 stays open | 53 workspace tests; 49 committed-source tests; table recomputed | Correct temperature explanation, restore limitations/next action, commit packaging and verify |
 
 ## Definition of done
 
