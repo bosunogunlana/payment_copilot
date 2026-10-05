@@ -60,6 +60,15 @@ class Diagnosis(BaseModel):
 
     @classmethod
     def diagnose(cls, payment: Payment) -> "Diagnosis":
+        """Return a deterministic reference diagnosis from recorded evidence.
+
+        Missing, conflicting, or unsupported evidence produces an unknown diagnosis
+        with human escalation.
+
+        Used for behavior validation and comparison. The LLM adapter does
+        not call this method.
+        """
+        
         if not payment.events:
             return cls(
                 status=PaymentStatus.UNKNOWN,
