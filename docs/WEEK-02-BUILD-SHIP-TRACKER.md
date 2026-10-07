@@ -6,11 +6,11 @@ Check boxes only when reviewed artifacts, tests, traces, metrics or notes suppor
 
 ## Current status
 
-- Overall status: Not started
+- Overall status: In progress
 - Current phase: Phase 1
-- Last evidence update: —
-- Main blocker: Not assessed
-- Next action: Read the Week 2 prerequisites and plan; define one coherent Phase 1 batch.
+- Last evidence update: 2026-10-07
+- Main blocker: Rejection messages are empty; validated payment IDs are absent from success/denial traces.
+- Next action: Populate safe rejection messages and validated trace payment IDs; rerun the full acceptance suite.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -18,7 +18,7 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
 | Phase | Focus | Status | Evidence |
 | --- | --- | --- | --- |
-| 1 | [Tool contracts and identity](#phase-1) | Not started | — |
+| 1 | [Tool contracts and identity](#phase-1) | In progress | Initial 64 tests pass; expanded 66-method suite exposes two contract gaps |
 | 2 | [Fixture-backed execution](#phase-2) | Not started | — |
 | 3 | [Manual tool lifecycle](#phase-3) | Not started | — |
 | 4 | [Bounded recovery and replay](#phase-4) | Not started | — |
@@ -31,23 +31,23 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
 ### Phase 1 — Tool contracts and identity
 
-- [ ] Define schemas for get_payment, get_payment_events, get_ledger_entries and get_provider_status.
-- [ ] Carry trusted organization identity separately from model arguments.
+- [x] Define schemas for get_payment, get_payment_events, get_ledger_entries and get_provider_status.
+- [x] Carry trusted organization identity separately from model arguments.
 - [ ] Define ToolError(code, retryable, message) and safe trace fields.
-- [ ] Reject malformed arguments and denied authorization before fixture access.
+- [x] Reject malformed arguments and denied authorization before fixture access.
 
 Evidence / notes:
 
 ```text
-Status: Not started
-Files or links:
-Command / review procedure:
-Dataset / prompt / model / policy versions (where relevant):
-Observed result / metrics:
-What this proves:
-Limitations / unverified behavior:
-Open question / blocker:
-Next action:
+Status: In progress
+Files or links: app/tools/contracts.py; app/tools/errors.py; app/tools/gateway.py; tests/test_tool_contracts.py
+Command / review procedure: `../.venv/bin/python -m unittest discover -s tests -q`
+Dataset / prompt / model / policy versions (where relevant): Phase 1 mocks only; no fixtures or model calls
+Observed result / metrics: Existing 64 tests pass (0.407s). Expanded 66-method suite fails 11 subtests across two new methods: three blank rejection messages and eight missing validated payment IDs in success/denial traces.
+What this proves: Four strict argument schemas, trusted identity separation, validation-before-authorization, deny-before-reader, literal-True decisions, bounded trace fields and exclusive results pass existing checks.
+Limitations / unverified behavior: Real fixture tenant isolation is Phase 2; no live model requests. Core files remain learner-owned and untracked at review time.
+Open question / blocker: Populate explicit safe messages and validated payment IDs. Error enum/string values are inconsistent but current emitted codes pass existing checks.
+Next action: Fix both gaps in one batch and rerun review.
 ```
 
 <a id="phase-2"></a>
@@ -217,7 +217,7 @@ Append verified work without rewriting earlier evidence.
 
 | Date | Phase | Timebox | Completed / reviewed | Evidence | Next action |
 | --- | --- | --- | --- | --- | --- |
-| — | — | — | — | — | — |
+| 2026-10-07 | Phase 1 | Review | Validation and authorization gate verified; error/trace gaps reproduced | 64 passing original tests; 66 expanded methods with 11 failing subtests | Add safe messages and validated trace IDs |
 
 ## Definition of done
 
