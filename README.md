@@ -38,7 +38,8 @@ guide before running them.
 Start with the [curriculum](docs/payment-reliability-copilot/CURRICULUM.md) for the
 learning sequence and the [course tracker instructions](docs/payment-reliability-copilot/README.md)
 for browser-based progress. Weekly build trackers record implementation evidence
-separately from curriculum completion.
+separately from curriculum completion. Open the [build/ship learning map](docs/BUILD-SHIP-INDEX.md)
+for phased plans and evidence trackers for all 16 weeks.
 
 | Week | Guide | Build plan | Evidence tracker |
 | --- | --- | --- | --- |
