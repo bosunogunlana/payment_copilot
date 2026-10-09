@@ -7,10 +7,10 @@ Check boxes only when reviewed artifacts, tests, traces, metrics or notes suppor
 ## Current status
 
 - Overall status: In progress
-- Current phase: Phase 2
+- Current phase: Phase 3
 - Last evidence update: 2026-10-09
-- Main blocker: None for Phase 1. Fixture-backed execution and tenant-isolation evidence remain to be built in Phase 2.
-- Next action: Phase 2 — implement the four synthetic fixture-backed tools and verify tenant-scoped reads and explicit missing/malformed/empty outcomes.
+- Main blocker: None for Phase 2. Manual tool lifecycle remains to be implemented.
+- Next action: Phase 3 — connect model tool requests to the existing gateway with bounded steps and observable traces.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -19,7 +19,7 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 | Phase | Focus | Status | Evidence |
 | --- | --- | --- | --- |
 | 1 | [Tool contracts and identity](#phase-1) | Done | All 66 tests pass; messages, trace IDs and keyword callable contracts verified |
-| 2 | [Fixture-backed execution](#phase-2) | Not started | — |
+| 2 | [Fixture-backed execution](#phase-2) | Done | All 78 tests pass, including 12 Phase 2 methods |
 | 3 | [Manual tool lifecycle](#phase-3) | Not started | — |
 | 4 | [Bounded recovery and replay](#phase-4) | Not started | — |
 | 5 | [Tool selection and recovery evaluation](#phase-5) | Not started | — |
@@ -54,23 +54,23 @@ Next action: Phase 2 fixture-backed execution. No fixture implementation, tenant
 
 ### Phase 2 — Fixture-backed execution
 
-- [ ] Implement the four tools using synthetic simulator fixtures.
-- [ ] Cover unknown payment IDs, invalid providers and payment-not-found.
-- [ ] Distinguish malformed and empty responses from successful evidence.
-- [ ] Test Org A cannot read Org B fixtures through any tool.
+- [x] Implement the four tools using synthetic simulator fixtures.
+- [x] Cover unknown payment IDs, invalid providers and payment-not-found.
+- [x] Distinguish malformed and empty responses from successful evidence.
+- [x] Test Org A cannot read Org B fixtures through any tool.
 
 Evidence / notes:
 
 ```text
-Status: Not started
-Files or links:
-Command / review procedure:
-Dataset / prompt / model / policy versions (where relevant):
-Observed result / metrics:
-What this proves:
-Limitations / unverified behavior:
-Open question / blocker:
-Next action:
+Status: Done
+Files or links: app/tools/fixture_reader.py; app/models/evidence.py; app/tools/errors.py; app/tools/gateway.py; simulator/fixtures/week2_tools.json; simulator/fixtures/README.md; tests/test_fixture_tools.py
+Command / review procedure: `../.venv/bin/python -m unittest discover -s tests -q`
+Dataset / prompt / model / policy versions (where relevant): synthetic week2_tools.json version 1; offline mocks; no model calls
+Observed result / metrics: All 78 tests pass in 0.434s; 12 Phase 2 test methods cover typed/deterministic outputs, tenant collisions, cross-tenant/nonexistent IDs, invalid providers, empty collections, absent responses, malformed payloads, embedded identity mismatches and exception propagation.
+What this proves: All four fixture readers use scoped organization/payment lookup. Expected failures raise ToolReadError; gateway preserves the original error, emits failed traces with payment ID/error code and does not mask unexpected reader defects. Earlier failed-trace regression resolved.
+Limitations / unverified behavior: Synthetic local evidence only; no real provider, model selection or recovery proof. Source/dependency reproducibility remains Phase 6. New core/fixture/test files remain untracked at review time. File-loading errors surface at construction.
+Open question / blocker: None for this phase. Nonblocking: align Reader protocol argument type with BaseToolArgument, narrow evidence return types, move success-result construction outside reader try, remove unused data_key_name metadata and normalize model formatting.
+Next action: Phase 3 manual tool lifecycle; no framework adoption.
 ```
 
 <a id="phase-3"></a>
@@ -171,9 +171,9 @@ Paths below are relative to the project root; they are target artifacts, not cla
 
 | Curriculum deliverable | Primary phase | Status | Evidence |
 | --- | --- | --- | --- |
-| `app/tools/` | 2 | Not started | — |
+| `app/tools/` | 2 | Done | Four typed tools and exception-based gateway integration; 78 tests pass |
 | `app/llm/tool_loop.py` | 3 | Not started | — |
-| `simulator/fixtures/` | 2 | Not started | — |
+| `simulator/fixtures/` | 2 | Done | Synthetic version 1 fixture and scoped collision/failure tests |
 | `evals/datasets/tool_selection.jsonl` | 5 | Not started | — |
 | `app/tools/errors.py` | 1 | Done | Phase 1 error and trace regressions pass in 66-test suite |
 | `evals/reports/week2-error-recovery.md` | 5 | Not started | — |
@@ -220,6 +220,8 @@ Append verified work without rewriting earlier evidence.
 | 2026-10-07 | Phase 1 | Review | Validation and authorization gate verified; error/trace gaps reproduced | 64 passing original tests; 66 expanded methods with 11 failing subtests | Add safe messages and validated trace IDs |
 
 | 2026-10-09 | Phase 1 | Review | Phase 1 gate verified; Phase 1 Done | All 66 tests pass; safe rejection messages, validated trace IDs and keyword callable protocols | Phase 2 fixture-backed tools and tenant isolation |
+
+| 2026-10-09 | Phase 2 | Review | Phase 2 gate verified; Phase 2 Done | 78 passing tests including 12 Phase 2 methods; reader failure traces corrected | Phase 3 manual lifecycle |
 
 ## Definition of done
 
