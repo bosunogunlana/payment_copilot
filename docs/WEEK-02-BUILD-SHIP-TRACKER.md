@@ -7,10 +7,10 @@ Check boxes only when reviewed artifacts, tests, traces, metrics or notes suppor
 ## Current status
 
 - Overall status: In progress
-- Current phase: Phase 1
-- Last evidence update: 2026-10-07
-- Main blocker: Rejection messages are empty; validated payment IDs are absent from success/denial traces.
-- Next action: Populate safe rejection messages and validated trace payment IDs; rerun the full acceptance suite.
+- Current phase: Phase 2
+- Last evidence update: 2026-10-09
+- Main blocker: None for Phase 1. Fixture-backed execution and tenant-isolation evidence remain to be built in Phase 2.
+- Next action: Phase 2 — implement the four synthetic fixture-backed tools and verify tenant-scoped reads and explicit missing/malformed/empty outcomes.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -18,7 +18,7 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
 | Phase | Focus | Status | Evidence |
 | --- | --- | --- | --- |
-| 1 | [Tool contracts and identity](#phase-1) | In progress | Initial 64 tests pass; expanded 66-method suite exposes two contract gaps |
+| 1 | [Tool contracts and identity](#phase-1) | Done | All 66 tests pass; messages, trace IDs and keyword callable contracts verified |
 | 2 | [Fixture-backed execution](#phase-2) | Not started | — |
 | 3 | [Manual tool lifecycle](#phase-3) | Not started | — |
 | 4 | [Bounded recovery and replay](#phase-4) | Not started | — |
@@ -33,21 +33,21 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
 - [x] Define schemas for get_payment, get_payment_events, get_ledger_entries and get_provider_status.
 - [x] Carry trusted organization identity separately from model arguments.
-- [ ] Define ToolError(code, retryable, message) and safe trace fields.
+- [x] Define ToolError(code, retryable, message) and safe trace fields.
 - [x] Reject malformed arguments and denied authorization before fixture access.
 
 Evidence / notes:
 
 ```text
-Status: In progress
+Status: Done
 Files or links: app/tools/contracts.py; app/tools/errors.py; app/tools/gateway.py; tests/test_tool_contracts.py
 Command / review procedure: `../.venv/bin/python -m unittest discover -s tests -q`
 Dataset / prompt / model / policy versions (where relevant): Phase 1 mocks only; no fixtures or model calls
-Observed result / metrics: Existing 64 tests pass (0.407s). Expanded 66-method suite fails 11 subtests across two new methods: three blank rejection messages and eight missing validated payment IDs in success/denial traces.
+Observed result / metrics: 2026-10-09 full suite: all 66 tests pass in 0.510s. Earlier message/trace failures are resolved; Authorize/Reader protocols match keyword invocation signatures.
 What this proves: Four strict argument schemas, trusted identity separation, validation-before-authorization, deny-before-reader, literal-True decisions, bounded trace fields and exclusive results pass existing checks.
 Limitations / unverified behavior: Real fixture tenant isolation is Phase 2; no live model requests. Core files remain learner-owned and untracked at review time.
-Open question / blocker: Populate explicit safe messages and validated payment IDs. Error enum/string values are inconsistent but current emitted codes pass existing checks.
-Next action: Fix both gaps in one batch and rerun review.
+Open question / blocker: None for Phase 1. Nonblocking: align the unused lowercase error enum with emitted uppercase codes, require a nonblank ToolError message, complete annotations/keyword-only signatures and normalize formatting.
+Next action: Phase 2 fixture-backed execution. No fixture implementation, tenant-data test, recovery or live-model quality is established by this phase.
 ```
 
 <a id="phase-2"></a>
@@ -175,7 +175,7 @@ Paths below are relative to the project root; they are target artifacts, not cla
 | `app/llm/tool_loop.py` | 3 | Not started | — |
 | `simulator/fixtures/` | 2 | Not started | — |
 | `evals/datasets/tool_selection.jsonl` | 5 | Not started | — |
-| `app/tools/errors.py` | 1 | Not started | — |
+| `app/tools/errors.py` | 1 | Done | Phase 1 error and trace regressions pass in 66-test suite |
 | `evals/reports/week2-error-recovery.md` | 5 | Not started | — |
 
 ## Failure and experiment coverage
@@ -218,6 +218,8 @@ Append verified work without rewriting earlier evidence.
 | Date | Phase | Timebox | Completed / reviewed | Evidence | Next action |
 | --- | --- | --- | --- | --- | --- |
 | 2026-10-07 | Phase 1 | Review | Validation and authorization gate verified; error/trace gaps reproduced | 64 passing original tests; 66 expanded methods with 11 failing subtests | Add safe messages and validated trace IDs |
+
+| 2026-10-09 | Phase 1 | Review | Phase 1 gate verified; Phase 1 Done | All 66 tests pass; safe rejection messages, validated trace IDs and keyword callable protocols | Phase 2 fixture-backed tools and tenant isolation |
 
 ## Definition of done
 
