@@ -35,7 +35,6 @@ TOOL_ARGUMENT_MODELS = {
     "get_ledger_entries": GetLedgerEntriesArgument,
     "get_provider_status": GetProviderStatusArgument   
 }
-
 class TrustedContext(BaseModel):
     organization_id: str = Field(min_length=1)
     request_id: str = Field(min_length=1)
@@ -45,6 +44,7 @@ class TrustedContext(BaseModel):
 class ToolTraceOutcome(StrEnum):
     SUCCEEDED = "succeeded"
     REJECTED = "rejected"
+    FAILED = "failed"
 
 class ToolTrace(BaseModel):
     organization_id: str = Field(min_length=1)

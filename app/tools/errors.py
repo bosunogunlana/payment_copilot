@@ -13,3 +13,11 @@ class ToolError(BaseModel):
             "INVALID_ARGUMENTS": "invalid Argument",
             "UNKNOWN_TOOL": "Unknown Tool",
         }.get(code, "")
+
+
+class ToolReadError(Exception):
+    """An expected evidence-read failure carrying a safe application error."""
+
+    def __init__(self, error: ToolError) -> None:
+        self.error = error
+        super().__init__(error.message)

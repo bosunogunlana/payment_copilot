@@ -3,14 +3,16 @@ from typing import Protocol
 
 from pydantic import ValidationError
 
+from app.models.evidence import ToolEvidence
 from app.tools.contracts import (
     TOOL_ARGUMENT_MODELS,
+    BaseToolArgument,
     ToolResult,
     ToolTrace,
     ToolTraceOutcome,
     TrustedContext,
 )
-from app.tools.errors import ToolError
+from app.tools.errors import ToolError, ToolReadError
 
 
 class Authorize(Protocol):
@@ -20,9 +22,11 @@ class Authorize(Protocol):
 
 
 class Reader(Protocol):
+    """Return evidence; raise ToolReadError for expected read failures."""
+
     def __call__(
-        self, *, tool_name: str, organization_id: str, arguments: object
-    ) -> object: ...
+        self, *, tool_name: str, organization_id: str, arguments: BaseToolArgument
+    ) -> ToolEvidence: ...
 
 
 class ToolGateway:
@@ -77,11 +81,28 @@ class ToolGateway:
                 duration=duration,
             )
 
-        data = self.reader(
-            tool_name=tool_name,
-            organization_id=context.organization_id,
-            arguments=parsed_argument,
-        )
+        try:
+            data = self.reader(
+                tool_name=tool_name,
+                organization_id=context.organization_id,
+                arguments=parsed_argument,
+            )
+        except ToolReadError as exc:
+            return ToolResult(
+                data=None,
+                error=exc.error,
+                trace=ToolTrace(
+                    organization_id=context.organization_id,
+                    request_id=context.request_id,
+                    payment_id=parsed_argument.payment_id,
+                    error_code=exc.error.code,
+                    tool_name=tool_name,
+                    outcome=ToolTraceOutcome.FAILED,
+                    attempt=1,
+                    duration_ms=(time.perf_counter() - started_at) * 1000,
+                ),
+            )
+
         return ToolResult(
             data=data,
             error=None,
