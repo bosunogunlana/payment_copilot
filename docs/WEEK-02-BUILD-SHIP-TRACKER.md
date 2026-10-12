@@ -7,10 +7,10 @@ Check boxes only when reviewed artifacts, tests, traces, metrics or notes suppor
 ## Current status
 
 - Overall status: In progress
-- Current phase: Phase 3
-- Last evidence update: 2026-10-09
-- Main blocker: None for Phase 2. Manual tool lifecycle remains to be implemented.
-- Next action: Phase 3 — connect model tool requests to the existing gateway with bounded steps and observable traces.
+- Current phase: Phase 4
+- Last evidence update: 2026-10-12
+- Main blocker: None for Phase 3. Bounded recovery and fake side-effect replay remain to be implemented.
+- Next action: Phase 4 — explicit timeout/deadline/attempt/backoff limits and idempotent fake-side-effect recovery.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -20,7 +20,7 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 | --- | --- | --- | --- |
 | 1 | [Tool contracts and identity](#phase-1) | Done | All 66 tests pass; messages, trace IDs and keyword callable contracts verified |
 | 2 | [Fixture-backed execution](#phase-2) | Done | All 78 tests pass, including 12 Phase 2 methods |
-| 3 | [Manual tool lifecycle](#phase-3) | Not started | — |
+| 3 | [Manual tool lifecycle](#phase-3) | Done | All 96 tests pass, including 18 offline loop methods |
 | 4 | [Bounded recovery and replay](#phase-4) | Not started | — |
 | 5 | [Tool selection and recovery evaluation](#phase-5) | Not started | — |
 | 6 | [Local ship and learning handoff](#phase-6) | Not started | — |
@@ -77,23 +77,23 @@ Next action: Phase 3 manual tool lifecycle; no framework adoption.
 
 ### Phase 3 — Manual tool lifecycle
 
-- [ ] Implement the manual tool loop without an agent framework.
-- [ ] Validate tool name and arguments and authorize every execution.
-- [ ] Record requested tool, arguments, result and timing in the trace.
-- [ ] Enforce maximum tool steps and distinguish fresh reads from stale repeated invocations.
+- [x] Implement the manual tool loop without an agent framework.
+- [x] Validate tool name and arguments and authorize every execution.
+- [x] Record requested tool, arguments, result and timing in the trace.
+- [x] Enforce maximum tool steps and distinguish fresh reads from stale repeated invocations.
 
 Evidence / notes:
 
 ```text
-Status: Not started
-Files or links:
-Command / review procedure:
-Dataset / prompt / model / policy versions (where relevant):
-Observed result / metrics:
-What this proves:
-Limitations / unverified behavior:
-Open question / blocker:
-Next action:
+Status: Done
+Files or links: app/llm/tool_loop.py; tests/test_tool_loop.py; docs/WEEK-02-TOOL-LOOP-CONTRACT.md
+Command / review procedure: `../.venv/bin/python -m unittest discover -s tests -q`
+Dataset / prompt / model / policy versions (where relevant): scripted offline model; Phase 2 synthetic fixture version 1; normalized application-owned model-turn format
+Observed result / metrics: All 96 tests pass in 0.419s, including 18 loop methods.
+What this proves: Final-only and multi-call lifecycles; registry-derived schemas; batch validation before execution; gateway validation/authorization; call/result correlation; safe argument traces; typed reader errors; independent call/turn limits; replay rejection; reauthorized fresh reads and run-local state. Unexpected defects propagate.
+Limitations / unverified behavior: No SDK wire adapter, paid requests, model tool-selection accuracy or retry/deadline proof. Fresh-read classification describes new call identity, not actual evidence freshness. Core, contract and test files are untracked at review time.
+Open question / blocker: None for this bounded phase. Nonblocking: rename raw_argunents, annotate run return/model callable/gateway dependencies, constrain repetition values and simplify nested control flow without changing behavior.
+Next action: Phase 4 bounded recovery and fake local side-effect replay; retain passing Phase 1–3 contracts.
 ```
 
 <a id="phase-4"></a>
@@ -172,7 +172,7 @@ Paths below are relative to the project root; they are target artifacts, not cla
 | Curriculum deliverable | Primary phase | Status | Evidence |
 | --- | --- | --- | --- |
 | `app/tools/` | 2 | Done | Four typed tools and exception-based gateway integration; 78 tests pass |
-| `app/llm/tool_loop.py` | 3 | Not started | — |
+| `app/llm/tool_loop.py` | 3 | Done | 18 offline lifecycle methods pass in 96-test suite |
 | `simulator/fixtures/` | 2 | Done | Synthetic version 1 fixture and scoped collision/failure tests |
 | `evals/datasets/tool_selection.jsonl` | 5 | Not started | — |
 | `app/tools/errors.py` | 1 | Done | Phase 1 error and trace regressions pass in 66-test suite |
@@ -222,6 +222,8 @@ Append verified work without rewriting earlier evidence.
 | 2026-10-09 | Phase 1 | Review | Phase 1 gate verified; Phase 1 Done | All 66 tests pass; safe rejection messages, validated trace IDs and keyword callable protocols | Phase 2 fixture-backed tools and tenant isolation |
 
 | 2026-10-09 | Phase 2 | Review | Phase 2 gate verified; Phase 2 Done | 78 passing tests including 12 Phase 2 methods; reader failure traces corrected | Phase 3 manual lifecycle |
+
+| 2026-10-12 | Phase 3 | Review | Phase 3 gate verified; Phase 3 Done | 96 passing tests including 18 loop methods; no model calls | Phase 4 bounded recovery and replay |
 
 ## Definition of done
 
