@@ -14,7 +14,7 @@ from app.tools.contracts import (
 )
 from app.tools.errors import ToolError, ToolReadError
 
-
+RETRYABLE_GATEWAY_ERRORS = frozenset({"TIMEOUT", "SERVER_ERROR"})
 class Authorize(Protocol):
     def __call__(
         self, *, context: TrustedContext, tool_name: str, payment_id: str
@@ -88,14 +88,22 @@ class ToolGateway:
                 arguments=parsed_argument,
             )
         except ToolReadError as exc:
+            error = exc.error.model_copy(
+                update={
+                    "retryable": (
+                        exc.error.retryable
+                        and exc.error.code in RETRYABLE_GATEWAY_ERRORS
+                    )
+                }
+            )
             return ToolResult(
                 data=None,
-                error=exc.error,
+                error=error,
                 trace=ToolTrace(
                     organization_id=context.organization_id,
                     request_id=context.request_id,
                     payment_id=parsed_argument.payment_id,
-                    error_code=exc.error.code,
+                    error_code=error.code,
                     tool_name=tool_name,
                     outcome=ToolTraceOutcome.FAILED,
                     attempt=1,
@@ -130,7 +138,9 @@ class ToolGateway:
         return ToolResult(
             data=None,
             error=ToolError(
-                code=error_code, message=ToolError.error_code_to_message(error_code)
+                code=error_code,
+                retryable=False,
+                message=ToolError.error_code_to_message(error_code)
             ),
             trace=ToolTrace(
                 organization_id=context.organization_id,
