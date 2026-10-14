@@ -7,10 +7,10 @@ Check boxes only when reviewed artifacts, tests, traces, metrics or notes suppor
 ## Current status
 
 - Overall status: In progress
-- Current phase: Phase 4
-- Last evidence update: 2026-10-12
-- Main blocker: None for Phase 3. Bounded recovery and fake side-effect replay remain to be implemented.
-- Next action: Phase 4 — explicit timeout/deadline/attempt/backoff limits and idempotent fake-side-effect recovery.
+- Current phase: Phase 5
+- Last evidence update: 2026-10-14
+- Main blocker: None for Phase 4. Phase 5 selection and recovery evaluation remains.
+- Next action: Phase 5 — freeze 40 labelled selection scenarios and produce the recovery evaluation report.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -21,7 +21,7 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 | 1 | [Tool contracts and identity](#phase-1) | Done | All 66 tests pass; messages, trace IDs and keyword callable contracts verified |
 | 2 | [Fixture-backed execution](#phase-2) | Done | All 78 tests pass, including 12 Phase 2 methods |
 | 3 | [Manual tool lifecycle](#phase-3) | Done | All 96 tests pass, including 18 offline loop methods |
-| 4 | [Bounded recovery and replay](#phase-4) | Not started | — |
+| 4 | [Bounded recovery and replay](#phase-4) | Done | 114 tests pass, including 18 recovery/replay methods |
 | 5 | [Tool selection and recovery evaluation](#phase-5) | Not started | — |
 | 6 | [Local ship and learning handoff](#phase-6) | Not started | — |
 
@@ -100,23 +100,23 @@ Next action: Phase 4 bounded recovery and fake local side-effect replay; retain 
 
 ### Phase 4 — Bounded recovery and replay
 
-- [ ] Set per-attempt timeout, total deadline, maximum attempts and backoff.
-- [ ] Test timeout and 500 retryability; never automatically retry invalid arguments or denied access.
-- [ ] Use a stable operation key for one fake local side effect.
-- [ ] Simulate commit followed by timeout and prove retry cannot duplicate the effect.
+- [x] Set per-attempt timeout, total deadline, maximum attempts and backoff.
+- [x] Test timeout and 500 retryability; never automatically retry invalid arguments or denied access.
+- [x] Use a stable operation key for one fake local side effect.
+- [x] Simulate commit followed by timeout and prove retry cannot duplicate the effect.
 
 Evidence / notes:
 
 ```text
-Status: Not started
-Files or links:
-Command / review procedure:
-Dataset / prompt / model / policy versions (where relevant):
-Observed result / metrics:
-What this proves:
-Limitations / unverified behavior:
-Open question / blocker:
-Next action:
+Status: Done
+Files or links: app/tools/recovery.py; simulator/idempotency.py; tests/test_tool_recovery.py; docs/WEEK-02-RECOVERY-CONTRACT.md
+Command / review procedure: ../.venv/bin/python -m unittest discover -s tests -q; source review; git diff --check
+Dataset / prompt / model / policy versions (where relevant): Synthetic fake clock and local effects; default policy 3 attempts, 1s attempt, 5s total, 0.25s initial / 0.5s capped backoff; no model calls
+Observed result / metrics: 114 tests pass, including 18 recovery/replay methods; commit-then-timeout produces two attempts and one effect
+What this proves: Bounded retries, shrinking budgets, capped backoff, retry allowlist, authorization rechecks, preserved late success, scoped idempotency and immutable attempt snapshots
+Limitations / unverified behavior: Cooperative timeouts cannot interrupt blocking code; effect store is serial and in-memory, without durable or concurrent guarantees; no live provider evidence
+Open question / blocker: None blocking; optional callable/return annotations and type-alias naming cleanup remain
+Next action: Phase 5 frozen selection dataset and recovery report
 ```
 
 <a id="phase-5"></a>
@@ -190,7 +190,7 @@ Use the plan’s phase checks and expanded curriculum contract to enumerate indi
 | Malformed arguments / denied authorization | — | — | Define from phase acceptance checks | — | Not started |
 | Timeout / 500 / malformed response / empty response | — | — | Define from phase acceptance checks | — | Not started |
 | Stale repeated call versus intentional fresh read | — | — | Define from phase acceptance checks | — | Not started |
-| Fake side effect commits before timeout and retry | — | — | Define from phase acceptance checks | — | Not started |
+| Fake side effect commits before timeout and retry | FakeEffectReplayTest | unittest discover -s tests -p test_tool_recovery.py -v | Retry same scoped key without duplication | Two attempts; one effect; original receipt | Done |
 
 ## Curriculum exit criteria evidence
 
@@ -224,6 +224,8 @@ Append verified work without rewriting earlier evidence.
 | 2026-10-09 | Phase 2 | Review | Phase 2 gate verified; Phase 2 Done | 78 passing tests including 12 Phase 2 methods; reader failure traces corrected | Phase 3 manual lifecycle |
 
 | 2026-10-12 | Phase 3 | Review | Phase 3 gate verified; Phase 3 Done | 96 passing tests including 18 loop methods; no model calls | Phase 4 bounded recovery and replay |
+
+| 2026-10-14 | Phase 4 | Review | Phase 4 gate verified; Phase 4 Done | 114 tests pass; late success preserved; scoped replay deduplication; cooperative timeout limitations documented | Phase 5 selection and recovery evaluation |
 
 ## Definition of done
 
