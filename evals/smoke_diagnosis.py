@@ -18,16 +18,21 @@ def main() -> int:
     )
     parser.add_argument("--max-output-tokens", type=int)
     parser.add_argument(
-        "--acknowledge-spend", action="store_true",
+        "--acknowledge-spend",
+        action="store_true",
         help="Confirm you reviewed model pricing and set a personal smoke-run allowance.",
     )
     args = parser.parse_args()
     dataset = Path(__file__).resolve().parent / "datasets" / "week1.jsonl"
-    case = json.loads(next(line for line in dataset.read_text().splitlines() if line.strip()))
+    case = json.loads(
+        next(line for line in dataset.read_text().splitlines() if line.strip())
+    )
     payment = Payment.model_validate(case["payment"])
 
     if not args.live:
-        print(json.dumps({"mode": "dry-run", "case_id": case["case_id"], "requests": 0}))
+        print(
+            json.dumps({"mode": "dry-run", "case_id": case["case_id"], "requests": 0})
+        )
         return 0
     if not args.max_output_tokens or args.max_output_tokens < 1:
         parser.error("--live requires a positive --max-output-tokens")
@@ -37,8 +42,9 @@ def main() -> int:
     if not api_key or not api_key.strip():
         parser.error("OPENAI_API_KEY must be configured outside source control")
 
+    from app.clients.base import Models, create_openai_client
+    from app.clients.openai_transport import OpenAITransport
     from app.llm.diagnose import DiagnosisAdapter
-    from app.llm.openai_transport import Models, OpenAITransport, create_openai_client
 
     with create_openai_client(api_key=api_key) as client:
         transport = OpenAITransport(

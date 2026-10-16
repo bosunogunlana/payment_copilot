@@ -3,6 +3,8 @@ import time
 from collections.abc import Callable
 from typing import Protocol, TypedDict
 
+from app.clients.base import Models
+
 
 class ToolCall(TypedDict):
     call_id: str
@@ -38,13 +40,17 @@ class ToolModel:
         self,
         *,
         client: ProviderClient,
-        model: str,
+        model: str = Models.DEFAULT,
         instructions: str,
         request_timeout_s: float,
         max_output_tokens: int,
         observe: Callable[[dict[str, object]], None],
     ) -> None:
-        if type(request_timeout_s) is not float or request_timeout_s <= 0 or not math.isfinite(request_timeout_s):
+        if (
+            type(request_timeout_s) is not float
+            or request_timeout_s <= 0
+            or not math.isfinite(request_timeout_s)
+        ):
             raise ValueError("invalid request_timeout_s")
 
         if type(max_output_tokens) is not int or max_output_tokens <= 0:
@@ -116,20 +122,6 @@ class ToolModel:
         }
 
     @staticmethod
-    def _translate_messages(
-        messages: list[dict[str, object]],
-    ) -> list[dict[str, object]]:
-        # Translate user, assistant tool calls, and correlated tool results.
-        ...
-
-    @staticmethod
-    def _translate_tools(
-        tools: list[dict[str, object]],
-    ) -> list[dict[str, object]]:
-        # Add descriptions and translate schemas into provider format.
-        ...
-
-    @staticmethod
     def _normalize_response(response: object) -> ModelTurn | None:
         # Reject refusal/incomplete responses before extracting calls.
         # Preserve call IDs, tool names, and argument JSON unchanged.
@@ -162,7 +154,7 @@ class ToolModel:
                 return None
             if not isinstance(arguments, str):
                 return None
-            
+
             parsed_tool_calls.append(
                 ToolCall(
                     call_id=call_id,

@@ -9,6 +9,7 @@ import unittest
 from copy import deepcopy
 from unittest.mock import Mock
 
+from app.clients.base import Models
 from app.llm.tool_model import ToolModel
 from app.tools.contracts import TOOL_ARGUMENT_MODELS
 
@@ -51,6 +52,18 @@ class ToolModelTest(unittest.TestCase):
             max_output_tokens=512,
             observe=self.observations.append,
         )
+
+    def test_uses_shared_default_model_and_accepts_enum_overrides(self):
+        for options, expected in (({}, Models.DEFAULT), ({"model": Models.STRONG}, Models.STRONG)):
+            with self.subTest(options=options):
+                adapter = ToolModel(
+                    client=self.client, instructions="Read payment evidence.",
+                    request_timeout_s=2.0, max_output_tokens=512,
+                    observe=self.observations.append, **options,
+                )
+                adapter(messages=self.messages, tools=self.tools)
+                payload = self.client.request.call_args.kwargs["payload"]
+                self.assertEqual(payload["model"], expected.value)
 
     def invoke(self):
         return self.adapter()(messages=self.messages, tools=self.tools)
