@@ -13,7 +13,8 @@ from test_diagnosis import event, payment
 from test_llm_diagnose import VALID_OUTPUT
 
 from app.llm.diagnose import DiagnosisAdapter, DiagnosisError
-from app.llm.openai_transport import OpenAITransport, create_openai_client
+from app.clients.base import create_openai_client
+from app.clients.openai_transport import OpenAITransport
 from app.models.diagnosis import Diagnosis, PaymentStatus
 
 
@@ -109,7 +110,7 @@ class OpenAITransportTest(unittest.TestCase):
         self.assertEqual(result.diagnosis, Diagnosis.model_validate(VALID_OUTPUT))
 
     def test_client_factory_disables_retries_and_sets_timeout(self):
-        with patch("app.llm.openai_transport.OpenAI") as constructor:
+        with patch("app.clients.base.OpenAI") as constructor:
             create_openai_client(api_key="synthetic-test-key")
         constructor.assert_called_once_with(
             api_key="synthetic-test-key", timeout=20.0, max_retries=0

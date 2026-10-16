@@ -194,7 +194,8 @@ def main():
         parser.error("Set OPENAI_API_KEY outside source control")
     if args.output.exists():
         parser.error("Output already exists; choose a new report path")
-    from app.llm.openai_transport import OpenAITransport, create_openai_client
+    from app.clients.base import create_openai_client
+    from app.clients.openai_transport import OpenAITransport
 
     # Validate the full candidate run without constructing a live transport.
     validate_run(cases, configs, budget_usd=args.budget_usd, reserve_usd=args.reserve_usd)

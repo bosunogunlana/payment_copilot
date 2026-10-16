@@ -1,32 +1,66 @@
+"""OpenAI structured-output transport for the payment diagnosis adapter."""
+
 from copy import deepcopy
-from enum import StrEnum
 from typing import Any
 
 from openai import APIError, APITimeoutError, OpenAI
 
-
-class Models(StrEnum):
-    CHEAP = "gpt-6-luna"
-    DEFAULT = "gpt-6-luna"
-    STRONG = "gpt-6.1-sol"
+from app.clients.base import Models, OpenAIClientBase
 
 
-def create_openai_client(*, api_key: str) -> OpenAI:
-    return OpenAI(api_key=api_key, timeout=20.0, max_retries=0)
+class OpenAITransport(OpenAIClientBase):
+    """Send diagnosis requests and normalize provider responses.
 
+    DiagnosisAdapter supplies the prompt, payment input and diagnosis schema.
+    This transport prepares the schema and extracts output text; parsing and
+    validating the resulting diagnosis remain the adapter's responsibility.
 
-class OpenAITransport:
+    The injected SDK client controls network timeouts and SDK retries. This
+    class adds no retry loop and does not close the client. It handles diagnosis
+    structured output; tool-call conversations use OpenAIToolClient instead.
+    """
+
     def __init__(
         self, *, client: OpenAI, model: str = Models.DEFAULT, max_output_tokens: int
     ) -> None:
+        """Configure the injected client, model and positive output-token limit.
+
+        Raises:
+            ValueError: If max_output_tokens is nonpositive.
+        """
         if max_output_tokens <= 0:
             raise ValueError("max_output_token must be positive.")
 
         self.max_output_tokens = max_output_tokens
-        self.client = client
+        super().__init__(client=client)
         self.model = model
 
     def __call__(self, payload: dict[str, Any]) -> object:
+        """Make one SDK request and return the normalized diagnosis envelope.
+
+        Args:
+            payload: Application-owned mapping containing system_instruction,
+                input_json and output_schema. The schema must describe the
+                diagnosis object, including its likely_cause property. A deep
+                copy is adapted for strict output without mutating the input:
+                all properties are required, extra properties are forbidden,
+                and likely_cause loses its default while retaining nullability.
+
+        Returns:
+            A mapping with status, refusal, output_json and usage. output_json
+            contains concatenated text, not a parsed JSON object, or None when
+            absent. Refusals and incomplete responses discard output text.
+            usage contains input_tokens/output_tokens, or None if unavailable.
+
+        Raises:
+            TimeoutError: The SDK request timed out.
+            ConnectionError: The SDK raised another APIError, or the returned
+                status was neither completed nor incomplete.
+
+        Invalid payloads and unexpected programming errors propagate. Response
+        extraction runs outside the API exception handler so internal defects
+        are not classified as request failures.
+        """
         schema = deepcopy(payload["output_schema"])
         schema["additionalProperties"] = False
         schema["required"] = list(schema["properties"])

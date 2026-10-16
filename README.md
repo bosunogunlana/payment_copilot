@@ -28,6 +28,8 @@ guide before running them.
 ## Project layout
 
 - `app/` — core application models and adapters.
+- `app/clients/` — provider adapters and shared OpenAI SDK construction.
+- `app/llm/` — diagnosis and tool orchestration, separate from provider clients.
 - `tests/` — contract, behavior, and failure checks.
 - `evals/` — synthetic datasets, evaluation runners, and reports.
 - `docs/` — weekly guides, build plans, evidence trackers, and learning notes.
