@@ -8,9 +8,9 @@ Check boxes only when reviewed artifacts, tests, traces, metrics or notes suppor
 
 - Overall status: In progress
 - Current phase: Phase 5
-- Last evidence update: 2026-10-14
-- Main blocker: None for Phase 4. Phase 5 selection and recovery evaluation remains.
-- Next action: Phase 5 — freeze 40 labelled selection scenarios and produce the recovery evaluation report.
+- Last evidence update: 2026-10-16
+- Main blocker: Selection gate passes; saved recovery traces and learner lifecycle drawing remain.
+- Next action: Phase 5 — save recovery traces and complete the lifecycle drawing; retain reviewed 38/40 selection result.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -22,7 +22,7 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 | 2 | [Fixture-backed execution](#phase-2) | Done | All 78 tests pass, including 12 Phase 2 methods |
 | 3 | [Manual tool lifecycle](#phase-3) | Done | All 96 tests pass, including 18 offline loop methods |
 | 4 | [Bounded recovery and replay](#phase-4) | Done | 114 tests pass, including 18 recovery/replay methods |
-| 5 | [Tool selection and recovery evaluation](#phase-5) | Not started | — |
+| 5 | [Tool selection and recovery evaluation](#phase-5) | In progress | Live run 02: 38/40 first selections; 160 offline tests pass |
 | 6 | [Local ship and learning handoff](#phase-6) | Not started | — |
 
 ## Phase checklist
@@ -123,7 +123,7 @@ Next action: Phase 5 frozen selection dataset and recovery report
 
 ### Phase 5 — Tool selection and recovery evaluation
 
-- [ ] Store 40 labelled first-tool-selection scenarios and measure ≥90% correctness.
+- [x] Store 40 labelled first-tool-selection scenarios and measure ≥90% correctness.
 - [ ] Assert typed error code, retryability, attempts and trace for all failure categories.
 - [ ] Record repeated invocation and duplicate side-effect outcomes.
 - [ ] Save week2-error-recovery.md and draw the tool-calling lifecycle from memory.
@@ -131,15 +131,15 @@ Next action: Phase 5 frozen selection dataset and recovery report
 Evidence / notes:
 
 ```text
-Status: Not started
-Files or links:
-Command / review procedure:
-Dataset / prompt / model / policy versions (where relevant):
-Observed result / metrics:
-What this proves:
-Limitations / unverified behavior:
-Open question / blocker:
-Next action:
+Status: In progress
+Files or links: evals/datasets/tool_selection.jsonl; evals/reports/week2-selection-predictions-02.jsonl; companion .run.json; week2-selection-results-02.json; week2-error-recovery.md
+Command / review procedure: Offline scorer over saved run 02; SHA-256 checks; ../.venv/bin/python -m unittest discover -s tests -q
+Dataset / prompt / model / policy versions (where relevant): Dataset v1; tool_selection_v1.txt; requested gpt-6-luna; SDK 3.5.0; timeout 20s, output cap 512
+Observed result / metrics: 38/40 first-tool and argument matches (95%); 40 valid turns; 0 skipped; mean 0.968s; 13,047 input and 1,155 output tokens; 160 tests pass
+What this proves: First-selection gate met on frozen synthetic cases; saved artifact hashes and code provenance verified
+Limitations / unverified behavior: Provider status 8/10; no tool execution in selection collection; reserved $2 is not actual cost; no full live continuation or repeatability claim
+Open question / blocker: Saved recovery trace artifacts and learner lifecycle drawing remain pending
+Next action: Complete recovery evidence and drawing before Phase 5 closeout
 ```
 
 <a id="phase-6"></a>
@@ -226,6 +226,8 @@ Append verified work without rewriting earlier evidence.
 | 2026-10-12 | Phase 3 | Review | Phase 3 gate verified; Phase 3 Done | 96 passing tests including 18 loop methods; no model calls | Phase 4 bounded recovery and replay |
 
 | 2026-10-14 | Phase 4 | Review | Phase 4 gate verified; Phase 4 Done | 114 tests pass; late success preserved; scoped replay deduplication; cooperative timeout limitations documented | Phase 5 selection and recovery evaluation |
+
+| 2026-10-16 | Phase 5 | Run review | Selection gate verified; phase remains In progress | Complete run 02: 38/40 (95%), hashes verified; 160 tests pass | Save recovery traces and learner lifecycle drawing |
 
 ## Definition of done
 
