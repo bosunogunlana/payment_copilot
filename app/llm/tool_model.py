@@ -1,9 +1,10 @@
 import math
 import time
 from collections.abc import Callable
-from typing import Protocol, TypedDict
+from typing import TypedDict
 
 from app.clients.base import Models
+from app.clients.contracts import ProviderClient, ToolRequest
 
 
 class ToolCall(TypedDict):
@@ -22,10 +23,6 @@ class TextTurn(TypedDict):
 
 
 type ModelTurn = ToolTurn | TextTurn
-
-
-class ProviderClient(Protocol):
-    def request(self, *, payload: dict[str, object]) -> object: ...
 
 
 class ToolModel:
@@ -75,42 +72,47 @@ class ToolModel:
             self.observe(
                 {
                     "status": "transport_error",
+                    "outcome": "transport_error",
                     "duration_ms": (time.perf_counter() - started_at) * 1000,
                     "usage": None,
                 }
             )
             return None
 
-        if not isinstance(response, dict):
-            self.observe(
-                {
-                    "status": "malformed_response_error",
-                    "duration_ms": (time.perf_counter() - started_at) * 1000,
-                    "usage": None,
-                }
-            )
-            return None
+        turn = self._normalize_response(response=response)
+        status = response.get("status") if isinstance(response, dict) else None
+        usage = response.get("usage") if isinstance(response, dict) else None
+        if turn is not None:
+            outcome = "valid_response"
+        elif isinstance(response, dict) and response.get("refusal") is not None:
+            outcome = "refusal"
+        elif status is not None and status != "completed":
+            outcome = "noncompleted_response"
+        else:
+            outcome = "invalid_response"
 
         self.observe(
             {
-                "status": response.get("status"),
+                "status": status,
+                "outcome": outcome,
                 "duration_ms": (time.perf_counter() - started_at) * 1000,
-                "usage": response.get("usage"),
+                "usage": usage,
             }
         )
-
-        return self._normalize_response(response=response)
+        return turn
 
     def _build_request(
         self, *, messages: list[dict[str, object]], tools: list[dict[str, object]]
-    ) -> dict[str, object]:
-        described_tools = [
-            {
+    ) -> ToolRequest:
+        described_tools: list[dict[str, object]] = []
+        for tool in tools:
+            name = tool["name"]
+            if not isinstance(name, str):
+                raise ValueError("Tool name must be a string")
+            described_tools.append({
                 **tool,
-                "description": self.TOOL_DESCRIPTIONS.get(tool["name"]),
-            }
-            for tool in tools
-        ]
+                "description": self.TOOL_DESCRIPTIONS[name],
+            })
 
         return {
             "model": self.model,

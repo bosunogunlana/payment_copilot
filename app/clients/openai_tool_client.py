@@ -1,36 +1,30 @@
 """OpenAI tool-call adapter"""
 
-from typing import TypedDict
-
 from openai import APIError, APITimeoutError
 
 from app.clients.base import OpenAIClientBase
-
-
-class Payload(TypedDict):
-    model: str
-    instructions: str
-    timeout_s: float
-    max_output_tokens: int
-    messages: list[dict[str, object]]
-    tools: list[dict[str, object]]
+from app.clients.contracts import ToolRequest
 
 
 class OpenAIToolClient(OpenAIClientBase):
-    """Share SDK injection; implement ProviderClient.request next."""
+    """Translate tool-model envelopes into OpenAI requests and back.
 
-    def request(self, *, payload: Payload) -> object:
-        translated_message = self._translate_messages(payload.get("messages"))
-        translated_tools = self._translate_tools(payload.get("tools"))
+    Uses the injected SDK client without owning its lifecycle. Expected SDK
+    failures become built-in transport errors; tool execution stays with the gateway.
+    """
+
+    def request(self, *, payload: ToolRequest) -> object:
+        translated_message = self._translate_messages(payload["messages"])
+        translated_tools = self._translate_tools(payload["tools"])
 
         try:
             response = self.client.responses.create(
-                model=payload.get("model"),
+                model=payload["model"],
                 tools=translated_tools,
                 input=translated_message,
-                instructions=payload.get("instructions"),
-                timeout=payload.get("timeout_s"),
-                max_output_tokens=payload.get("max_output_tokens"),
+                instructions=payload["instructions"],
+                timeout=payload["timeout_s"],
+                max_output_tokens=payload["max_output_tokens"],
                 store=False,
             )
         except APITimeoutError as exc:

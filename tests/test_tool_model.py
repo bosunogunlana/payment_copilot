@@ -151,10 +151,42 @@ class ToolModelTest(unittest.TestCase):
         self.assertEqual(len(self.observations), 1)
         metadata = self.observations[0]
         self.assertEqual(metadata["status"], "completed")
+        self.assertEqual(metadata["outcome"], "valid_response")
         self.assertEqual(metadata["usage"], {"input_tokens": 12, "output_tokens": 8})
         self.assertGreaterEqual(metadata["duration_ms"], 0)
         self.assertNotIn("usage", turn)
         self.assertNotIn("duration_ms", turn)
+
+    def test_invalid_envelopes_record_one_observation_with_provider_status(self):
+        for raw in (None, {}, {"status": "completed"}, response()):
+            with self.subTest(response=raw):
+                self.observations.clear()
+                self.client.request.return_value = raw
+                self.assertIsNone(self.invoke())
+                self.assertEqual(len(self.observations), 1)
+                metadata = self.observations[0]
+                self.assertEqual(metadata["outcome"], "invalid_response")
+                self.assertEqual(metadata["status"], raw.get("status") if isinstance(raw, dict) else None)
+                self.assertGreaterEqual(metadata["duration_ms"], 0)
+
+    def test_refusal_and_noncompleted_outcomes_are_distinct_from_malformed(self):
+        for raw, expected in (
+            (response(refusal="Cannot comply"), "refusal"),
+            (response(status="incomplete"), "noncompleted_response"),
+        ):
+            with self.subTest(outcome=expected):
+                self.observations.clear()
+                self.client.request.return_value = raw
+                self.assertIsNone(self.invoke())
+                self.assertEqual(len(self.observations), 1)
+                self.assertEqual(self.observations[0]["outcome"], expected)
+                self.assertEqual(self.observations[0]["usage"], raw["usage"])
+
+    def test_missing_tool_description_fails_before_provider_request(self):
+        self.tools.append({"name": "unconfigured_tool", "parameters": {}})
+        with self.assertRaises(KeyError):
+            self.invoke()
+        self.client.request.assert_not_called()
 
     def test_expected_transport_failure_is_observed_without_retry(self):
         for error in (TimeoutError("Synthetic timeout"), ConnectionError("Synthetic failure")):
