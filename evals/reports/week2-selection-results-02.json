@@ -1,0 +1,336 @@
+{
+  "total": 40,
+  "predictions": 40,
+  "correct": 38,
+  "accuracy": 0.95,
+  "threshold_met": true,
+  "arguments_correct": 38,
+  "results": [
+    {
+      "case_id": "tool-001",
+      "expected_tool": "get_payment",
+      "selected_tool": "get_payment",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-002",
+      "expected_tool": "get_payment",
+      "selected_tool": "get_payment",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-003",
+      "expected_tool": "get_payment",
+      "selected_tool": "get_payment",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-004",
+      "expected_tool": "get_payment",
+      "selected_tool": "get_payment",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-005",
+      "expected_tool": "get_payment",
+      "selected_tool": "get_payment",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-006",
+      "expected_tool": "get_payment",
+      "selected_tool": "get_payment",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-007",
+      "expected_tool": "get_payment",
+      "selected_tool": "get_payment",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-008",
+      "expected_tool": "get_payment",
+      "selected_tool": "get_payment",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-009",
+      "expected_tool": "get_payment",
+      "selected_tool": "get_payment",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-010",
+      "expected_tool": "get_payment",
+      "selected_tool": "get_payment",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-011",
+      "expected_tool": "get_payment_events",
+      "selected_tool": "get_payment_events",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-012",
+      "expected_tool": "get_payment_events",
+      "selected_tool": "get_payment_events",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-013",
+      "expected_tool": "get_payment_events",
+      "selected_tool": "get_payment_events",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-014",
+      "expected_tool": "get_payment_events",
+      "selected_tool": "get_payment_events",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-015",
+      "expected_tool": "get_payment_events",
+      "selected_tool": "get_payment_events",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-016",
+      "expected_tool": "get_payment_events",
+      "selected_tool": "get_payment_events",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-017",
+      "expected_tool": "get_payment_events",
+      "selected_tool": "get_payment_events",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-018",
+      "expected_tool": "get_payment_events",
+      "selected_tool": "get_payment_events",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-019",
+      "expected_tool": "get_payment_events",
+      "selected_tool": "get_payment_events",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-020",
+      "expected_tool": "get_payment_events",
+      "selected_tool": "get_payment_events",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-021",
+      "expected_tool": "get_ledger_entries",
+      "selected_tool": "get_ledger_entries",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-022",
+      "expected_tool": "get_ledger_entries",
+      "selected_tool": "get_ledger_entries",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-023",
+      "expected_tool": "get_ledger_entries",
+      "selected_tool": "get_ledger_entries",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-024",
+      "expected_tool": "get_ledger_entries",
+      "selected_tool": "get_ledger_entries",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-025",
+      "expected_tool": "get_ledger_entries",
+      "selected_tool": "get_ledger_entries",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-026",
+      "expected_tool": "get_ledger_entries",
+      "selected_tool": "get_ledger_entries",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-027",
+      "expected_tool": "get_ledger_entries",
+      "selected_tool": "get_ledger_entries",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-028",
+      "expected_tool": "get_ledger_entries",
+      "selected_tool": "get_ledger_entries",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-029",
+      "expected_tool": "get_ledger_entries",
+      "selected_tool": "get_ledger_entries",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-030",
+      "expected_tool": "get_ledger_entries",
+      "selected_tool": "get_ledger_entries",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-031",
+      "expected_tool": "get_provider_status",
+      "selected_tool": "get_provider_status",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-032",
+      "expected_tool": "get_provider_status",
+      "selected_tool": "get_provider_status",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-033",
+      "expected_tool": "get_provider_status",
+      "selected_tool": "get_provider_status",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-034",
+      "expected_tool": "get_provider_status",
+      "selected_tool": "get_provider_status",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-035",
+      "expected_tool": "get_provider_status",
+      "selected_tool": "get_provider_status",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-036",
+      "expected_tool": "get_provider_status",
+      "selected_tool": "get_provider_status",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-037",
+      "expected_tool": "get_provider_status",
+      "selected_tool": "get_provider_status",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-038",
+      "expected_tool": "get_provider_status",
+      "selected_tool": "get_payment_events",
+      "tool_correct": false,
+      "arguments_correct": false,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-039",
+      "expected_tool": "get_provider_status",
+      "selected_tool": "get_payment",
+      "tool_correct": false,
+      "arguments_correct": false,
+      "missing_prediction": false
+    },
+    {
+      "case_id": "tool-040",
+      "expected_tool": "get_provider_status",
+      "selected_tool": "get_provider_status",
+      "tool_correct": true,
+      "arguments_correct": true,
+      "missing_prediction": false
+    }
+  ],
+  "run_kind": "model",
+  "model": "gpt-6-luna",
+  "dataset_sha256": "d34c9731627dd5887b6ac07d82ff99ce1ba693c50fd7b0303142db0afb8e1f00",
+  "prompt_sha256": "6f68ca2a8c5667a1fc6425a19971e196799f0ab23055fc1729330c0e4289525d",
+  "predictions_sha256": "ea8e77b72cbf123499aa6274c9108407c79ccd5d4d2cdbdca2ec8e0be6ca1e98",
+  "quality_gate_met": true
+}

@@ -45,3 +45,15 @@ an in-progress report after each result. Interrupted runs retain prior completed
 rows. A request interrupted before its response is captured still has unknown
 usage; check account usage before starting a separate run. Reports do not
 automatically resume or replay paid requests.
+
+## Week 2 selection and recovery
+
+See [the Phase 5 evaluation contract](../docs/WEEK-02-EVALUATION-CONTRACT.md)
+for the frozen 40-case dataset, normalized prediction format, offline scorer,
+recovery coverage, and learner-owned model adapter boundary. The report template
+is [week2-error-recovery.md](reports/week2-error-recovery.md). Scripted scoring
+checks do not establish model selection quality.
+
+The Week 2 collector is available: `../.venv/bin/python -m evals.collect_tool_selection`
+prints a zero-request plan. See the evaluation contract's collector section for
+explicit live-run flags, budget reservations, saved artifacts and scoring commands.

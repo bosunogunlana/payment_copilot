@@ -109,6 +109,7 @@ class ToolModel:
             name = tool["name"]
             if not isinstance(name, str):
                 raise ValueError("Tool name must be a string")
+
             described_tools.append({
                 **tool,
                 "description": self.TOOL_DESCRIPTIONS[name],
