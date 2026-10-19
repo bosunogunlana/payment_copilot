@@ -9,8 +9,8 @@ Check boxes only when reviewed artifacts, tests, traces, metrics or notes suppor
 - Overall status: In progress
 - Current phase: Phase 6
 - Last evidence update: 2026-10-18
-- Main blocker: None for Phase 5. Clean-checkout reproducibility and local handoff remain.
-- Next action: Phase 6 — document reproduction commands, verify clean-source setup, and complete the local handoff.
+- Main blocker: Working-source checks pass; committed HEAD lacks the recovery runner and learning note. Fresh dependency installation remains unverified.
+- Next action: Commit intended Week 2 recovery and handoff artifacts, then verify the complete committed source.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -23,7 +23,7 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 | 3 | [Manual tool lifecycle](#phase-3) | Done | All 96 tests pass, including 18 offline loop methods |
 | 4 | [Bounded recovery and replay](#phase-4) | Done | 114 tests pass, including 18 recovery/replay methods |
 | 5 | [Tool selection and recovery evaluation](#phase-5) | Done | Selection 38/40; recovery 17/17; 165 tests pass; lifecycle note reviewed |
-| 6 | [Local ship and learning handoff](#phase-6) | Not started | — |
+| 6 | [Local ship and learning handoff](#phase-6) | In progress | Working source: 165 tests and recovery 17/17; committed HEAD: 160 tests, incomplete artifacts |
 
 ## Phase checklist
 
@@ -146,23 +146,23 @@ Next action: Phase 6 clean-source reproducibility and local handoff
 
 ### Phase 6 — Local ship and learning handoff
 
-- [ ] Document setup and exact offline/test/eval commands from the project root.
+- [x] Document setup and exact offline/test/eval commands from the project root.
 - [ ] Verify the slice from a clean source checkout and record dependency/environment limitations.
-- [ ] Complete the deliverable inventory and curriculum exit-criteria evidence below.
-- [ ] Write the engineering note with a deliberate failure, measured tradeoff, limitations and next smallest action.
+- [x] Complete the deliverable inventory and curriculum exit-criteria evidence below.
+- [x] Write the engineering note with a deliberate failure, measured tradeoff, limitations and next smallest action.
 
 Evidence / notes:
 
 ```text
-Status: Not started
-Files or links:
-Command / review procedure:
-Dataset / prompt / model / policy versions (where relevant):
-Observed result / metrics:
-What this proves:
-Limitations / unverified behavior:
-Open question / blocker:
-Next action:
+Status: In progress
+Files or links: docs/WEEK-02-LOCAL-GUIDE.md; README.md; evals/reports/week2-local-verification.json
+Command / review procedure: Fresh temporary source exports of committed HEAD and nonignored working source; existing Python 3.13 virtualenv; offline unit tests, collector dry-run and recovery runner
+Dataset / prompt / model / policy versions (where relevant): No model requests; frozen Week 2 fixtures and default recovery policy; exact source hashes in verification artifact
+Observed result / metrics: HEAD: 160 tests and zero-request dry-run pass, but recovery runner/note absent. Working source: 165 tests pass, zero requests, recovery 17/17.
+What this proves: Source-independent execution with existing dependencies; setup and exact commands documented; inventory and exit evidence reviewed; measured tradeoff and limitations documented
+Limitations / unverified behavior: Fresh pip installation and transitive resolution not verified; complete Week 2 working artifacts are not yet all committed; browser progress separate
+Open question / blocker: Commit intended working artifacts before verifying a complete committed handoff
+Next action: User-owned scoped packaging commit, then clean committed-source verification
 ```
 
 ## Deliverable inventory
@@ -234,6 +234,8 @@ Append verified work without rewriting earlier evidence.
 | 2026-10-16 | Phase 5 | Run review | Selection gate verified; phase remains In progress | Complete run 02: 38/40 (95%), hashes verified; 160 tests pass | Save recovery traces and learner lifecycle drawing |
 
 | 2026-10-18 | Phase 5 | Review | Phase 5 Done; lifecycle note corrected and reviewed | Selection 38/40; refreshed offline recovery 17/17; 165 tests pass | Phase 6 local reproducibility and handoff |
+
+| 2026-10-18 | Phase 6 | Build / verification | Local guide and engineering handoff prepared; source-copy checks executed | Working source 165 tests and 17/17 recovery; HEAD 160 tests and missing latest artifacts | Commit intended artifacts and reverify committed source |
 
 ## Definition of done
 
