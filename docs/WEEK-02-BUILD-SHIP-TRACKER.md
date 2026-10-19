@@ -7,10 +7,10 @@ Check boxes only when reviewed artifacts, tests, traces, metrics or notes suppor
 ## Current status
 
 - Overall status: In progress
-- Current phase: Phase 5
-- Last evidence update: 2026-10-16
-- Main blocker: Selection gate passes; saved recovery traces and learner lifecycle drawing remain.
-- Next action: Phase 5 — save recovery traces and complete the lifecycle drawing; retain reviewed 38/40 selection result.
+- Current phase: Phase 6
+- Last evidence update: 2026-10-18
+- Main blocker: None for Phase 5. Clean-checkout reproducibility and local handoff remain.
+- Next action: Phase 6 — document reproduction commands, verify clean-source setup, and complete the local handoff.
 
 Status values: `Not started` · `In progress` · `Blocked` · `Done`
 
@@ -22,7 +22,7 @@ Status values: `Not started` · `In progress` · `Blocked` · `Done`
 | 2 | [Fixture-backed execution](#phase-2) | Done | All 78 tests pass, including 12 Phase 2 methods |
 | 3 | [Manual tool lifecycle](#phase-3) | Done | All 96 tests pass, including 18 offline loop methods |
 | 4 | [Bounded recovery and replay](#phase-4) | Done | 114 tests pass, including 18 recovery/replay methods |
-| 5 | [Tool selection and recovery evaluation](#phase-5) | In progress | Live run 02: 38/40 first selections; 160 offline tests pass |
+| 5 | [Tool selection and recovery evaluation](#phase-5) | Done | Selection 38/40; recovery 17/17; 165 tests pass; lifecycle note reviewed |
 | 6 | [Local ship and learning handoff](#phase-6) | Not started | — |
 
 ## Phase checklist
@@ -124,22 +124,22 @@ Next action: Phase 5 frozen selection dataset and recovery report
 ### Phase 5 — Tool selection and recovery evaluation
 
 - [x] Store 40 labelled first-tool-selection scenarios and measure ≥90% correctness.
-- [ ] Assert typed error code, retryability, attempts and trace for all failure categories.
-- [ ] Record repeated invocation and duplicate side-effect outcomes.
-- [ ] Save week2-error-recovery.md and draw the tool-calling lifecycle from memory.
+- [x] Assert typed error code, retryability, attempts and trace for all failure categories.
+- [x] Record repeated invocation and duplicate side-effect outcomes.
+- [x] Save week2-error-recovery.md and draw the tool-calling lifecycle from memory.
 
 Evidence / notes:
 
 ```text
-Status: In progress
-Files or links: evals/datasets/tool_selection.jsonl; evals/reports/week2-selection-predictions-02.jsonl; companion .run.json; week2-selection-results-02.json; week2-error-recovery.md
+Status: Done
+Files or links: docs/learning-notes/week2.md; evals/reports/week2-recovery-traces-02.json; evals/datasets/tool_selection.jsonl; evals/reports/week2-selection-predictions-02.jsonl; companion .run.json; week2-selection-results-02.json; week2-error-recovery.md
 Command / review procedure: Offline scorer over saved run 02; SHA-256 checks; ../.venv/bin/python -m unittest discover -s tests -q
 Dataset / prompt / model / policy versions (where relevant): Dataset v1; tool_selection_v1.txt; requested gpt-6-luna; SDK 3.5.0; timeout 20s, output cap 512
-Observed result / metrics: 38/40 first-tool and argument matches (95%); 40 valid turns; 0 skipped; mean 0.968s; 13,047 input and 1,155 output tokens; 160 tests pass
-What this proves: First-selection gate met on frozen synthetic cases; saved artifact hashes and code provenance verified
+Observed result / metrics: 38/40 first-tool and argument matches (95%); 40 valid turns; 0 skipped; mean 0.968s; 13,047 input and 1,155 output tokens; 165 tests pass
+What this proves: First-selection gate met; 17/17 observed failure/replay scenarios; lifecycle diagram and trusted-boundary explanation reviewed
 Limitations / unverified behavior: Provider status 8/10; no tool execution in selection collection; reserved $2 is not actual cost; no full live continuation or repeatability claim
-Open question / blocker: Saved recovery trace artifacts and learner lifecycle drawing remain pending
-Next action: Complete recovery evidence and drawing before Phase 5 closeout
+Open question / blocker: None for this phase; recovery runner refreshed offline on 2026-10-18 to match current source
+Next action: Phase 6 clean-source reproducibility and local handoff
 ```
 
 <a id="phase-6"></a>
@@ -174,9 +174,9 @@ Paths below are relative to the project root; they are target artifacts, not cla
 | `app/tools/` | 2 | Done | Four typed tools and exception-based gateway integration; 78 tests pass |
 | `app/llm/tool_loop.py` | 3 | Done | 18 offline lifecycle methods pass in 96-test suite |
 | `simulator/fixtures/` | 2 | Done | Synthetic version 1 fixture and scoped collision/failure tests |
-| `evals/datasets/tool_selection.jsonl` | 5 | Not started | — |
+| `evals/datasets/tool_selection.jsonl` | 5 | Done | Frozen 40 cases; live run 02 scores 38/40 |
 | `app/tools/errors.py` | 1 | Done | Phase 1 error and trace regressions pass in 66-test suite |
-| `evals/reports/week2-error-recovery.md` | 5 | Not started | — |
+| `evals/reports/week2-error-recovery.md` | 5 | Done | Selection metrics, misses, 17 recovery scenarios and reviewed lifecycle note |
 
 ## Failure and experiment coverage
 
@@ -186,30 +186,34 @@ Use the plan’s phase checks and expanded curriculum contract to enumerate indi
 
 | Case / experiment | Dataset or fixture ID | Test / eval command | Expected outcome | Observed outcome / evidence | Status |
 | --- | --- | --- | --- | --- | --- |
-| Unknown ID / invalid provider | — | — | Define from phase acceptance checks | — | Not started |
-| Malformed arguments / denied authorization | — | — | Define from phase acceptance checks | — | Not started |
-| Timeout / 500 / malformed response / empty response | — | — | Define from phase acceptance checks | — | Not started |
-| Stale repeated call versus intentional fresh read | — | — | Define from phase acceptance checks | — | Not started |
+| Unknown ID / invalid provider | payment_not_found; invalid_provider | evals.recovery_evidence | Typed and bounded outcomes | Typed nonretryable errors; one read each; traces-02.json | Done |
+| Malformed arguments / denied authorization | invalid_arguments; unauthorized | evals.recovery_evidence | Typed and bounded outcomes | Rejected before reader; zero reads; traces-02.json | Done |
+| Timeout / 500 / malformed response / empty response | timeout_recovery; server_error_recovery; malformed_response; empty_object | evals.recovery_evidence | Typed and bounded outcomes | Transient recovery; malformed/empty failures do not retry; traces-02.json | Done |
+| Stale repeated call versus intentional fresh read | replayed_call_id; fresh_read | evals.recovery_evidence | Typed and bounded outcomes | One read for replay; two authorized reads for fresh call IDs; traces-02.json | Done |
 | Fake side effect commits before timeout and retry | FakeEffectReplayTest | unittest discover -s tests -p test_tool_recovery.py -v | Retry same scoped key without duplication | Two attempts; one effect; original receipt | Done |
 
 ## Curriculum exit criteria evidence
 
 These retain the curriculum’s exact exit checks. Link each checked item to phase evidence; thresholds require actual measurements with denominators, not intended targets.
 
-- [ ] ≥90% correct first tool selection across 40 scenarios
-- [ ] Invalid tool arguments are rejected before execution
-- [ ] Authorization is performed by the application
-- [ ] A maximum tool-step count exists
-- [ ] Timeouts cannot create infinite retries
-- [ ] Draw the full tool-calling lifecycle from memory
-- [ ] Retryable and non-retryable failures produce typed ToolError results
-- [ ] Retries have explicit attempt and total-time limits
-- [ ] Duplicate side effects are prevented with an idempotent operation key
-- [ ] Tool errors and recovery attempts are observable in the execution trace
+- [x] ≥90% correct first tool selection across 40 scenarios
+- [x] Invalid tool arguments are rejected before execution
+- [x] Authorization is performed by the application
+- [x] A maximum tool-step count exists
+- [x] Timeouts cannot create infinite retries
+- [x] Draw the full tool-calling lifecycle from memory
+- [x] Retryable and non-retryable failures produce typed ToolError results
+- [x] Retries have explicit attempt and total-time limits
+- [x] Duplicate side effects are prevented with an idempotent operation key
+- [x] Tool errors and recovery attempts are observable in the execution trace
 
 | Criterion or metric | Supporting phase / evidence | Result / denominator | Remaining gap |
 | --- | --- | --- | --- |
-| Add a row for each verified criterion | — | — | — |
+| First selection | selection-results-02.json | 38/40 (95%) | Small synthetic sample; two provider-status misses |
+| Validation, authorization and tool limits | Phase 1–3 tests; recovery traces 02 | Rejections before reads; bounded loop | No live multi-turn claim |
+| Typed failures, retry limits and traces | recovery traces 02; 165 passing tests | 17/17 scenarios | Cooperative timeouts |
+| Idempotency | commit_then_timeout trace | Two attempts; one effect; original receipt | Serial in-memory only |
+| Lifecycle explanation | docs/learning-notes/week2.md | Diagram and explanation reviewed 2026-10-18 | Browser state unchanged |
 
 ## Session log
 
@@ -228,6 +232,8 @@ Append verified work without rewriting earlier evidence.
 | 2026-10-14 | Phase 4 | Review | Phase 4 gate verified; Phase 4 Done | 114 tests pass; late success preserved; scoped replay deduplication; cooperative timeout limitations documented | Phase 5 selection and recovery evaluation |
 
 | 2026-10-16 | Phase 5 | Run review | Selection gate verified; phase remains In progress | Complete run 02: 38/40 (95%), hashes verified; 160 tests pass | Save recovery traces and learner lifecycle drawing |
+
+| 2026-10-18 | Phase 5 | Review | Phase 5 Done; lifecycle note corrected and reviewed | Selection 38/40; refreshed offline recovery 17/17; 165 tests pass | Phase 6 local reproducibility and handoff |
 
 ## Definition of done
 
