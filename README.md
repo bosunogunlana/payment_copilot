@@ -46,7 +46,7 @@ for phased plans and evidence trackers for all 16 weeks.
 | Week | Guide | Build plan | Evidence tracker |
 | --- | --- | --- | --- |
 | 01 — Models, prompting, and structured output | [Local diagnosis and evaluation](docs/WEEK-01-LOCAL-GUIDE.md) | [Plan](docs/WEEK-01-BUILD-SHIP.md) | [Tracker](docs/WEEK-01-BUILD-SHIP-TRACKER.md) |
-| 02 — Function calling and tool design | [Manual tool loop](docs/WEEK-02-TOOL-LOOP-GUIDE.md) | [Plan](docs/WEEK-02-BUILD-SHIP.md) | [Tracker](docs/WEEK-02-BUILD-SHIP-TRACKER.md) |
+| 02 — Function calling and tool design | [Local tools and evaluation](docs/WEEK-02-LOCAL-GUIDE.md) | [Plan](docs/WEEK-02-BUILD-SHIP.md) | [Tracker](docs/WEEK-02-BUILD-SHIP-TRACKER.md) |
 
 Week-specific commands, model settings, results, and learning notes belong in
 the corresponding guide. The [learning assistant instructions](docs/LEARNING-ASSISTANT-PROMPT.md)

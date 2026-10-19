@@ -1,6 +1,6 @@
 # Week 2 — Tool selection and recovery
 
-Status: Selection gate verified; recovery trace artifacts and learner lifecycle drawing remain open.
+Status: Phase 5 complete; selection, offline recovery evidence and learner lifecycle note reviewed.
 
 ## Selection experiment
 
@@ -57,15 +57,58 @@ No additional model requests were made during review.
 
 ## Recovery evidence
 
-Review command: ../.venv/bin/python -m unittest discover -s tests -q.
-Observed 160 passing tests on 2026-10-16, including deterministic gateway,
-recovery, repeated-call and fake replay assertions. Saved representative recovery
-traces and per-failure outcome table remain pending; selection predictions do not
-execute tools or prove recovery behavior.
+Executed 2026-10-17 against existing application boundaries. All 17 scripted
+scenarios pass. The full suite passes 165 tests. No model/provider requests,
+real sleeps or external effects are used in this evidence run.
+
+Artifact: [week2-recovery-traces-02.json](week2-recovery-traces-02.json).
+Refreshed offline on 2026-10-18 after runner-source changes; 17/17 cases pass.
+The original run 01 is retained as historical evidence.
+Includes per-attempt typed errors, retryability, allotted budgets, timings,
+backoff, authorization/read counts, loop traces, receipts and source/fixture hashes.
+
+```sh
+../.venv/bin/python -m evals.recovery_evidence \
+  --output evals/reports/week2-recovery-traces-01.json
+../.venv/bin/python -m unittest discover -s tests -q
+```
+
+Existing outputs are protected; choose a new suffix when rerunning.
+
+| Scenario | Final error | Retryable | Attempts / steps | Stop | Checks |
+| --- | --- | --- | --- | --- | --- |
+| unknown_tool | UNKNOWN_TOOL | false | 1 | nonretryable | Pass |
+| invalid_arguments | INVALID_ARGUMENTS | false | 1 | nonretryable | Pass |
+| unauthorized | UNAUTHORIZED | false | 1 | nonretryable | Pass |
+| payment_not_found | PAYMENT_NOT_FOUND | false | 1 | nonretryable | Pass |
+| invalid_provider | INVALID_PROVIDER | false | 1 | nonretryable | Pass |
+| malformed_response | MALFORMED_RESPONSE | false | 1 | nonretryable | Pass |
+| empty_object | EMPTY_RESPONSE | false | 1 | nonretryable | Pass |
+| empty_list_success | — | — | 1 | success | Pass |
+| timeout_recovery | — | — | 2 | success | Pass |
+| server_error_recovery | — | — | 2 | success | Pass |
+| attempt_exhaustion | TIMEOUT | true | 3 | max_attempts | Pass |
+| deadline | TIMEOUT | true | 2 | deadline | Pass |
+| authorization_revoked | UNAUTHORIZED | false | 2 | nonretryable | Pass |
+| late_success | — | — | 1 | success | Pass |
+| replayed_call_id | — | — | 1 | repeated_call | Pass |
+| fresh_read | — | — | 2 | completed | Pass |
+| commit_then_timeout | — | — | 2 | success | Pass |
+
+Recovered timeout and 500 cases retain their retryable failures in the first
+attempt even though the final result succeeds. Deadline budgets shrink from
+1.0s to 0.25s. Revocation runs authorization twice but reads once. Replayed call
+IDs stop after one read; fresh IDs perform two authorized reads. Fake effect
+replay takes two attempts, creates one effect and returns the original receipt;
+changed payload raises a nonretryable conflict.
+
+Recovery uses a fake clock, while nested gateway/loop timings use perf_counter.
+Timeouts remain cooperative; deduplication remains serial and in-memory.
+These observations do not establish live-provider or full multi-turn model behavior.
 
 ## Lifecycle drawing from memory
 
-Learner drawing and explanation: pending.
+Reviewed 2026-10-18: [Week 2 learning note](../../docs/learning-notes/week2.md) contains the lifecycle diagram and explanation of model/tool limits, correlated results, provider authentication, application authorization with trusted identity, and the separate bounded-recovery path.
 
 ## Engineering note
 

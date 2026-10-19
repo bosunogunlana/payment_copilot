@@ -8,4 +8,4 @@ venv/
 .ruff_cache/
 
 .env
-.vscode/settings.json
+.vscode
