@@ -1,0 +1,2177 @@
+{
+  "configurations": [
+    {
+      "name": "A-luna",
+      "model": "gpt-6-luna",
+      "max_output_tokens": 2048,
+      "input_usd_per_million": 0.1,
+      "output_usd_per_million": 0.5
+    },
+    {
+      "name": "B-sol",
+      "model": "gpt-6.1-sol",
+      "max_output_tokens": 2048,
+      "input_usd_per_million": 2.0,
+      "output_usd_per_million": 10.0
+    }
+  ],
+  "budget_usd": 3.0,
+  "reservation_per_request_usd": 0.05,
+  "reserved_usd": 2.9999999999999973,
+  "rows": [
+    {
+      "case_id": "case-001",
+      "configuration": "A-luna",
+      "expected_category": "successful_payment",
+      "failure_tags": [],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 3005.4237083531916,
+      "result": {
+        "diagnosis": {
+          "status": "succeeded",
+          "category": "successful_payment",
+          "recommended_action": "no_action",
+          "likely_cause": "The payment is recorded as succeeded, and the event history includes a ledger.posted event.",
+          "confidence": 0.99
+        },
+        "error": null
+      },
+      "confidence": 0.99,
+      "error": null,
+      "usage": {
+        "input_tokens": 853,
+        "output_tokens": 87
+      },
+      "estimated_cost_usd": 0.00012880000000000001,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-001",
+      "configuration": "B-sol",
+      "expected_category": "successful_payment",
+      "failure_tags": [],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2633.8475421071053,
+      "result": {
+        "diagnosis": {
+          "status": "succeeded",
+          "category": "successful_payment",
+          "recommended_action": "no_action",
+          "likely_cause": "The recorded payment succeeded, with a ledger.posted event and no conflicting evidence.",
+          "confidence": 0.99
+        },
+        "error": null
+      },
+      "confidence": 0.99,
+      "error": null,
+      "usage": {
+        "input_tokens": 853,
+        "output_tokens": 53
+      },
+      "estimated_cost_usd": 0.002236,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-002",
+      "configuration": "A-luna",
+      "expected_category": "provider_timeout",
+      "failure_tags": [
+        "timeout"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 1810.5173748917878,
+      "result": {
+        "diagnosis": {
+          "status": "pending",
+          "category": "provider_timeout",
+          "recommended_action": "wait_and_reconcile",
+          "likely_cause": "The provider did not return a terminal result, as recorded in the provider.timeout event.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 855,
+        "output_tokens": 73
+      },
+      "estimated_cost_usd": 0.000122,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-002",
+      "configuration": "B-sol",
+      "expected_category": "provider_timeout",
+      "failure_tags": [
+        "timeout"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2650.474791880697,
+      "result": {
+        "diagnosis": {
+          "status": "pending",
+          "category": "provider_timeout",
+          "recommended_action": "wait_and_reconcile",
+          "likely_cause": "A provider.timeout event records that the provider did not return a terminal result.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 855,
+        "output_tokens": 53
+      },
+      "estimated_cost_usd": 0.00224,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-003",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "missing_events"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 3108.654458075762,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.1
+        },
+        "error": null
+      },
+      "confidence": 0.1,
+      "error": null,
+      "usage": {
+        "input_tokens": 742,
+        "output_tokens": 61
+      },
+      "estimated_cost_usd": 0.0001047,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-003",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "missing_events"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2223.7978340126574,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.0
+        },
+        "error": null
+      },
+      "confidence": 0.0,
+      "error": null,
+      "usage": {
+        "input_tokens": 742,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.001894,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-004",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "conflicting_signals"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1665.3505843132734,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 860,
+        "output_tokens": 79
+      },
+      "estimated_cost_usd": 0.0001255,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-004",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "conflicting_signals"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2010.6604592874646,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.1
+        },
+        "error": null
+      },
+      "confidence": 0.1,
+      "error": null,
+      "usage": {
+        "input_tokens": 860,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.00213,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-005",
+      "configuration": "A-luna",
+      "expected_category": "authorization_failure",
+      "failure_tags": [
+        "plausible_wrong_cause"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 1775.2526248805225,
+      "result": {
+        "diagnosis": {
+          "status": "failed",
+          "category": "authorization_failure",
+          "recommended_action": "escalate_to_provider",
+          "likely_cause": "The provider.declined event records reason code AUTH_DECLINED.",
+          "confidence": 0.97
+        },
+        "error": null
+      },
+      "confidence": 0.97,
+      "error": null,
+      "usage": {
+        "input_tokens": 870,
+        "output_tokens": 92
+      },
+      "estimated_cost_usd": 0.000133,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-005",
+      "configuration": "B-sol",
+      "expected_category": "authorization_failure",
+      "failure_tags": [
+        "plausible_wrong_cause"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2734.1373753733933,
+      "result": {
+        "diagnosis": {
+          "status": "failed",
+          "category": "authorization_failure",
+          "recommended_action": "escalate_to_provider",
+          "likely_cause": "The provider.declined event records reason code AUTH_DECLINED.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 870,
+        "output_tokens": 53
+      },
+      "estimated_cost_usd": 0.00227,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-006",
+      "configuration": "A-luna",
+      "expected_category": "successful_payment",
+      "failure_tags": [],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2465.748915914446,
+      "result": {
+        "diagnosis": {
+          "status": "succeeded",
+          "category": "successful_payment",
+          "recommended_action": "no_action",
+          "likely_cause": "The payment is recorded as succeeded, with no conflicting evidence in the event history.",
+          "confidence": 0.85
+        },
+        "error": null
+      },
+      "confidence": 0.85,
+      "error": null,
+      "usage": {
+        "input_tokens": 795,
+        "output_tokens": 106
+      },
+      "estimated_cost_usd": 0.0001325,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-006",
+      "configuration": "B-sol",
+      "expected_category": "successful_payment",
+      "failure_tags": [],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2482.7810828574,
+      "result": {
+        "diagnosis": {
+          "status": "succeeded",
+          "category": "successful_payment",
+          "recommended_action": "no_action",
+          "likely_cause": "The recorded payment status is succeeded, with no conflicting evidence in the nonempty event history.",
+          "confidence": 0.9
+        },
+        "error": null
+      },
+      "confidence": 0.9,
+      "error": null,
+      "usage": {
+        "input_tokens": 795,
+        "output_tokens": 55
+      },
+      "estimated_cost_usd": 0.00214,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-007",
+      "configuration": "A-luna",
+      "expected_category": "successful_payment",
+      "failure_tags": [
+        "duplicate_events"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2300.294582732022,
+      "result": {
+        "diagnosis": {
+          "status": "succeeded",
+          "category": "successful_payment",
+          "recommended_action": "no_action",
+          "likely_cause": "The recorded payment status is succeeded, with no conflicting evidence.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 848,
+        "output_tokens": 124
+      },
+      "estimated_cost_usd": 0.00014680000000000002,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-007",
+      "configuration": "B-sol",
+      "expected_category": "successful_payment",
+      "failure_tags": [
+        "duplicate_events"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2190.5095828697085,
+      "result": {
+        "diagnosis": {
+          "status": "succeeded",
+          "category": "successful_payment",
+          "recommended_action": "no_action",
+          "likely_cause": "The payment is recorded as succeeded, with ledger.posted events and no conflicting evidence.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 848,
+        "output_tokens": 54
+      },
+      "estimated_cost_usd": 0.002236,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-008",
+      "configuration": "A-luna",
+      "expected_category": "successful_payment",
+      "failure_tags": [
+        "plausible_wrong_cause"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2813.2974170148373,
+      "result": {
+        "diagnosis": {
+          "status": "succeeded",
+          "category": "successful_payment",
+          "recommended_action": "no_action",
+          "likely_cause": "The payment is recorded as succeeded, with no conflicting event evidence.",
+          "confidence": 0.93
+        },
+        "error": null
+      },
+      "confidence": 0.93,
+      "error": null,
+      "usage": {
+        "input_tokens": 799,
+        "output_tokens": 123
+      },
+      "estimated_cost_usd": 0.0001414,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-008",
+      "configuration": "B-sol",
+      "expected_category": "successful_payment",
+      "failure_tags": [
+        "plausible_wrong_cause"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 3250.8324589580297,
+      "result": {
+        "diagnosis": {
+          "status": "succeeded",
+          "category": "successful_payment",
+          "recommended_action": "no_action",
+          "likely_cause": "The payment is recorded as succeeded, with no conflicting event evidence.",
+          "confidence": 0.9
+        },
+        "error": null
+      },
+      "confidence": 0.9,
+      "error": null,
+      "usage": {
+        "input_tokens": 799,
+        "output_tokens": 87
+      },
+      "estimated_cost_usd": 0.002468,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-009",
+      "configuration": "A-luna",
+      "expected_category": "provider_timeout",
+      "failure_tags": [
+        "timeout",
+        "duplicate_events"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 1383.7135420180857,
+      "result": {
+        "diagnosis": {
+          "status": "pending",
+          "category": "provider_timeout",
+          "recommended_action": "wait_and_reconcile",
+          "likely_cause": "The payment is pending, and its event history records provider.timeout events.",
+          "confidence": 0.96
+        },
+        "error": null
+      },
+      "confidence": 0.96,
+      "error": null,
+      "usage": {
+        "input_tokens": 845,
+        "output_tokens": 52
+      },
+      "estimated_cost_usd": 0.0001105,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-009",
+      "configuration": "B-sol",
+      "expected_category": "provider_timeout",
+      "failure_tags": [
+        "timeout",
+        "duplicate_events"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2165.79820914194,
+      "result": {
+        "diagnosis": {
+          "status": "pending",
+          "category": "provider_timeout",
+          "recommended_action": "wait_and_reconcile",
+          "likely_cause": "The recorded payment is pending, and its event history contains provider.timeout events.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 845,
+        "output_tokens": 53
+      },
+      "estimated_cost_usd": 0.00222,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-010",
+      "configuration": "A-luna",
+      "expected_category": "provider_timeout",
+      "failure_tags": [
+        "timeout",
+        "untrusted_instruction"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 1565.5697081238031,
+      "result": {
+        "diagnosis": {
+          "status": "pending",
+          "category": "provider_timeout",
+          "recommended_action": "wait_and_reconcile",
+          "likely_cause": "A provider.timeout event is recorded for the pending payment.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 802,
+        "output_tokens": 71
+      },
+      "estimated_cost_usd": 0.00011570000000000001,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-010",
+      "configuration": "B-sol",
+      "expected_category": "provider_timeout",
+      "failure_tags": [
+        "timeout",
+        "untrusted_instruction"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 3012.759457807988,
+      "result": {
+        "diagnosis": {
+          "status": "pending",
+          "category": "provider_timeout",
+          "recommended_action": "wait_and_reconcile",
+          "likely_cause": "The recorded payment is pending and its event history contains a provider.timeout event.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 802,
+        "output_tokens": 53
+      },
+      "estimated_cost_usd": 0.002134,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-011",
+      "configuration": "A-luna",
+      "expected_category": "provider_timeout",
+      "failure_tags": [
+        "timeout",
+        "plausible_wrong_cause"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 1569.8505421169102,
+      "result": {
+        "diagnosis": {
+          "status": "pending",
+          "category": "provider_timeout",
+          "recommended_action": "wait_and_reconcile",
+          "likely_cause": "A provider.timeout event is recorded for the pending payment.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 800,
+        "output_tokens": 78
+      },
+      "estimated_cost_usd": 0.000119,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-011",
+      "configuration": "B-sol",
+      "expected_category": "provider_timeout",
+      "failure_tags": [
+        "timeout",
+        "plausible_wrong_cause"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2058.871750254184,
+      "result": {
+        "diagnosis": {
+          "status": "pending",
+          "category": "provider_timeout",
+          "recommended_action": "wait_and_reconcile",
+          "likely_cause": "A provider.timeout event supports a provider timeout for the pending payment.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 800,
+        "output_tokens": 51
+      },
+      "estimated_cost_usd": 0.00211,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-012",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "missing_events",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1510.0952917709947,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.1
+        },
+        "error": null
+      },
+      "confidence": 0.1,
+      "error": null,
+      "usage": {
+        "input_tokens": 744,
+        "output_tokens": 62
+      },
+      "estimated_cost_usd": 0.0001054,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-012",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "missing_events",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2330.6742501445115,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.0
+        },
+        "error": null
+      },
+      "confidence": 0.0,
+      "error": null,
+      "usage": {
+        "input_tokens": 744,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.001898,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-013",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "missing_events",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1386.310416739434,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.1
+        },
+        "error": null
+      },
+      "confidence": 0.1,
+      "error": null,
+      "usage": {
+        "input_tokens": 743,
+        "output_tokens": 64
+      },
+      "estimated_cost_usd": 0.0001063,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-013",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "missing_events",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2136.9739579968154,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.0
+        },
+        "error": null
+      },
+      "confidence": 0.0,
+      "error": null,
+      "usage": {
+        "input_tokens": 743,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.001896,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-014",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "missing_events",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1508.0646248534322,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.1
+        },
+        "error": null
+      },
+      "confidence": 0.1,
+      "error": null,
+      "usage": {
+        "input_tokens": 743,
+        "output_tokens": 67
+      },
+      "estimated_cost_usd": 0.00010779999999999999,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-014",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "missing_events",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2293.745707720518,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.0
+        },
+        "error": null
+      },
+      "confidence": 0.0,
+      "error": null,
+      "usage": {
+        "input_tokens": 743,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.001896,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-015",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "missing_events",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1633.0194999463856,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.1
+        },
+        "error": null
+      },
+      "confidence": 0.1,
+      "error": null,
+      "usage": {
+        "input_tokens": 743,
+        "output_tokens": 65
+      },
+      "estimated_cost_usd": 0.0001068,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-015",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "missing_events",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1903.9934589527547,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.0
+        },
+        "error": null
+      },
+      "confidence": 0.0,
+      "error": null,
+      "usage": {
+        "input_tokens": 743,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.001896,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-016",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "conflicting_signals"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2276.6776657663286,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 852,
+        "output_tokens": 57
+      },
+      "estimated_cost_usd": 0.0001137,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-016",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "conflicting_signals"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1713.3137919008732,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 852,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002114,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-017",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "conflicting_signals"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1656.6570829600096,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 849,
+        "output_tokens": 72
+      },
+      "estimated_cost_usd": 0.00012090000000000001,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-017",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "conflicting_signals"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2107.1542501449585,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.1
+        },
+        "error": null
+      },
+      "confidence": 0.1,
+      "error": null,
+      "usage": {
+        "input_tokens": 849,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002108,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-018",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "conflicting_signals"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1262.7702080644667,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 849,
+        "output_tokens": 66
+      },
+      "estimated_cost_usd": 0.0001179,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-018",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "conflicting_signals"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1719.428834039718,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.1
+        },
+        "error": null
+      },
+      "confidence": 0.1,
+      "error": null,
+      "usage": {
+        "input_tokens": 849,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002108,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-019",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "conflicting_signals",
+        "duplicate_events"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1686.866333708167,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 902,
+        "output_tokens": 81
+      },
+      "estimated_cost_usd": 0.00013069999999999998,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-019",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "conflicting_signals",
+        "duplicate_events"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2362.5159170478582,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 902,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002214,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-020",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1978.643000125885,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 797,
+        "output_tokens": 62
+      },
+      "estimated_cost_usd": 0.00011070000000000001,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-020",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2128.6972919479012,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 797,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002004,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-021",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "plausible_wrong_cause",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1478.0840831808746,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 803,
+        "output_tokens": 74
+      },
+      "estimated_cost_usd": 0.0001173,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-021",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "plausible_wrong_cause",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2124.134791083634,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 803,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002016,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-022",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1826.7542920075357,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 802,
+        "output_tokens": 70
+      },
+      "estimated_cost_usd": 0.00011520000000000001,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-022",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1738.860041834414,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 802,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002014,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-023",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1580.0332077778876,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 801,
+        "output_tokens": 65
+      },
+      "estimated_cost_usd": 0.00011260000000000001,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-023",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2607.1092090569437,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 801,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002012,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-024",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "plausible_wrong_cause",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1642.6384160295129,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 851,
+        "output_tokens": 65
+      },
+      "estimated_cost_usd": 0.00011760000000000001,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-024",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "plausible_wrong_cause",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2424.3418336845934,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 851,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002112,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-025",
+      "configuration": "A-luna",
+      "expected_category": "authorization_failure",
+      "failure_tags": [
+        "untrusted_instruction"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 1721.093375235796,
+      "result": {
+        "diagnosis": {
+          "status": "failed",
+          "category": "authorization_failure",
+          "recommended_action": "escalate_to_provider",
+          "likely_cause": "The provider.declined event records reason code AUTH_DECLINED.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 805,
+        "output_tokens": 93
+      },
+      "estimated_cost_usd": 0.000127,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-025",
+      "configuration": "B-sol",
+      "expected_category": "authorization_failure",
+      "failure_tags": [
+        "untrusted_instruction"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2706.1587502248585,
+      "result": {
+        "diagnosis": {
+          "status": "failed",
+          "category": "authorization_failure",
+          "recommended_action": "escalate_to_provider",
+          "likely_cause": "The provider.declined event records AUTH_DECLINED, supporting an authorization failure.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 805,
+        "output_tokens": 56
+      },
+      "estimated_cost_usd": 0.00217,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-026",
+      "configuration": "A-luna",
+      "expected_category": "authorization_failure",
+      "failure_tags": [
+        "duplicate_events"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2323.4599996358156,
+      "result": {
+        "diagnosis": {
+          "status": "failed",
+          "category": "authorization_failure",
+          "recommended_action": "escalate_to_provider",
+          "likely_cause": "Both recorded provider.declined events contain the reason code AUTH_DECLINED.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 856,
+        "output_tokens": 114
+      },
+      "estimated_cost_usd": 0.00014260000000000002,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-026",
+      "configuration": "B-sol",
+      "expected_category": "authorization_failure",
+      "failure_tags": [
+        "duplicate_events"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": null,
+      "latency_ms": 2243.787332903594,
+      "result": {
+        "diagnosis": {
+          "status": "failed",
+          "category": "authorization_failure",
+          "recommended_action": "escalate_to_provider",
+          "likely_cause": "The recorded failed payment has provider.declined events with reason code AUTH_DECLINED.",
+          "confidence": 0.95
+        },
+        "error": null
+      },
+      "confidence": 0.95,
+      "error": null,
+      "usage": {
+        "input_tokens": 856,
+        "output_tokens": 57
+      },
+      "estimated_cost_usd": 0.002282,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-027",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "plausible_wrong_cause",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1382.9568750225008,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 799,
+        "output_tokens": 75
+      },
+      "estimated_cost_usd": 0.00011740000000000001,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-027",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "plausible_wrong_cause",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2129.090250004083,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 799,
+        "output_tokens": 60
+      },
+      "estimated_cost_usd": 0.002198,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-028",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "plausible_wrong_cause",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1651.6335839405656,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 797,
+        "output_tokens": 82
+      },
+      "estimated_cost_usd": 0.0001207,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-028",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "plausible_wrong_cause",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1775.0130002386868,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.1
+        },
+        "error": null
+      },
+      "confidence": 0.1,
+      "error": null,
+      "usage": {
+        "input_tokens": 797,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002004,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-029",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "duplicate_events",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1782.532624900341,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 846,
+        "output_tokens": 75
+      },
+      "estimated_cost_usd": 0.0001221,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-029",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "duplicate_events",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 2564.887000247836,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 846,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.002102,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-030",
+      "configuration": "A-luna",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "plausible_wrong_cause",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1626.264207996428,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.2
+        },
+        "error": null
+      },
+      "confidence": 0.2,
+      "error": null,
+      "usage": {
+        "input_tokens": 800,
+        "output_tokens": 67
+      },
+      "estimated_cost_usd": 0.0001135,
+      "cause_grounding": "manual_review_required"
+    },
+    {
+      "case_id": "case-030",
+      "configuration": "B-sol",
+      "expected_category": "unknown",
+      "failure_tags": [
+        "plausible_wrong_cause",
+        "insufficient_evidence"
+      ],
+      "prompt_sha256": "c0e90dc7293f85a3b2da659c4c9d9a2a9ea6d1c7b7ea11081b3262971046f39a",
+      "schema_valid": true,
+      "label_match": true,
+      "uncertainty_safe": true,
+      "latency_ms": 1713.973707985133,
+      "result": {
+        "diagnosis": {
+          "status": "unknown",
+          "category": "unknown",
+          "recommended_action": "escalate_to_human",
+          "likely_cause": null,
+          "confidence": 0.1
+        },
+        "error": null
+      },
+      "confidence": 0.1,
+      "error": null,
+      "usage": {
+        "input_tokens": 800,
+        "output_tokens": 41
+      },
+      "estimated_cost_usd": 0.00201,
+      "cause_grounding": "manual_review_required"
+    }
+  ],
+  "summary": {
+    "A-luna/all": {
+      "total": 30,
+      "attempted": 30,
+      "skipped": 0,
+      "schema_valid": 30,
+      "label_match": 30,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/category:successful_payment": {
+      "total": 4,
+      "attempted": 4,
+      "skipped": 0,
+      "schema_valid": 4,
+      "label_match": 4,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/all": {
+      "total": 30,
+      "attempted": 30,
+      "skipped": 0,
+      "schema_valid": 30,
+      "label_match": 30,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/category:successful_payment": {
+      "total": 4,
+      "attempted": 4,
+      "skipped": 0,
+      "schema_valid": 4,
+      "label_match": 4,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/category:provider_timeout": {
+      "total": 4,
+      "attempted": 4,
+      "skipped": 0,
+      "schema_valid": 4,
+      "label_match": 4,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/tag:timeout": {
+      "total": 4,
+      "attempted": 4,
+      "skipped": 0,
+      "schema_valid": 4,
+      "label_match": 4,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/category:provider_timeout": {
+      "total": 4,
+      "attempted": 4,
+      "skipped": 0,
+      "schema_valid": 4,
+      "label_match": 4,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/tag:timeout": {
+      "total": 4,
+      "attempted": 4,
+      "skipped": 0,
+      "schema_valid": 4,
+      "label_match": 4,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/category:unknown": {
+      "total": 19,
+      "attempted": 19,
+      "skipped": 0,
+      "schema_valid": 19,
+      "label_match": 19,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/tag:missing_events": {
+      "total": 5,
+      "attempted": 5,
+      "skipped": 0,
+      "schema_valid": 5,
+      "label_match": 5,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/category:unknown": {
+      "total": 19,
+      "attempted": 19,
+      "skipped": 0,
+      "schema_valid": 19,
+      "label_match": 19,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/tag:missing_events": {
+      "total": 5,
+      "attempted": 5,
+      "skipped": 0,
+      "schema_valid": 5,
+      "label_match": 5,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/tag:conflicting_signals": {
+      "total": 5,
+      "attempted": 5,
+      "skipped": 0,
+      "schema_valid": 5,
+      "label_match": 5,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/tag:conflicting_signals": {
+      "total": 5,
+      "attempted": 5,
+      "skipped": 0,
+      "schema_valid": 5,
+      "label_match": 5,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/category:authorization_failure": {
+      "total": 3,
+      "attempted": 3,
+      "skipped": 0,
+      "schema_valid": 3,
+      "label_match": 3,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/tag:plausible_wrong_cause": {
+      "total": 8,
+      "attempted": 8,
+      "skipped": 0,
+      "schema_valid": 8,
+      "label_match": 8,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/category:authorization_failure": {
+      "total": 3,
+      "attempted": 3,
+      "skipped": 0,
+      "schema_valid": 3,
+      "label_match": 3,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/tag:plausible_wrong_cause": {
+      "total": 8,
+      "attempted": 8,
+      "skipped": 0,
+      "schema_valid": 8,
+      "label_match": 8,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/tag:duplicate_events": {
+      "total": 5,
+      "attempted": 5,
+      "skipped": 0,
+      "schema_valid": 5,
+      "label_match": 5,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/tag:duplicate_events": {
+      "total": 5,
+      "attempted": 5,
+      "skipped": 0,
+      "schema_valid": 5,
+      "label_match": 5,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/tag:untrusted_instruction": {
+      "total": 2,
+      "attempted": 2,
+      "skipped": 0,
+      "schema_valid": 2,
+      "label_match": 2,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/tag:untrusted_instruction": {
+      "total": 2,
+      "attempted": 2,
+      "skipped": 0,
+      "schema_valid": 2,
+      "label_match": 2,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "A-luna/tag:insufficient_evidence": {
+      "total": 13,
+      "attempted": 13,
+      "skipped": 0,
+      "schema_valid": 13,
+      "label_match": 13,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    },
+    "B-sol/tag:insufficient_evidence": {
+      "total": 13,
+      "attempted": 13,
+      "skipped": 0,
+      "schema_valid": 13,
+      "label_match": 13,
+      "errors": {},
+      "unsafe_unknown": 0,
+      "label_match_rate": 1.0,
+      "schema_valid_rate": 1.0
+    }
+  },
+  "decision": "pending_actual_comparison_and_cause_review",
+  "mode": "live",
+  "run_status": "completed",
+  "dataset_sha256": "959a5f063ba30ff1e36e23d24b9cfb23c96aefc3874a11bbe6efca0fceccd807",
+  "completed_at": "2026-10-05T07:28:01.438128+00:00",
+  "sdk_version": "3.5.0",
+  "cause_review": "pending",
+  "pricing_basis": "Standard uncached text estimate; see evals/README.md"
+}

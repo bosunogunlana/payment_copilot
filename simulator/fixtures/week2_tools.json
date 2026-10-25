@@ -1,0 +1,195 @@
+{
+  "synthetic": true,
+  "version": 1,
+  "records": [
+    {
+      "organization_id": "org-a",
+      "payment_id": "pay-shared",
+      "payment": {
+        "payment_id": "pay-shared",
+        "organization_id": "org-a",
+        "amount_minor": 1100,
+        "currency": "USD",
+        "status": "succeeded",
+        "events": [
+          {
+            "event_id": "evt_001_created-org-a-pay-shared",
+            "event_type": "payment.created",
+            "status": "created",
+            "occurred_at": "2026-01-01T10:00:00Z",
+            "source": "simulator",
+            "message": "Payment accepted by the simulator."
+          },
+          {
+            "event_id": "evt_001_posted-org-a-pay-shared",
+            "event_type": "ledger.posted",
+            "status": "succeeded",
+            "occurred_at": "2026-01-01T10:00:03Z",
+            "source": "ledger",
+            "message": "Ledger entry posted."
+          }
+        ]
+      },
+      "events": [
+        {
+          "event_id": "evt_001_created-org-a-pay-shared",
+          "event_type": "payment.created",
+          "status": "created",
+          "occurred_at": "2026-01-01T10:00:00Z",
+          "source": "simulator",
+          "message": "Payment accepted by the simulator."
+        },
+        {
+          "event_id": "evt_001_posted-org-a-pay-shared",
+          "event_type": "ledger.posted",
+          "status": "succeeded",
+          "occurred_at": "2026-01-01T10:00:03Z",
+          "source": "ledger",
+          "message": "Ledger entry posted."
+        }
+      ],
+      "ledger_entries": [
+        {
+          "entry_id": "entry-org-a",
+          "organization_id": "org-a",
+          "payment_id": "pay-shared",
+          "amount_minor": 1100,
+          "currency": "USD",
+          "posted_at": "2026-10-09T12:00:00Z"
+        }
+      ],
+      "provider_status": {
+        "provider_id": "simulator",
+        "organization_id": "org-a",
+        "payment_id": "pay-shared",
+        "status": "succeeded"
+      }
+    },
+    {
+      "organization_id": "org-b",
+      "payment_id": "pay-shared",
+      "payment": {
+        "payment_id": "pay-shared",
+        "organization_id": "org-b",
+        "amount_minor": 9900,
+        "currency": "USD",
+        "status": "succeeded",
+        "events": [
+          {
+            "event_id": "evt_001_created-org-b-pay-shared",
+            "event_type": "payment.created",
+            "status": "created",
+            "occurred_at": "2026-01-01T10:00:00Z",
+            "source": "simulator",
+            "message": "Payment accepted by the simulator."
+          },
+          {
+            "event_id": "evt_001_posted-org-b-pay-shared",
+            "event_type": "ledger.posted",
+            "status": "succeeded",
+            "occurred_at": "2026-01-01T10:00:03Z",
+            "source": "ledger",
+            "message": "Ledger entry posted."
+          }
+        ]
+      },
+      "events": [
+        {
+          "event_id": "evt_001_created-org-b-pay-shared",
+          "event_type": "payment.created",
+          "status": "created",
+          "occurred_at": "2026-01-01T10:00:00Z",
+          "source": "simulator",
+          "message": "Payment accepted by the simulator."
+        },
+        {
+          "event_id": "evt_001_posted-org-b-pay-shared",
+          "event_type": "ledger.posted",
+          "status": "succeeded",
+          "occurred_at": "2026-01-01T10:00:03Z",
+          "source": "ledger",
+          "message": "Ledger entry posted."
+        }
+      ],
+      "ledger_entries": [
+        {
+          "entry_id": "entry-org-b",
+          "organization_id": "org-b",
+          "payment_id": "pay-shared",
+          "amount_minor": 9900,
+          "currency": "USD",
+          "posted_at": "2026-10-09T12:00:00Z"
+        }
+      ],
+      "provider_status": {
+        "provider_id": "simulator",
+        "organization_id": "org-b",
+        "payment_id": "pay-shared",
+        "status": "succeeded"
+      }
+    },
+    {
+      "organization_id": "org-b",
+      "payment_id": "pay-b-only",
+      "payment": {
+        "payment_id": "pay-b-only",
+        "organization_id": "org-b",
+        "amount_minor": 9900,
+        "currency": "USD",
+        "status": "succeeded",
+        "events": [
+          {
+            "event_id": "evt_001_created-org-b-pay-b-only",
+            "event_type": "payment.created",
+            "status": "created",
+            "occurred_at": "2026-01-01T10:00:00Z",
+            "source": "simulator",
+            "message": "Payment accepted by the simulator."
+          },
+          {
+            "event_id": "evt_001_posted-org-b-pay-b-only",
+            "event_type": "ledger.posted",
+            "status": "succeeded",
+            "occurred_at": "2026-01-01T10:00:03Z",
+            "source": "ledger",
+            "message": "Ledger entry posted."
+          }
+        ]
+      },
+      "events": [
+        {
+          "event_id": "evt_001_created-org-b-pay-b-only",
+          "event_type": "payment.created",
+          "status": "created",
+          "occurred_at": "2026-01-01T10:00:00Z",
+          "source": "simulator",
+          "message": "Payment accepted by the simulator."
+        },
+        {
+          "event_id": "evt_001_posted-org-b-pay-b-only",
+          "event_type": "ledger.posted",
+          "status": "succeeded",
+          "occurred_at": "2026-01-01T10:00:03Z",
+          "source": "ledger",
+          "message": "Ledger entry posted."
+        }
+      ],
+      "ledger_entries": [
+        {
+          "entry_id": "entry-org-b",
+          "organization_id": "org-b",
+          "payment_id": "pay-b-only",
+          "amount_minor": 9900,
+          "currency": "USD",
+          "posted_at": "2026-10-09T12:00:00Z"
+        }
+      ],
+      "provider_status": {
+        "provider_id": "simulator",
+        "organization_id": "org-b",
+        "payment_id": "pay-b-only",
+        "status": "succeeded"
+      }
+    }
+  ]
+}

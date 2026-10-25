@@ -1,0 +1,1536 @@
+{
+  "mode": "offline-scripted",
+  "generated_at": "2026-10-19T02:48:40.477801+00:00",
+  "policy": {
+    "max_attempts": 3,
+    "attempt_timeout_s": 1.0,
+    "total_timeout_s": 5.0,
+    "initial_backoff_s": 0.25,
+    "max_backoff_s": 0.5
+  },
+  "cases": [
+    {
+      "case_id": "unknown_tool",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 0,
+        "read": 0
+      },
+      "sleeps": [],
+      "recovery": {
+        "result": {
+          "data": null,
+          "error": {
+            "code": "UNKNOWN_TOOL",
+            "retryable": false,
+            "message": "Unknown Tool"
+          },
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "unknown_tool",
+            "tool_name": "unknown",
+            "payment_id": null,
+            "outcome": "rejected",
+            "error_code": "UNKNOWN_TOOL",
+            "attempt": 1,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "UNKNOWN_TOOL",
+                "retryable": false,
+                "message": "Unknown Tool"
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "unknown_tool",
+                "tool_name": "unknown",
+                "payment_id": null,
+                "outcome": "rejected",
+                "error_code": "UNKNOWN_TOOL",
+                "attempt": 1,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "nonretryable"
+      }
+    },
+    {
+      "case_id": "invalid_arguments",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 0,
+        "read": 0
+      },
+      "sleeps": [],
+      "recovery": {
+        "result": {
+          "data": null,
+          "error": {
+            "code": "INVALID_ARGUMENTS",
+            "retryable": false,
+            "message": "invalid Argument"
+          },
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "invalid_arguments",
+            "tool_name": "get_payment",
+            "payment_id": null,
+            "outcome": "rejected",
+            "error_code": "INVALID_ARGUMENTS",
+            "attempt": 1,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "INVALID_ARGUMENTS",
+                "retryable": false,
+                "message": "invalid Argument"
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "invalid_arguments",
+                "tool_name": "get_payment",
+                "payment_id": null,
+                "outcome": "rejected",
+                "error_code": "INVALID_ARGUMENTS",
+                "attempt": 1,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "nonretryable"
+      }
+    },
+    {
+      "case_id": "unauthorized",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 1,
+        "read": 0
+      },
+      "sleeps": [],
+      "recovery": {
+        "result": {
+          "data": null,
+          "error": {
+            "code": "UNAUTHORIZED",
+            "retryable": false,
+            "message": "Access denied"
+          },
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "unauthorized",
+            "tool_name": "get_payment",
+            "payment_id": "pay-shared",
+            "outcome": "rejected",
+            "error_code": "UNAUTHORIZED",
+            "attempt": 1,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "UNAUTHORIZED",
+                "retryable": false,
+                "message": "Access denied"
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "unauthorized",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "rejected",
+                "error_code": "UNAUTHORIZED",
+                "attempt": 1,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "nonretryable"
+      }
+    },
+    {
+      "case_id": "payment_not_found",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 1,
+        "read": 1
+      },
+      "sleeps": [],
+      "recovery": {
+        "result": {
+          "data": null,
+          "error": {
+            "code": "PAYMENT_NOT_FOUND",
+            "retryable": false,
+            "message": "Payment not found"
+          },
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "payment_not_found",
+            "tool_name": "get_payment",
+            "payment_id": "missing",
+            "outcome": "failed",
+            "error_code": "PAYMENT_NOT_FOUND",
+            "attempt": 1,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "PAYMENT_NOT_FOUND",
+                "retryable": false,
+                "message": "Payment not found"
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "payment_not_found",
+                "tool_name": "get_payment",
+                "payment_id": "missing",
+                "outcome": "failed",
+                "error_code": "PAYMENT_NOT_FOUND",
+                "attempt": 1,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "nonretryable"
+      }
+    },
+    {
+      "case_id": "invalid_provider",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 1,
+        "read": 1
+      },
+      "sleeps": [],
+      "recovery": {
+        "result": {
+          "data": null,
+          "error": {
+            "code": "INVALID_PROVIDER",
+            "retryable": false,
+            "message": "Unsupported provider"
+          },
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "invalid_provider",
+            "tool_name": "get_provider_status",
+            "payment_id": "pay-shared",
+            "outcome": "failed",
+            "error_code": "INVALID_PROVIDER",
+            "attempt": 1,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "INVALID_PROVIDER",
+                "retryable": false,
+                "message": "Unsupported provider"
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "invalid_provider",
+                "tool_name": "get_provider_status",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "INVALID_PROVIDER",
+                "attempt": 1,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "nonretryable"
+      }
+    },
+    {
+      "case_id": "malformed_response",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 1,
+        "read": 1
+      },
+      "sleeps": [],
+      "recovery": {
+        "result": {
+          "data": null,
+          "error": {
+            "code": "MALFORMED_RESPONSE",
+            "retryable": false,
+            "message": "Invalid evidence response"
+          },
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "malformed_response",
+            "tool_name": "get_payment",
+            "payment_id": "pay-shared",
+            "outcome": "failed",
+            "error_code": "MALFORMED_RESPONSE",
+            "attempt": 1,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "MALFORMED_RESPONSE",
+                "retryable": false,
+                "message": "Invalid evidence response"
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "malformed_response",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "MALFORMED_RESPONSE",
+                "attempt": 1,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "nonretryable"
+      }
+    },
+    {
+      "case_id": "empty_object",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 1,
+        "read": 1
+      },
+      "sleeps": [],
+      "recovery": {
+        "result": {
+          "data": null,
+          "error": {
+            "code": "EMPTY_RESPONSE",
+            "retryable": false,
+            "message": "Evidence response is absent"
+          },
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "empty_object",
+            "tool_name": "get_payment",
+            "payment_id": "pay-shared",
+            "outcome": "failed",
+            "error_code": "EMPTY_RESPONSE",
+            "attempt": 1,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "EMPTY_RESPONSE",
+                "retryable": false,
+                "message": "Evidence response is absent"
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "empty_object",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "EMPTY_RESPONSE",
+                "attempt": 1,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "nonretryable"
+      }
+    },
+    {
+      "case_id": "empty_list_success",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true,
+        "empty_list_success": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 1,
+        "read": 1
+      },
+      "sleeps": [],
+      "recovery": {
+        "result": {
+          "data": [],
+          "error": null,
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "empty_list_success",
+            "tool_name": "get_payment_events",
+            "payment_id": "pay-shared",
+            "outcome": "succeeded",
+            "error_code": null,
+            "attempt": 1,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": [],
+              "error": null,
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "empty_list_success",
+                "tool_name": "get_payment_events",
+                "payment_id": "pay-shared",
+                "outcome": "succeeded",
+                "error_code": null,
+                "attempt": 1,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "success"
+      }
+    },
+    {
+      "case_id": "timeout_recovery",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 2,
+        "read": 2
+      },
+      "sleeps": [
+        0.25
+      ],
+      "recovery": {
+        "result": {
+          "data": {
+            "payment_id": "pay-shared",
+            "organization_id": "org-a",
+            "amount_minor": 1100,
+            "currency": "USD",
+            "status": "succeeded",
+            "events": [
+              {
+                "event_id": "evt_001_created-org-a-pay-shared",
+                "event_type": "payment.created",
+                "status": "created",
+                "occurred_at": "2026-01-01T10:00:00Z",
+                "source": "simulator",
+                "message": "Payment accepted by the simulator.",
+                "reason_code": null
+              },
+              {
+                "event_id": "evt_001_posted-org-a-pay-shared",
+                "event_type": "ledger.posted",
+                "status": "succeeded",
+                "occurred_at": "2026-01-01T10:00:03Z",
+                "source": "ledger",
+                "message": "Ledger entry posted.",
+                "reason_code": null
+              }
+            ]
+          },
+          "error": null,
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "timeout_recovery",
+            "tool_name": "get_payment",
+            "payment_id": "pay-shared",
+            "outcome": "succeeded",
+            "error_code": null,
+            "attempt": 2,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 1000.0,
+            "backoff_s": 0.25,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "TIMEOUT",
+                "retryable": true,
+                "message": "Synthetic transient reader failure."
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "timeout_recovery",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "TIMEOUT",
+                "attempt": 1,
+                "duration_ms": 1000.0
+              }
+            }
+          },
+          {
+            "attempt": 2,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": {
+                "payment_id": "pay-shared",
+                "organization_id": "org-a",
+                "amount_minor": 1100,
+                "currency": "USD",
+                "status": "succeeded",
+                "events": [
+                  {
+                    "event_id": "evt_001_created-org-a-pay-shared",
+                    "event_type": "payment.created",
+                    "status": "created",
+                    "occurred_at": "2026-01-01T10:00:00Z",
+                    "source": "simulator",
+                    "message": "Payment accepted by the simulator.",
+                    "reason_code": null
+                  },
+                  {
+                    "event_id": "evt_001_posted-org-a-pay-shared",
+                    "event_type": "ledger.posted",
+                    "status": "succeeded",
+                    "occurred_at": "2026-01-01T10:00:03Z",
+                    "source": "ledger",
+                    "message": "Ledger entry posted.",
+                    "reason_code": null
+                  }
+                ]
+              },
+              "error": null,
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "timeout_recovery",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "succeeded",
+                "error_code": null,
+                "attempt": 2,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "success"
+      }
+    },
+    {
+      "case_id": "server_error_recovery",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 2,
+        "read": 2
+      },
+      "sleeps": [
+        0.25
+      ],
+      "recovery": {
+        "result": {
+          "data": {
+            "payment_id": "pay-shared",
+            "organization_id": "org-a",
+            "amount_minor": 1100,
+            "currency": "USD",
+            "status": "succeeded",
+            "events": [
+              {
+                "event_id": "evt_001_created-org-a-pay-shared",
+                "event_type": "payment.created",
+                "status": "created",
+                "occurred_at": "2026-01-01T10:00:00Z",
+                "source": "simulator",
+                "message": "Payment accepted by the simulator.",
+                "reason_code": null
+              },
+              {
+                "event_id": "evt_001_posted-org-a-pay-shared",
+                "event_type": "ledger.posted",
+                "status": "succeeded",
+                "occurred_at": "2026-01-01T10:00:03Z",
+                "source": "ledger",
+                "message": "Ledger entry posted.",
+                "reason_code": null
+              }
+            ]
+          },
+          "error": null,
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "server_error_recovery",
+            "tool_name": "get_payment",
+            "payment_id": "pay-shared",
+            "outcome": "succeeded",
+            "error_code": null,
+            "attempt": 2,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 1000.0,
+            "backoff_s": 0.25,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "SERVER_ERROR",
+                "retryable": true,
+                "message": "Synthetic transient reader failure."
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "server_error_recovery",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "SERVER_ERROR",
+                "attempt": 1,
+                "duration_ms": 1000.0
+              }
+            }
+          },
+          {
+            "attempt": 2,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": {
+                "payment_id": "pay-shared",
+                "organization_id": "org-a",
+                "amount_minor": 1100,
+                "currency": "USD",
+                "status": "succeeded",
+                "events": [
+                  {
+                    "event_id": "evt_001_created-org-a-pay-shared",
+                    "event_type": "payment.created",
+                    "status": "created",
+                    "occurred_at": "2026-01-01T10:00:00Z",
+                    "source": "simulator",
+                    "message": "Payment accepted by the simulator.",
+                    "reason_code": null
+                  },
+                  {
+                    "event_id": "evt_001_posted-org-a-pay-shared",
+                    "event_type": "ledger.posted",
+                    "status": "succeeded",
+                    "occurred_at": "2026-01-01T10:00:03Z",
+                    "source": "ledger",
+                    "message": "Ledger entry posted.",
+                    "reason_code": null
+                  }
+                ]
+              },
+              "error": null,
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "server_error_recovery",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "succeeded",
+                "error_code": null,
+                "attempt": 2,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "success"
+      }
+    },
+    {
+      "case_id": "attempt_exhaustion",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 3,
+        "read": 3
+      },
+      "sleeps": [
+        0.25,
+        0.5
+      ],
+      "recovery": {
+        "result": {
+          "data": null,
+          "error": {
+            "code": "TIMEOUT",
+            "retryable": true,
+            "message": "Synthetic transient reader failure."
+          },
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "attempt_exhaustion",
+            "tool_name": "get_payment",
+            "payment_id": "pay-shared",
+            "outcome": "failed",
+            "error_code": "TIMEOUT",
+            "attempt": 3,
+            "duration_ms": 1000.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 1000.0,
+            "backoff_s": 0.25,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "TIMEOUT",
+                "retryable": true,
+                "message": "Synthetic transient reader failure."
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "attempt_exhaustion",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "TIMEOUT",
+                "attempt": 1,
+                "duration_ms": 1000.0
+              }
+            }
+          },
+          {
+            "attempt": 2,
+            "timeout_s": 1.0,
+            "duration_ms": 1000.0,
+            "backoff_s": 0.5,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "TIMEOUT",
+                "retryable": true,
+                "message": "Synthetic transient reader failure."
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "attempt_exhaustion",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "TIMEOUT",
+                "attempt": 2,
+                "duration_ms": 1000.0
+              }
+            }
+          },
+          {
+            "attempt": 3,
+            "timeout_s": 1.0,
+            "duration_ms": 1000.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "TIMEOUT",
+                "retryable": true,
+                "message": "Synthetic transient reader failure."
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "attempt_exhaustion",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "TIMEOUT",
+                "attempt": 3,
+                "duration_ms": 1000.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "max_attempts"
+      }
+    },
+    {
+      "case_id": "deadline",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 2,
+        "read": 2
+      },
+      "sleeps": [
+        0.25
+      ],
+      "recovery": {
+        "result": {
+          "data": null,
+          "error": {
+            "code": "TIMEOUT",
+            "retryable": true,
+            "message": "Synthetic transient reader failure."
+          },
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "deadline",
+            "tool_name": "get_payment",
+            "payment_id": "pay-shared",
+            "outcome": "failed",
+            "error_code": "TIMEOUT",
+            "attempt": 2,
+            "duration_ms": 250.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 1000.0,
+            "backoff_s": 0.25,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "TIMEOUT",
+                "retryable": true,
+                "message": "Synthetic transient reader failure."
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "deadline",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "TIMEOUT",
+                "attempt": 1,
+                "duration_ms": 1000.0
+              }
+            }
+          },
+          {
+            "attempt": 2,
+            "timeout_s": 0.25,
+            "duration_ms": 250.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "TIMEOUT",
+                "retryable": true,
+                "message": "Synthetic transient reader failure."
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "deadline",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "TIMEOUT",
+                "attempt": 2,
+                "duration_ms": 250.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "deadline"
+      }
+    },
+    {
+      "case_id": "authorization_revoked",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 2,
+        "read": 1
+      },
+      "sleeps": [
+        0.25
+      ],
+      "recovery": {
+        "result": {
+          "data": null,
+          "error": {
+            "code": "UNAUTHORIZED",
+            "retryable": false,
+            "message": "Access denied"
+          },
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "authorization_revoked",
+            "tool_name": "get_payment",
+            "payment_id": "pay-shared",
+            "outcome": "rejected",
+            "error_code": "UNAUTHORIZED",
+            "attempt": 2,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 1000.0,
+            "backoff_s": 0.25,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "TIMEOUT",
+                "retryable": true,
+                "message": "Synthetic transient reader failure."
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "authorization_revoked",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "failed",
+                "error_code": "TIMEOUT",
+                "attempt": 1,
+                "duration_ms": 1000.0
+              }
+            }
+          },
+          {
+            "attempt": 2,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "UNAUTHORIZED",
+                "retryable": false,
+                "message": "Access denied"
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "authorization_revoked",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "rejected",
+                "error_code": "UNAUTHORIZED",
+                "attempt": 2,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "nonretryable"
+      }
+    },
+    {
+      "case_id": "late_success",
+      "checks": {
+        "error_code": true,
+        "attempts": true,
+        "stop_reason": true,
+        "reader_calls": true,
+        "retryability": true,
+        "trace_codes": true,
+        "trace_attempts": true,
+        "authorization_per_valid_attempt": true,
+        "overrun_observed": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 1,
+        "read": 1
+      },
+      "sleeps": [],
+      "recovery": {
+        "result": {
+          "data": {
+            "payment_id": "pay-shared",
+            "organization_id": "org-a",
+            "amount_minor": 1100,
+            "currency": "USD",
+            "status": "succeeded",
+            "events": [
+              {
+                "event_id": "evt_001_created-org-a-pay-shared",
+                "event_type": "payment.created",
+                "status": "created",
+                "occurred_at": "2026-01-01T10:00:00Z",
+                "source": "simulator",
+                "message": "Payment accepted by the simulator.",
+                "reason_code": null
+              },
+              {
+                "event_id": "evt_001_posted-org-a-pay-shared",
+                "event_type": "ledger.posted",
+                "status": "succeeded",
+                "occurred_at": "2026-01-01T10:00:03Z",
+                "source": "ledger",
+                "message": "Ledger entry posted.",
+                "reason_code": null
+              }
+            ]
+          },
+          "error": null,
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "late_success",
+            "tool_name": "get_payment",
+            "payment_id": "pay-shared",
+            "outcome": "succeeded",
+            "error_code": null,
+            "attempt": 1,
+            "duration_ms": 600.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 0.5,
+            "duration_ms": 600.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": {
+                "payment_id": "pay-shared",
+                "organization_id": "org-a",
+                "amount_minor": 1100,
+                "currency": "USD",
+                "status": "succeeded",
+                "events": [
+                  {
+                    "event_id": "evt_001_created-org-a-pay-shared",
+                    "event_type": "payment.created",
+                    "status": "created",
+                    "occurred_at": "2026-01-01T10:00:00Z",
+                    "source": "simulator",
+                    "message": "Payment accepted by the simulator.",
+                    "reason_code": null
+                  },
+                  {
+                    "event_id": "evt_001_posted-org-a-pay-shared",
+                    "event_type": "ledger.posted",
+                    "status": "succeeded",
+                    "occurred_at": "2026-01-01T10:00:03Z",
+                    "source": "ledger",
+                    "message": "Ledger entry posted.",
+                    "reason_code": null
+                  }
+                ]
+              },
+              "error": null,
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "late_success",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "succeeded",
+                "error_code": null,
+                "attempt": 1,
+                "duration_ms": 600.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "success"
+      }
+    },
+    {
+      "case_id": "replayed_call_id",
+      "checks": {
+        "status": true,
+        "steps": true,
+        "reader_calls": true,
+        "authorization_calls": true,
+        "repetition": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 1,
+        "read": 1
+      },
+      "loop": {
+        "status": "repeated_call",
+        "final_text": null,
+        "steps": 1,
+        "model_turns": 2,
+        "trace": [
+          {
+            "call_id": "call-001",
+            "tool_name": "get_payment",
+            "arguments": {
+              "payment_id": "pay-shared"
+            },
+            "repetition": "first_read",
+            "duration_ms": 0.059917569160461426,
+            "result": {
+              "data": {
+                "payment_id": "pay-shared",
+                "organization_id": "org-a",
+                "amount_minor": 1100,
+                "currency": "USD",
+                "status": "succeeded",
+                "events": [
+                  {
+                    "event_id": "evt_001_created-org-a-pay-shared",
+                    "event_type": "payment.created",
+                    "status": "created",
+                    "occurred_at": "2026-01-01T10:00:00Z",
+                    "source": "simulator",
+                    "message": "Payment accepted by the simulator.",
+                    "reason_code": null
+                  },
+                  {
+                    "event_id": "evt_001_posted-org-a-pay-shared",
+                    "event_type": "ledger.posted",
+                    "status": "succeeded",
+                    "occurred_at": "2026-01-01T10:00:03Z",
+                    "source": "ledger",
+                    "message": "Ledger entry posted.",
+                    "reason_code": null
+                  }
+                ]
+              },
+              "error": null,
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "replayed_call_id",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "succeeded",
+                "error_code": null,
+                "attempt": 1,
+                "duration_ms": 0.020916573703289032
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "fresh_read",
+      "checks": {
+        "status": true,
+        "steps": true,
+        "reader_calls": true,
+        "authorization_calls": true,
+        "repetition": true
+      },
+      "passed": true,
+      "counts": {
+        "authorize": 2,
+        "read": 2
+      },
+      "loop": {
+        "status": "completed",
+        "final_text": "Synthetic evidence collected.",
+        "steps": 2,
+        "model_turns": 3,
+        "trace": [
+          {
+            "call_id": "call-001",
+            "tool_name": "get_payment",
+            "arguments": {
+              "payment_id": "pay-shared"
+            },
+            "repetition": "first_read",
+            "duration_ms": 0.04037562757730484,
+            "result": {
+              "data": {
+                "payment_id": "pay-shared",
+                "organization_id": "org-a",
+                "amount_minor": 1100,
+                "currency": "USD",
+                "status": "succeeded",
+                "events": [
+                  {
+                    "event_id": "evt_001_created-org-a-pay-shared",
+                    "event_type": "payment.created",
+                    "status": "created",
+                    "occurred_at": "2026-01-01T10:00:00Z",
+                    "source": "simulator",
+                    "message": "Payment accepted by the simulator.",
+                    "reason_code": null
+                  },
+                  {
+                    "event_id": "evt_001_posted-org-a-pay-shared",
+                    "event_type": "ledger.posted",
+                    "status": "succeeded",
+                    "occurred_at": "2026-01-01T10:00:03Z",
+                    "source": "ledger",
+                    "message": "Ledger entry posted.",
+                    "reason_code": null
+                  }
+                ]
+              },
+              "error": null,
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "fresh_read",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "succeeded",
+                "error_code": null,
+                "attempt": 1,
+                "duration_ms": 0.016374513506889343
+              }
+            }
+          },
+          {
+            "call_id": "call-002",
+            "tool_name": "get_payment",
+            "arguments": {
+              "payment_id": "pay-shared"
+            },
+            "repetition": "fresh_read",
+            "duration_ms": 0.0222083181142807,
+            "result": {
+              "data": {
+                "payment_id": "pay-shared",
+                "organization_id": "org-a",
+                "amount_minor": 1100,
+                "currency": "USD",
+                "status": "succeeded",
+                "events": [
+                  {
+                    "event_id": "evt_001_created-org-a-pay-shared",
+                    "event_type": "payment.created",
+                    "status": "created",
+                    "occurred_at": "2026-01-01T10:00:00Z",
+                    "source": "simulator",
+                    "message": "Payment accepted by the simulator.",
+                    "reason_code": null
+                  },
+                  {
+                    "event_id": "evt_001_posted-org-a-pay-shared",
+                    "event_type": "ledger.posted",
+                    "status": "succeeded",
+                    "occurred_at": "2026-01-01T10:00:03Z",
+                    "source": "ledger",
+                    "message": "Ledger entry posted.",
+                    "reason_code": null
+                  }
+                ]
+              },
+              "error": null,
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "fresh_read",
+                "tool_name": "get_payment",
+                "payment_id": "pay-shared",
+                "outcome": "succeeded",
+                "error_code": null,
+                "attempt": 1,
+                "duration_ms": 0.008041970431804657
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "commit_then_timeout",
+      "checks": {
+        "two_attempts": true,
+        "one_effect": true,
+        "original_receipt": true,
+        "success": true,
+        "first_timeout": true,
+        "conflict_nonretryable": true
+      },
+      "passed": true,
+      "effect_count": 1,
+      "original_receipt": {
+        "receipt_id": "fake-effect-1",
+        "organization_id": "org-a",
+        "operation_key": "operation-001",
+        "payload": {
+          "amount_minor": 100,
+          "currency": "USD"
+        }
+      },
+      "conflict": {
+        "code": "IDEMPOTENCY_CONFLICT",
+        "retryable": false,
+        "message": "Operation key was already used with a different payload."
+      },
+      "sleeps": [
+        0.25
+      ],
+      "recovery": {
+        "result": {
+          "data": {
+            "receipt_id": "fake-effect-1",
+            "organization_id": "org-a",
+            "operation_key": "operation-001",
+            "payload": {
+              "amount_minor": 100,
+              "currency": "USD"
+            }
+          },
+          "error": null,
+          "trace": {
+            "organization_id": "org-a",
+            "request_id": "effect-replay",
+            "tool_name": "fake_local_effect",
+            "payment_id": null,
+            "outcome": "succeeded",
+            "error_code": null,
+            "attempt": 2,
+            "duration_ms": 0.0
+          }
+        },
+        "attempts": [
+          {
+            "attempt": 1,
+            "timeout_s": 1.0,
+            "duration_ms": 1000.0,
+            "backoff_s": 0.25,
+            "result": {
+              "data": null,
+              "error": {
+                "code": "TIMEOUT",
+                "retryable": true,
+                "message": "Synthetic receipt lost after commit."
+              },
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "effect-replay",
+                "tool_name": "fake_local_effect",
+                "payment_id": null,
+                "outcome": "failed",
+                "error_code": "TIMEOUT",
+                "attempt": 1,
+                "duration_ms": 1000.0
+              }
+            }
+          },
+          {
+            "attempt": 2,
+            "timeout_s": 1.0,
+            "duration_ms": 0.0,
+            "backoff_s": 0.0,
+            "result": {
+              "data": {
+                "receipt_id": "fake-effect-1",
+                "organization_id": "org-a",
+                "operation_key": "operation-001",
+                "payload": {
+                  "amount_minor": 100,
+                  "currency": "USD"
+                }
+              },
+              "error": null,
+              "trace": {
+                "organization_id": "org-a",
+                "request_id": "effect-replay",
+                "tool_name": "fake_local_effect",
+                "payment_id": null,
+                "outcome": "succeeded",
+                "error_code": null,
+                "attempt": 2,
+                "duration_ms": 0.0
+              }
+            }
+          }
+        ],
+        "stop_reason": "success"
+      }
+    }
+  ],
+  "passed": 17,
+  "total": 17,
+  "sha256": {
+    "simulator/fixtures/week2_tools.json": "a826025965247b7d0594d0aabc6f1c2459a318d055c0c1ff5af03ba91c4bca07",
+    "evals/recovery_evidence.py": "302156ac965c3a09fdd6dfdaddc4e2018b7b33e5c50dad39ad93383c2d39d476",
+    "app/tools/gateway.py": "89cb6ee16238c6381ae49f9cf30e9d22287c50c8db4ba9905049a1bda0820b15",
+    "app/tools/recovery.py": "9f136fe34208f56e7815b7824469caab6dbb61c3d81b08dd1b516dd9745e5b2c",
+    "app/llm/tool_loop.py": "32af53929223de074af0e42e126e597c79ef937c9e17bffa49d969b0eed22d96",
+    "app/tools/fixture_reader.py": "303eb67c4538710443507f06c1463391374cc5b8cf4166b6d5b0af05efb0eb48",
+    "simulator/idempotency.py": "ee51f6a996d34201dcb7e824e0cfdbad79104460b302ce54c224908a00602982"
+  },
+  "limitations": [
+    "No provider requests; scripted cases are not model quality evidence.",
+    "Fake clock controls recovery budgets; gateway and loop timings use real perf_counter.",
+    "Timeouts are cooperative; effects are serial and in-memory."
+  ]
+}
