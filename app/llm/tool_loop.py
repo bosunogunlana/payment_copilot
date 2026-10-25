@@ -1,5 +1,6 @@
 import json
 import time
+from copy import deepcopy
 from enum import StrEnum
 from typing import Protocol
 
@@ -105,7 +106,15 @@ class ToolLoop:
                     trace=traces,
                 )
 
-            messages.append({"role": "assistant", "tool_calls": tool_calls})
+            assistant_message: dict[str, object] = {
+                "role": "assistant",
+                "tool_calls": tool_calls,
+            }
+
+            if isinstance(turn, dict) and "provider_state" in turn:
+                assistant_message["provider_state"] = deepcopy(turn["provider_state"])
+
+            messages.append(assistant_message)
 
             for item in tool_calls:
                 if steps >= self.max_tool_steps:
@@ -218,7 +227,11 @@ class ToolLoop:
 
             batch_ids.add(call_id)
             validated_calls.append(
-                {"call_id": call_id, "name": tool_name, "arguments_json": arguments_json}
+                {
+                    "call_id": call_id,
+                    "name": tool_name,
+                    "arguments_json": arguments_json,
+                }
             )
 
         return validated_calls, None

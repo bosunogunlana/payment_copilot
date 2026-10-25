@@ -14,3 +14,7 @@ class ToolRequest(TypedDict):
 
 class ProviderClient(Protocol):
     def request(self, *, payload: ToolRequest) -> object: ...
+
+class ProviderState(TypedDict):
+    provider: str
+    output_items: list[dict[str, object]]

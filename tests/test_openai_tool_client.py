@@ -6,13 +6,14 @@ from types import SimpleNamespace
 from unittest.mock import Mock
 
 from openai import APIError, APITimeoutError
+from openai.types.responses import ResponseFunctionToolCall, ResponseOutputMessage
 
 from app.clients.openai_tool_client import OpenAIToolClient
 from app.llm.tool_model import ToolModel
 
 
 def call(*, call_id="call-001", name="get_payment", arguments="{broken"):
-    return SimpleNamespace(
+    return ResponseFunctionToolCall(
         type="function_call",
         id="fc-distinct-item-id",
         call_id=call_id,
@@ -22,9 +23,20 @@ def call(*, call_id="call-001", name="get_payment", arguments="{broken"):
 
 
 def response(*, status="completed", output=None, usage=True):
+    items = [call()] if output is None else output
+    items = [
+        ResponseOutputMessage(
+            id=f"msg-{index}", role="assistant", status="completed", type="message",
+            content=[
+                {**vars(content), **({"annotations": []} if content.type == "output_text" else {})}
+                for content in item.content
+            ],
+        ) if isinstance(item, SimpleNamespace) and item.type == "message" else item
+        for index, item in enumerate(items)
+    ]
     return SimpleNamespace(
         status=status,
-        output=[call()] if output is None else output,
+        output=items,
         usage=SimpleNamespace(input_tokens=12, output_tokens=8) if usage else None,
     )
 
@@ -63,6 +75,7 @@ class OpenAIToolClientTest(unittest.TestCase):
             tools=[{"type": "function", **self.payload["tools"][0], "strict": False}],
             timeout=2.0,
             max_output_tokens=512,
+            include=["reasoning.encrypted_content"],
             store=False,
         )
 
@@ -78,6 +91,9 @@ class OpenAIToolClientTest(unittest.TestCase):
                 "output_text": None,
                 "refusal": None,
                 "usage": {"input_tokens": 12, "output_tokens": 8},
+                "provider_state": {"provider": "openai.provider", "output_items": [
+                    call().model_dump(mode="json", exclude_none=True)
+                ]},
             },
         )
 
@@ -217,7 +233,10 @@ class OpenAIToolClientTest(unittest.TestCase):
                         "name": "get_payment",
                         "arguments_json": "{broken",
                     }
-                ]
+                ],
+                "provider_state": {"provider": "openai.provider", "output_items": [
+                    call().model_dump(mode="json", exclude_none=True)
+                ]},
             },
         )
         self.assertEqual(len(observations), 1)

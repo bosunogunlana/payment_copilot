@@ -9,6 +9,7 @@ from decimal import Decimal
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
+from openai.types.responses import ResponseFunctionToolCall
 from unittest.mock import Mock, patch
 
 from evals.collect_tool_selection import collect, main
@@ -124,7 +125,7 @@ class CollectToolSelectionTest(unittest.TestCase):
         sdk = Mock()
         sdk.responses.create.return_value = SimpleNamespace(
             status="completed", usage=SimpleNamespace(input_tokens=12, output_tokens=8),
-            output=[SimpleNamespace(type="function_call", call_id="call-001",
+            output=[ResponseFunctionToolCall(type="function_call", call_id="call-001",
                                     name="get_payment", arguments='{"payment_id":"pay-shared"}')],
         )
         with TemporaryDirectory() as directory:

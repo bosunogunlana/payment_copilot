@@ -1,10 +1,11 @@
 import math
 import time
 from collections.abc import Callable
-from typing import TypedDict
+from copy import deepcopy
+from typing import NotRequired, TypedDict
 
 from app.clients.base import Models
-from app.clients.contracts import ProviderClient, ToolRequest
+from app.clients.contracts import ProviderClient, ProviderState, ToolRequest
 
 
 class ToolCall(TypedDict):
@@ -15,11 +16,13 @@ class ToolCall(TypedDict):
 
 class ToolTurn(TypedDict):
     tool_calls: list[ToolCall]
+    provider_state: NotRequired[ProviderState]
 
 
 class TextTurn(TypedDict):
     tool_calls: list[ToolCall]
     final_text: str
+    provider_state: NotRequired[ProviderState]
 
 
 type ModelTurn = ToolTurn | TextTurn
@@ -84,6 +87,25 @@ class ToolModel:
         usage = response.get("usage") if isinstance(response, dict) else None
         if turn is not None:
             outcome = "valid_response"
+            state = response.get("provider_state") if isinstance(response, dict) else None
+            if state is not None:
+                provider = state.get("provider") if isinstance(state, dict) else None
+                output_items = (
+                    state.get("output_items") if isinstance(state, dict) else None
+                )
+                if (
+                    isinstance(provider, str)
+                    and provider.strip()
+                    and isinstance(output_items, list)
+                    and all(isinstance(item, dict) for item in output_items)
+                ):
+                    turn["provider_state"] = ProviderState(
+                        provider=provider,
+                        output_items=deepcopy(output_items),
+                    )
+                else:
+                    turn = None
+                    outcome = "invalid_response"
         elif isinstance(response, dict) and response.get("refusal") is not None:
             outcome = "refusal"
         elif status is not None and status != "completed":
@@ -110,10 +132,12 @@ class ToolModel:
             if not isinstance(name, str):
                 raise ValueError("Tool name must be a string")
 
-            described_tools.append({
-                **tool,
-                "description": self.TOOL_DESCRIPTIONS[name],
-            })
+            described_tools.append(
+                {
+                    **tool,
+                    "description": self.TOOL_DESCRIPTIONS[name],
+                }
+            )
 
         return {
             "model": self.model,
